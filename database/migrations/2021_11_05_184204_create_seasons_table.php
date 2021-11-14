@@ -17,9 +17,7 @@ class CreateSeasonsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('desc');
-            $table->foreignId('episode_id')->nullable()->constrained('episodes')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            //$table->json('episodes');
             $table->timestamps();
         });
     }

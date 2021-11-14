@@ -20,13 +20,7 @@ class CreateShowsTable extends Migration
             $table->text('desc')->nullable();
             $table->text('tags')->nullable();
             $table->integer('views')->nullable();
-            $table->string('thumbnail')->nullable();
-            $table->foreignId('season_id')->nullable()->constrained('seasons')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('episode_id')->constrained('episodes')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->string('display_image')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

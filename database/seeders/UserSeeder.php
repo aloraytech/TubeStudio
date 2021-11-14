@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Movies\Videos;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class VideosSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class VideosSeeder extends Seeder
      */
     public function run()
     {
-        //Videos::factory()->count(10)->create();
+        User::factory()->count(50)->create();
     }
 }
