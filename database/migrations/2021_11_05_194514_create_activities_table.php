@@ -15,22 +15,23 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')
+            $table->foreignId('users_id')->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('movie_id')->nullable()->constrained('movies')
+            $table->foreignId('movies_id')->nullable()->constrained('movies')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('episode_id')->nullable()->constrained('episodes')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('season_id')->nullable()->constrained('seasons')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('show_id')->nullable()->constrained('shows')
+            $table->foreignId('shows_id')->nullable()->constrained('shows')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->json('details')->nullable();
+            $table->foreignId('seasons_id')->nullable()->constrained('seasons')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('episodes_id')->nullable()->constrained('episodes')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

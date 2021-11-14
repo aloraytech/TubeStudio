@@ -1,38 +1,29 @@
 <?php
 
-namespace App\Models\Movies;
+namespace App\Models\Blog;
 
 use App\Models\Category\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Movies extends Model
+class Posts extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'quality',
-        'banner',
+        'title',
         'desc',
-        'tags',
-        'release_on',
     ];
+
     protected $casts = [
         'tags'=> 'array',
     ];
-
-    public function videos()
-    {
-        return $this->hasOne(Videos::class,'video_id')->withDefault();
-    }
 
 
     public function categories()
     {
         return $this->hasOne(Category::class,'category_id')->withDefault();
     }
-
 
 
 

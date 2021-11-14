@@ -19,6 +19,8 @@ class CreateSystemTable extends Migration
             $table->string('logo')->nullable();
             $table->json('keywords')->nullable();
             $table->text('header')->nullable();
+            $table->string('login_image')->nullable();
+            $table->string('signup_image')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MoviesSeeder::class,
             ShowsSeeder::class,
+            PostsSeeder::class,
         ]);
     }
 }

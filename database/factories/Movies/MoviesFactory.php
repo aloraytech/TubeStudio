@@ -21,12 +21,12 @@ class MoviesFactory extends Factory
             'name' => $this->faker->word(),
             'quality' => $this->faker->randomElement(['720p','460p','1080p']),
             'categories_id' => Category::factory(1)->state([
-                'type' => 'movies',
+                'type' => 'movie',
             ])->create()->first(),
             'videos_id' => Videos::factory(1)->create()->first(),
-            'banner' => $this->faker->randomLetter(),
+            'banner' => $this->faker->imageUrl(),
             'desc' => $this->faker->text(200),
-            'tags' => $this->faker->randomLetter(),
+            'tags' => $this->faker->words(10),
             'release_on' => $this->faker->dateTime(),
         ];
     }

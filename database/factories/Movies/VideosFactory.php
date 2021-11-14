@@ -23,7 +23,7 @@ class VideosFactory extends Factory
             'height' => 400,
             'width' => 640,
             'provider' => $this->faker->randomElement(['youtube','dailymotion','facebook']),
-            'thumb_url' => $this->faker->url(),
+            'thumb_url' => $this->faker->imageUrl(),
             'thumb_h' => 200,
             'thumb_w' => 300,
             'code' => $this->faker->randomHtml(),

@@ -20,12 +20,12 @@ class ShowsFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'banner' => $this->faker->randomLetter(),
+            'banner' => $this->faker->imageUrl(),
             'desc' => $this->faker->text(),
-           'tags' => json_encode($this->faker->words(10)),
-            'display_image' => $this->faker->randomLetter(),
+            'tags' => $this->faker->words(10),
+            'display_image' => $this->faker->imageUrl(),
             'categories_id' => Category::factory(1)->state([
-                'type' => 'shows',
+                'type' => 'show',
             ])->create()->first(),
 
         ];

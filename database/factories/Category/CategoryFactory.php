@@ -17,7 +17,8 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'type' => $this->faker->randomElement(['movies','shows','blog'])
+            'desc'=> $this->faker->text(50),
+            'type' => $this->faker->randomElement(['movie','show','blog'])
         ];
     }
 
