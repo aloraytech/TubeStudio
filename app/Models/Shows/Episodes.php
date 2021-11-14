@@ -17,9 +17,7 @@ class Episodes extends Model
         'duration',
         'release_on',
     ];
-    protected $casts = [
-        'seasons' => 'array',
-    ];
+
 
     public function videos()
     {

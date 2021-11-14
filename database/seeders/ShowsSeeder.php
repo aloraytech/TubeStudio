@@ -19,9 +19,9 @@ class ShowsSeeder extends Seeder
     {
         Shows::factory()
             ->count(10)
-            ->hasSeasons(5)
+//            ->hasSeasons(5)
             ->has(Seasons::factory()
-                ->hasEpisodes(5)
+//                ->hasEpisodes(5)
                 ->has(Episodes::factory()
                     ->count(5),'episodes')
                 ->count(5),'seasons')

@@ -9,9 +9,7 @@ class Seasons extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'episodes' => 'array',
-    ];
+
 
     protected $fillable = [
         'name',

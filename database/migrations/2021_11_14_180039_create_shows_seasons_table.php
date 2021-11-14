@@ -14,14 +14,12 @@ class CreateShowsSeasonsTable extends Migration
     public function up()
     {
         Schema::create('shows_seasons', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('seasons_id')->constrained('seasons')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('shows_id')->constrained('shows')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

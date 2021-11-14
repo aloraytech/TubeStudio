@@ -17,9 +17,7 @@ class Shows extends Model
         'tags',
         'display_image'
     ];
-    protected $casts = [
-        'seasons' => 'array',
-    ];
+
 
 
     public function categories()

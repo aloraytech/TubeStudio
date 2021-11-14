@@ -20,7 +20,10 @@ class CreateEpisodesTable extends Migration
             $table->text('desc')->nullable();
             $table->string('duration')->nullable();
             $table->dateTime('release_on')->nullable();
-            $table->foreignId('video_id')->nullable()->constrained('videos')
+            $table->foreignId('video_id')->constrained('videos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('seasons_id')->constrained('seasons')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
