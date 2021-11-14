@@ -18,9 +18,12 @@ class CreateShowsTable extends Migration
             $table->string('name');
             $table->string('banner')->nullable();
             $table->text('desc')->nullable();
-            $table->text('tags')->nullable();
+            $table->json('tags')->nullable();
             $table->integer('views')->nullable();
             $table->string('display_image')->nullable();
+            $table->foreignId('categories_id')->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class EpisodesFactory extends Factory
             'desc'=> $this->faker->text(200),
             'duration'=> $this->faker->time('i:s'),
             'release_on'=> $this->faker->dateTime(),
-            'video_id'=> Videos::factory(1)->create()->first(),
+            'videos_id'=> Videos::factory(1)->create()->first(),
         ];
     }
 }

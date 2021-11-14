@@ -18,6 +18,9 @@ class Shows extends Model
         'display_image'
     ];
 
+    protected $casts = [
+      'tags'=> 'array',
+    ];
 
 
     public function categories()
@@ -27,7 +30,7 @@ class Shows extends Model
 
     public function seasons()
     {
-        return $this->belongsToMany(Seasons::class,'show_season');
+        return $this->hasMany(Seasons::class);
     }
 
 

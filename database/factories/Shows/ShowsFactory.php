@@ -22,9 +22,9 @@ class ShowsFactory extends Factory
             'name' => $this->faker->word(),
             'banner' => $this->faker->randomLetter(),
             'desc' => $this->faker->text(),
-            'tags' => $this->faker->words(10),
+           'tags' => json_encode($this->faker->words(10)),
             'display_image' => $this->faker->randomLetter(),
-            'category_id' => Category::factory(1)->state([
+            'categories_id' => Category::factory(1)->state([
                 'type' => 'shows',
             ])->create()->first(),
 

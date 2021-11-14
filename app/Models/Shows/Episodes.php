@@ -21,12 +21,12 @@ class Episodes extends Model
 
     public function videos()
     {
-        return $this->hasOne(Videos::class,'video_id')->withDefault();
+        return $this->hasOne(Videos::class,'videos_id')->withDefault();
     }
 
     public function seasons()
     {
-        return $this->belongsToMany(Seasons::class,'season_episode');
+        return $this->belongsTo(Seasons::class);
     }
 
 
