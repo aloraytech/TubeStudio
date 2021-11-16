@@ -20,10 +20,16 @@ class CreateShowsTable extends Migration
             $table->text('desc')->nullable();
             $table->json('tags')->nullable();
             $table->integer('views')->nullable();
+            $table->boolean('private')->default(false);
             $table->string('display_image')->nullable();
             $table->foreignId('categories_id')->constrained('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('age_group')->default('U');
+            $table->foreignId('trailer')->nullable()->constrained('videos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->dateTime('release_on')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

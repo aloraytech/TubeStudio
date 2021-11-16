@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FrontController;
+use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\auth\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\auth\Users\LoginController as UserLoginController;
 use App\Http\Controllers\auth\Users\RegisterController as UserRegisterController;

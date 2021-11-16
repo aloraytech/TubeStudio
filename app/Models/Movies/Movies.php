@@ -3,6 +3,7 @@
 namespace App\Models\Movies;
 
 use App\Models\Category\Category;
+use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,16 +25,19 @@ class Movies extends Model
 
     public function videos()
     {
-        return $this->hasOne(Videos::class,'video_id')->withDefault();
+        return $this->hasOne(Videos::class,'id','videos_id')->withDefault();
     }
 
 
     public function categories()
     {
-        return $this->hasOne(Category::class,'category_id')->withDefault();
+        return $this->hasOne(Category::class,'id','categories_id')->withDefault();
     }
 
-
+    public function activities()
+    {
+        return $this->belongsToMany(Activities::class);
+    }
 
 
 }

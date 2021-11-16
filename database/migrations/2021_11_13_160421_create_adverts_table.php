@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdvertTable extends Migration
+class CreateAdvertsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateAdvertTable extends Migration
      */
     public function up()
     {
-        Schema::create('advert', function (Blueprint $table) {
+        Schema::create('adverts', function (Blueprint $table) {
             $table->id();
-            $table->string('position');
+            $table->string('pos');
             $table->string('provider')->default('undefined');
+            $table->string('banner')->nullable();
             $table->text('code');
             $table->string('url')->nullable();
             $table->boolean('status')->default(true);
             $table->integer('views')->nullable();
-            $table->foreignId('activity_id')->nullable()->constrained('activities')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->integer('clicks')->nullable();
             $table->timestamps();
         });
     }

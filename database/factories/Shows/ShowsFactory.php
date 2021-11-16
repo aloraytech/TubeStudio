@@ -3,8 +3,7 @@
 namespace Database\Factories\Shows;
 
 use App\Models\Category\Category;
-use App\Models\Shows\Episodes;
-use App\Models\Shows\Seasons;
+use App\Models\Movies\Videos;
 use App\Models\Shows\Shows;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,7 +26,9 @@ class ShowsFactory extends Factory
             'categories_id' => Category::factory(1)->state([
                 'type' => 'show',
             ])->create()->first(),
-
+            'age_group' => $this->faker->randomElement(['U','18+','Kids']),
+            'trailer' => Videos::factory(1)->create()->first(),
+            'release_on' => $this->faker->dateTime(),
         ];
     }
 }

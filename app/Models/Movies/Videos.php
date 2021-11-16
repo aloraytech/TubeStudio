@@ -27,5 +27,10 @@ class Videos extends Model
         return $this->belongsTo(Movies::class);
     }
 
+    public function shows()
+    {
+        return $this->belongsTo(Shows::class);
+    }
+
 
 }

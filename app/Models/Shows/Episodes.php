@@ -3,6 +3,7 @@
 namespace App\Models\Shows;
 
 use App\Models\Movies\Videos;
+use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,9 @@ class Episodes extends Model
     {
         return $this->belongsTo(Seasons::class);
     }
-
+    public function activities()
+    {
+        return $this->belongsToMany(Activities::class);
+    }
 
 }

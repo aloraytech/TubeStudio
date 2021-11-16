@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReputationTable extends Migration
+class CreateReputationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateReputationTable extends Migration
      */
     public function up()
     {
-        Schema::create('reputation', function (Blueprint $table) {
+        Schema::create('reputations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });

@@ -27,6 +27,8 @@ class CreateMoviesTable extends Migration
             $table->text('desc')->nullable();
             $table->text('tags')->nullable();
             $table->integer('views')->nullable();
+            $table->boolean('private')->default(false);
+            $table->string('age_group')->default('U');
             $table->dateTime('release_on')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
