@@ -1,4 +1,4 @@
-@extends('layouts.front.master')
+@extends('layouts.streamit.front.master')
 @section('content')
 
 

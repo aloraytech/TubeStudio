@@ -18,11 +18,25 @@ class FrontController extends Controller
     public function index()
     {
         $system = Sysfigs::where('id',1)->first();
-        $activities = Activities::where('members_id',1)->with('movies','shows')->paginate($system->per_page);
-        $shows = Shows::with('seasons','categories','videos')->paginate($system->per_page);
-        $movies = Movies::with('categories','videos')->paginate($system->per_page);
+        $activities = Activities::where('members_id',1)->with('movies','shows')->get();
+        $shows = Shows::with('seasons','categories','videos')->latest('id')->orderBy('views')->paginate($system->per_page);
+        $movies = Movies::with('categories','videos')->latest('id')->orderBy('views')->paginate($system->per_page);
 
-        return view('pages.front.index')->with(compact('shows','system','activities','movies'));
+
+
+        if($system->installed)
+        {
+            if($system->coming_soon)
+            {
+                return view('optional.coming.soon')->with(compact('system'));
+            }else{
+                return view('pages.'.$system->theme.'.front.index')->with(compact('shows','system','activities','movies'));
+            }
+        }else{
+            return view('optional.setup.installer')->with(compact('system'));
+        }
+
+
 
 
     }

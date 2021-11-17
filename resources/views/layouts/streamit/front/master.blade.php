@@ -28,10 +28,10 @@
     </div>
 @endif
 <!-- loader END -->
-@include('layouts.front.components.header')
+@include('layouts.streamit.front.components.header')
 @yield('content')
-@include('layouts.front.components.modal')
-@include('layouts.front.components.footer')
+@include('layouts.streamit.front.components.modal')
+@include('layouts.streamit.front.components.footer')
 
 <!-- MainContent End-->
 <!-- back-to-top -->

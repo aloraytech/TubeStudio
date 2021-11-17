@@ -24,11 +24,13 @@ class CreateSysfigsTable extends Migration
             $table->string('signup_bg')->nullable();
             $table->boolean('private')->default(false);
             $table->boolean('coming_soon')->default(false);
-            $table->boolean('is_fresh')->default(true);
-            $table->boolean('slider')->default(true);
-            $table->integer('slider_limit')->default(10);
+            $table->boolean('installed')->default(true);
             $table->integer('per_page')->default(10);
             $table->string('player_size')->default('21by9');
+            $table->boolean('slider')->default(true);
+            $table->integer('slider_limit')->default(10);
+            $table->boolean('upcoming_section')->default(true);
+            $table->string('theme')->default('webtube');
             $table->timestamps();
         });
     }

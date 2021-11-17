@@ -1,4 +1,4 @@
-@extends('layouts.front.master')
+@extends('layouts.streamit.front.master')
 @section('content')
 
 
@@ -6,14 +6,15 @@
 
 
 
-
+    @if($system->slider)
     <!-- Slider Start -->
     <section id="home" class="iq-main-slider p-0">
 
         <div id="home-slider" class="slider m-0 p-0">
     {{-- Slides--}}
             @foreach($shows as $show)
-            <div class="slide slick-bg s-bg-1" style="background-image: url('{{asset($show['banner']) }}';">
+                @if($show->release_on < now())
+            <div class="slide slick-bg s-bg-{{$show->id}}" style="background-image: url('{{asset($show['banner']) }}';">
                 <div class="container-fluid position-relative h-100">
                     <div class="slider-inner h-100">
                         <div class="row align-items-center  h-100">
@@ -55,6 +56,7 @@
                     </div>
                 </div>
             </div>
+                @endif
             @endforeach
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -65,7 +67,7 @@
         </svg>
     </section>
     <!-- Slider End -->
-
+    @endif
 
 
 
@@ -134,15 +136,15 @@
 
 
 
-
-
+        {{--Upcoming--}}
+        @if($system->upcoming_section)
         <section id="iq-upcoming-movie">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12 overflow-hidden">
                         <div class="iq-main-header d-flex align-items-center justify-content-between">
                             <h4 class="main-title">Upcoming Movies</h4>
-                            <a href="movie-category.html" class="text-primary">View all</a>
+                            <a href="{{url('movies')}}" class="text-primary">View all</a>
                         </div>
                         <div class="upcoming-contens">
                             <ul class="favorites-slider list-inline row p-0 mb-0">
@@ -184,12 +186,11 @@
                 </div>
             </div>
         </section>
+        @endif
+        {{--End Upcoming--}}
 
 
-
-
-
-
+        {{--Topten--}}
         <section id="iq-topten">
             <div class="container-fluid">
                 <div class="row">
@@ -200,153 +201,43 @@
                         <div class="topten-contens">
                             <h4 class="main-title topten-title">Top 10 in India</h4>
                             <ul id="top-ten-slider" class="list-inline p-0 m-0  d-flex align-items-center">
+
+                                @foreach($movies as $movie)
                                 <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="">
+                                    <a href="{{url('movies/'.$movie->name)}}">
+                                        <img src="{{$movie->banner}}" class="img-fluid w-100" alt="">
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/02.jpg" class="img-fluid w-100" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/03.jpg" class="img-fluid w-100" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/04.jpg" class="img-fluid w-100" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/05.jpg" class="img-fluid w-100" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="movie-details.html">
-                                        <img src="images/top-10/06.jpg" class="img-fluid w-100" alt="">
-                                    </a>
-                                </li>
+                                @endforeach
+
+
                             </ul>
                             <div class="vertical_s">
                                 <ul id="top-ten-slider-nav" class="list-inline p-0 m-0  d-flex align-items-center">
+
+                                    @foreach($movies as $movie)
                                     <li>
                                         <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="">
+                                            <a href="{{url('movies/'.$movie->url)}}">
+                                                <img src="{{$movie->banner}}" class="img-fluid w-100" alt="">
                                             </a>
                                             <div class="block-description">
-                                                <h5>The Illusion</h5>
+                                                <h5>{{$movie->name}}</h5>
                                                 <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">10+</div>
-                                                    <span class="text-white">3h 15m</span>
+                                                    <div class="badge badge-secondary p-1 mr-2">{{$movie->age_group}}</div>
+                                                    <span class="text-white">{{$movie->duration}}</span>
                                                 </div>
                                                 <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
+                                                    <a href="{{url('movies/'.$movie->url)}}" class="btn btn-hover" tabindex="0">
                                                         <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/02.jpg" class="img-fluid w-100" alt="">
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Burning</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">13+</div>
-                                                    <span class="text-white">2h 20m</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/03.jpg" class="img-fluid w-100" alt="">
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Hubby Kubby</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">9+</div>
-                                                    <span class="text-white">2h 40m</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/04.jpg" class="img-fluid w-100" alt="">
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Open Dead Shot</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">16+</div>
-                                                    <span class="text-white">1h 40m</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/05.jpg" class="img-fluid w-100" alt="">
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Jumbo Queen</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">15+</div>
-                                                    <span class="text-white">3h</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="movie-details.html">
-                                                <img src="images/top-10/06.jpg" class="img-fluid w-100" alt="">
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>The Lost Journey</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">20+</div>
-                                                    <span class="text-white">2h 15m</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="movie-details.html" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    @endforeach
+
+
                                 </ul>
                             </div>
                         </div>
@@ -354,6 +245,15 @@
                 </div>
             </div>
         </section>
+
+        {{--End Topten--}}
+
+
+
+
+
+
+
 
         <section id="iq-suggestede" class="s-margin">
             <div class="container-fluid">

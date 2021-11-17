@@ -26,7 +26,7 @@ class SysfigsSeeder extends Seeder
                 'index_bg'=>'https://via.placeholder.com/1920X900?text=Landing Background',
                 'private'=>1,
                 'coming_soon'=>1,
-                'is_fresh'=>1,
+                'installed'=>1,
                 'slider'=>1,
                 'slider_limit'=>1,
                 'per_page'=>10,
