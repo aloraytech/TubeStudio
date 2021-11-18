@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Keywords" content="{{$system->keywords}}">
+    <meta name="Description" content="{{$system->desc}}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'MpTop10') }}</title>
+    <title>{{ env('APP_NAME') }}</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('assets/front/images/favicon.ico')}}" />
+    <link rel="shortcut icon" href="{{asset($system->favicon)}}" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('assets/front/css/bootstrap.min.css')}}" />
     <!-- Typography CSS -->
@@ -20,13 +22,11 @@
     <link rel="stylesheet" href="{{asset('assets/front/css/responsive.css')}}" />
 </head>
 <body>
-@if(!empty($getTools) && $getTools['display_loader'] ==1)
-    <!-- loader Start -->
-    <div id="loading">
-        <div id="loading-center">
-        </div>
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
     </div>
-@endif
+</div>
 <!-- loader END -->
 @include('layouts.streamit.front.components.header')
 @yield('content')

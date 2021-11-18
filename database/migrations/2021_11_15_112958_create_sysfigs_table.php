@@ -17,20 +17,25 @@ class CreateSysfigsTable extends Migration
             $table->id();
             $table->string('slogan')->nullable();
             $table->string('favicon')->nullable();
+            $table->string('logo')->nullable();
             $table->json('keywords')->nullable();
+            $table->text('desc')->nullable();
             $table->text('header')->nullable();
             $table->string('index_bg')->nullable();
             $table->string('login_bg')->nullable();
             $table->string('signup_bg')->nullable();
             $table->boolean('private')->default(false);
             $table->boolean('coming_soon')->default(false);
+            $table->dateTime('coming_soon_upto')->nullable();
             $table->boolean('installed')->default(true);
             $table->integer('per_page')->default(10);
             $table->string('player_size')->default('21by9');
             $table->boolean('slider')->default(true);
-            $table->integer('slider_limit')->default(10);
             $table->boolean('upcoming_section')->default(true);
             $table->string('theme')->default('webtube');
+            $table->string('m_url')->default('movies');
+            $table->string('s_url')->default('shows');
+            $table->string('b_url')->default('blogs');
             $table->timestamps();
         });
     }

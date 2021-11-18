@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ShowsSeeder::class,
             PostsSeeder::class,
             SysfigsSeeder::class,
+            AdvertsSeeder::class,
         ]);
     }
 }

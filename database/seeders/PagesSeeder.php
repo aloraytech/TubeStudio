@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Blog\Posts;
-use Database\Factories\Blog\PostsFactory;
 use Illuminate\Database\Seeder;
 
-class PostsSeeder extends Seeder
+class PagesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +13,6 @@ class PostsSeeder extends Seeder
      */
     public function run()
     {
-        Posts::factory()->count(40)->create();
+        //
     }
 }

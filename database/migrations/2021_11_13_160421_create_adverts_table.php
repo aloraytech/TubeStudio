@@ -15,14 +15,17 @@ class CreateAdvertsTable extends Migration
     {
         Schema::create('adverts', function (Blueprint $table) {
             $table->id();
-            $table->string('pos');
+            $table->string('position');
             $table->string('provider')->default('undefined');
             $table->string('banner')->nullable();
             $table->text('code');
-            $table->string('url')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string('target_url')->nullable();
+            $table->integer('target_view')->nullable();
+            $table->integer('target_click')->nullable();
+            $table->string('target_country')->default('india');
             $table->integer('views')->nullable();
             $table->integer('clicks')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
