@@ -12,23 +12,25 @@
     <div class="main-content">
         @if($user['exist'])
             {{--Favourites--}}
-{{--                @include('pages.streamit.front.components.index.favorites')--}}
+                @include('pages.streamit.front.components.index.favorites')
             {{--End Favourites--}}
         @endif
 
             {{--Upcoming--}}
         @if($system->upcoming_section)
-{{--                @include('pages.streamit.front.components.index.upcoming')--}}
+            @if($upcoming['has'])
+                @include('pages.streamit.front.components.index.upcoming')
+            @endif
         @endif
             {{--End Upcoming--}}
 
             {{--Topten--}}
-{{--                @include('pages.streamit.front.components.index.topten')--}}
+                @include('pages.streamit.front.components.index.topten')
             {{--End Topten--}}
 
         @if($user['exist'])
             {{--Suggested--}}
-{{--                @include('pages.streamit.front.components.index.sugested')--}}
+                @include('pages.streamit.front.components.index.sugested')
             {{--Suggested--}}
         @endif
 
@@ -42,7 +44,7 @@
             {{--Treanding Shows--}}
 
             {{--Triller Shows--}}
-                @include('pages.streamit.front.components.index.single')
+{{--                @include('pages.streamit.front.components.index.thriller')--}}
             {{--Triller Shows--}}
 
     </div>

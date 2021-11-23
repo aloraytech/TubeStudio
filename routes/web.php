@@ -1,11 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+
+// Client
 use App\Http\Controllers\Front\FrontController;
-use App\Http\Controllers\auth\Admin\LoginController as AdminLoginController;
-use App\Http\Controllers\auth\Users\LoginController as UserLoginController;
-use App\Http\Controllers\auth\Users\RegisterController as UserRegisterController;
-use App\Http\Controllers\auth\Admin\RegisterController as AdminRegisterController;
+use App\Http\Controllers\Front\Movies\MoviesController;
+use App\Http\Controllers\Front\Shows\ShowsController;
+use App\Http\Controllers\Front\Shows\EpisodeController;
+use App\Http\Controllers\Front\Category\CategoryController;
+use App\Http\Controllers\Auth\MemberAuthenticationController;
+use App\Http\Controllers\Member\MemberController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,11 +29,33 @@ use App\Http\Controllers\auth\Admin\RegisterController as AdminRegisterControlle
 //    return view('welcome');
 //});
 
+
+// CLIENT SIDE
 Route::get('/', [FrontController::class, 'index']);
-Route::match(['GET', 'POST'], 'register', [UserRegisterController::class, 'register'])->name('register.user');
-Route::match(['GET', 'POST'], 'admin/register', [AdminRegisterController::class, 'register'])->name('register.admin');
-Route::match(['GET', 'POST'], 'login', [UserLoginController::class, 'login'])->name('login.user');
-Route::match(['GET', 'POST'], 'admin/login', [AdminLoginController::class, 'login'])->name('login.admin');
+
+// Member Auth
+Route::get('/login', [MemberController::class, 'login'])->name('login.user');
+Route::get('/register', [MemberController::class, 'register'])->name('register.user');
+
+//Socialite
+Route::get('/login/{provider}', [MemberAuthenticationController::class,'redirectToProvider']);
+Route::get('/login/{provider}/callback', [MemberAuthenticationController::class,'handleProviderCallback']);
 
 
+
+Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle']);
+
+Route::get('/'.env('SHOW').'s/{shows:name}',[ShowsController::class,'getSingle']);
+
+Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,'moviesOnly']);
+Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly']);
+
+
+// Backend Client
+
+
+
+// Backend Admin
+
+//Route::get('/dashboard','');
 

@@ -11,7 +11,7 @@
 
                         @foreach($movies as $movie)
                             <li>
-                                <a href="{{url($system->m_url.'/'.$movie->name)}}">
+                                <a href="{{url(env('MOVIE').'s/'.$movie->name)}}">
                                     <img src="{{$movie->banner}}" class="img-fluid w-100" alt="">
                                 </a>
                             </li>
@@ -25,7 +25,7 @@
                             @foreach($movies as $movie)
                                 <li>
                                     <div class="block-images position-relative">
-                                        <a href="{{url($system->m_url.'/'.$movie->name)}}">
+                                        <a href="{{url(env('MOVIE').'s/'.$movie->name)}}">
                                             <img src="{{$movie->banner}}" class="img-fluid w-100" alt="">
                                         </a>
                                         <div class="block-description">
@@ -35,7 +35,7 @@
                                                 <span class="text-white">{{$movie->duration}}</span>
                                             </div>
                                             <div class="hover-buttons">
-                                                <a href="{{url($system->m_url.'/'.$movie->name)}}" class="btn btn-hover" tabindex="0">
+                                                <a href="{{url(env('MOVIE').'s/'.$movie->name)}}" class="btn btn-hover" tabindex="0">
                                                     <i class="fa fa-play mr-1" aria-hidden="true"></i> Play Now
                                                 </a>
                                             </div>

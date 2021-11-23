@@ -14,8 +14,8 @@
                                 <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                             </div>
                         </a>
-                        <a class="navbar-brand" href="{{url('')}}"> <img class="img-fluid logo" src="{{asset('images/logo.png')}}"
-                                                                         alt="streamit" /> </a>
+                        <a class="navbar-brand" href="{{url('/')}}"> <img class="img-fluid logo" src="{{$system->logo}}"
+                                                                         alt="{{env('APP_NAME')}}" /> </a>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
@@ -23,10 +23,10 @@
                                         <a href="{{url('')}}">Home</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="{{url('videos')}}">Videos</a>
+                                        <a href="{{url(env('CATEGORY').'/'.env('MOVIE').'s/')}}">{{ucfirst(env('MOVIE').'s')}}</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="{{url('video-series')}}">Series</a>
+                                        <a href="{{url(env('CATEGORY').'/'.env('SHOW').'s/')}}">{{ucfirst(env('SHOW').'s')}}</a>
                                     </li>
                                 </ul>
                             </div>

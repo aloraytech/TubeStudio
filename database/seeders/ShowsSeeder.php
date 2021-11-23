@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Shows\Episodes;
 use App\Models\Shows\Seasons;
 use App\Models\Shows\Shows;
-use Database\Factories\Shows\ShowsFactory;
+use App\Models\Shows\Trailers;
 use Illuminate\Database\Seeder;
 
 class ShowsSeeder extends Seeder
@@ -19,11 +19,11 @@ class ShowsSeeder extends Seeder
     {
         Shows::factory()
             ->count(50)
-//            ->hasSeasons(5)
             ->has(Seasons::factory()
-//                ->hasEpisodes(5)
                 ->has(Episodes::factory()
-                    ->count(5),'episodes')
+                    ->count(25),'episodes')
+                ->has(Trailers::factory()
+                    ->count(7),'trailers')
                 ->count(10),'seasons')
             ->create();
     }

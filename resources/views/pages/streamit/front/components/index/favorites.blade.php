@@ -12,7 +12,7 @@
                             <ul class="favorites-slider list-inline  row p-0 mb-0">
                                 @foreach($activities as $activity)
                                     <li class="slide-item">
-                                        <a href="{{url($system->m_url.'/'.$activity->movies->name)}}">
+                                        <a href="{{url(env('MOVIE').'s/'.$activity->movies->name)}}">
                                             <div class="block-images position-relative">
                                                 <div class="img-box">
                                                     <img src="{{$activity->movies->banner}}" class="img-fluid" alt="">

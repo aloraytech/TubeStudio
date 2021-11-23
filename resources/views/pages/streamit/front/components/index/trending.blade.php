@@ -4,7 +4,7 @@
             <div class="col-sm-12 overflow-hidden">
                 <div class="iq-main-header d-flex align-items-center justify-content-between">
                     <h4 class="main-title">Trending</h4>
-                    <a href="{{url('categories/'.$system->s_url)}}" class="text-primary">View all</a>
+                    <a href="{{url(env('CATEGORY').'/'.env('SHOW').'s/')}}" class="text-primary">View all</a>
                 </div>
                 <div class="trending-contens">
 
@@ -71,7 +71,7 @@
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="res-logo">
                                                         <div class="channel-logo">
-                                                            <img src="{{$system->logo}}" class="c-logo" alt="streamit">
+                                                            <img src="{{$system->logo}}" class="c-logo" alt="{{env('APP_NAME')}}">
                                                         </div>
                                                     </div>
                                                 </a>
@@ -119,7 +119,6 @@
                                                     </div>
                                                 </a>
                                                 <h1 class="trending-text big-title text-uppercase">{{$show->name}}</h1>
-
                                                 <div class="iq-custom-select d-inline-block sea-epi">
                                                     <select name="cars" class="form-control season-select">
                                                             @for ($i = 0; $i < $show->seasons->count(); $i++)
@@ -127,28 +126,25 @@
                                                             @endfor
                                                     </select>
                                                 </div>
-
-
                                                 <div class="episodes-contens mt-4">
-
                                                     <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0">
                                                         @foreach($season->episodes as $episode)
                                                             <div class="e-item">
                                                                 <div class="block-image position-relative">
-                                                                    <a href="{{url($system->s_url.'/'.$season->name.'/'.$episode->name)}}">
+                                                                    <a href="{{url(env('SHOW').'s/'.$season->name.'/'.$episode->name)}}">
                                                                         <img src="{{$episode->banner}}" class="img-fluid" alt="">
                                                                     </a>
                                                                     <div class="episode-number">{{ $i }}</div>
                                                                     <div class="episode-play-info">
                                                                         <div class="episode-play">
-                                                                            <a href="{{url($system->s_url.'/'.$season->name.'/'.$episode->name)}}" tabindex="0"><i
+                                                                            <a href="{{url(env('SHOW').'s/'.$season->name.'/'.$episode->name)}}" tabindex="0"><i
                                                                                     class="ri-play-fill"></i></a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="episodes-description text-body mt-2">
                                                                     <div class="d-flex align-items-center justify-content-between">
-                                                                        <a href="{{url($system->s_url.'/'.$season->name.'/'.$episode->name)}}">{{$episode->name}}</a>
+                                                                        <a href="{{url(env('SHOW').'s/'.$season->name.'/'.$episode->name)}}">{{$episode->name}}</a>
                                                                         <span class="text-primary">{{$episode->duration}}</span>
                                                                     </div>
                                                                     <p class="mb-0"> {{$episode->desc}}</p>
@@ -157,61 +153,63 @@
                                                             </div>
                                                         @endforeach
                                                     </div>
-
                                                 </div>
-
-
                                             </div>
                                         </div>
                                         @endforeach
                                         {{--Second Page EPISODES--}}
 
                                         {{--Third Page TRAILERS --}}
+                                        @foreach($show->seasons as $season)
                                         <div id="trending-data3" class="overlay-tab tab-pane fade">
-                                            <div
-                                                class="trending-info align-items-center w-100 animated fadeInUp">
+                                            <div class="trending-info align-items-center w-100 animated fadeInUp">
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="channel-logo">
                                                         <img src="{{$system->logo}}" class="c-logo" alt="stramit">
                                                     </div>
                                                 </a>
-                                                <h1 class="trending-text big-title text-uppercase">the hero camp</h1>
-                                                <div class="episodes-contens mt-4">
-                                                    <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0">
+                                                <h1 class="trending-text big-title text-uppercase">{{$show->name}}</h1>
 
+                                                <div class="episodes-contens mt-4">
+
+                                                    <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0">
+                                                            @foreach($season->trailers as $trailer)
                                                         <div class="e-item">
                                                             <div class="block-image position-relative">
-                                                                <a href="{{url('videos/watch/'.$show->videos->title)}}" target="_blank">
-                                                                    <img src="{{$show->banner}}" class="img-fluid" alt="">
+                                                                <a href="{{url($system->s_url.'/watch/'.$trailer->name)}}" target="_blank">
+                                                                    <img src="{{$trailer->banner}}" class="img-fluid" alt="">
                                                                 </a>
                                                                 <div class="episode-number">1</div>
                                                                 <div class="episode-play-info">
                                                                     <div class="episode-play">
-                                                                        <a href="{{url('videos/watch/'.$show->videos->title)}}" target="_blank" tabindex="0"><i
+                                                                        <a href="{{url($system->s_url.'/watch/'.$trailer->title)}}" target="_blank" tabindex="0"><i
                                                                                 class="ri-play-fill"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="episodes-description text-body mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="{{url('videos/watch/'.$show->videos->title)}}" target="_blank">Trailer</a>
+                                                                    <a href="{{url($system->s_url.'/watch/'.$trailer->title)}}" target="_blank">Trailer</a>
                                                                     <span class="text-primary">2.25 m</span>
                                                                 </div>
-                                                                <p class="mb-0">{{$show->desc}}</p>
+                                                                <p class="mb-0">{{$trailer->desc}}</p>
                                                             </div>
                                                         </div>
-
+                                                            @endforeach
                                                     </div>
+
                                                 </div>
+
                                             </div>
                                         </div>
+                                        @endforeach
                                         {{--Third Page TRAILERS--}}
 
 
                                         {{--Fourth Page SIMILAR--}}
+
                                         <div id="trending-data4" class="overlay-tab tab-pane fade">
-                                            <div
-                                                class="trending-info align-items-center w-100 animated fadeInUp">
+                                            <div class="trending-info align-items-center w-100 animated fadeInUp">
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="channel-logo">
                                                         <img src="images/logo.png" class="c-logo" alt="stramit">
@@ -220,32 +218,14 @@
                                                 <h1 class="trending-text big-title text-uppercase">the hero camp</h1>
                                                 <div class="episodes-contens mt-4">
                                                     <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0">
+
+                                                        @foreach($shows as $similarShow)
+                                                        @if($show->categories_id === $similarShow->categories_id)
+
                                                         <div class="e-item">
                                                             <div class="block-image position-relative">
                                                                 <a href="show-details.html">
-                                                                    <img src="images/episodes/01.jpg" class="img-fluid" alt="">
-                                                                </a>
-                                                                <div class="episode-number">1</div>
-                                                                <div class="episode-play-info">
-                                                                    <div class="episode-play">
-                                                                        <a href="show-details.html" tabindex="0"><i
-                                                                                class="ri-play-fill"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="episodes-description text-body mt-2">
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">Episode 1</a>
-                                                                    <span class="text-primary">2.25 m</span>
-                                                                </div>
-                                                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="e-item">
-                                                            <div class="block-image position-relative">
-                                                                <a href="show-details.html">
-                                                                    <img src="images/episodes/02.jpg" class="img-fluid" alt="">
+                                                                    <img src="{{$similarShow->banner}}" class="img-fluid" alt="">
                                                                 </a>
                                                                 <div class="episode-number">2</div>
                                                                 <div class="episode-play-info">
@@ -257,83 +237,20 @@
                                                             </div>
                                                             <div class="episodes-description text-body mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">Episode 2</a>
-                                                                    <span class="text-primary">3.23 m</span>
+                                                                    <a href="show-details.html">{{$similarShow->name}}</a>
+                                                                    <span class="text-primary">{{$similarShow->duration}}</span>
                                                                 </div>
-                                                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
-                                                                </p>
+                                                                <p class="mb-0">{{$similarShow->desc}}</p>
                                                             </div>
                                                         </div>
-                                                        <div class="e-item">
-                                                            <div class="block-image position-relative">
-                                                                <a href="show-details.html">
-                                                                    <img src="images/episodes/03.jpg" class="img-fluid" alt="">
-                                                                </a>
-                                                                <div class="episode-number">3</div>
-                                                                <div class="episode-play-info">
-                                                                    <div class="episode-play">
-                                                                        <a href="show-details.html" tabindex="0"><i
-                                                                                class="ri-play-fill"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="episodes-description text-body mt-2">
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">Episode 3</a>
-                                                                    <span class="text-primary">2 m</span>
-                                                                </div>
-                                                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="e-item">
-                                                            <div class="block-image position-relative">
-                                                                <a href="show-details.html">
-                                                                    <img src="images/episodes/04.jpg" class="img-fluid" alt="">
-                                                                </a>
-                                                                <div class="episode-number">4</div>
-                                                                <div class="episode-play-info">
-                                                                    <div class="episode-play">
-                                                                        <a href="show-details.html" tabindex="0"><i
-                                                                                class="ri-play-fill"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="episodes-description text-body mt-2">
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">Episode 4</a>
-                                                                    <span class="text-primary">1.12 m</span>
-                                                                </div>
-                                                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="e-item">
-                                                            <div class="block-image position-relative">
-                                                                <a href="show-details.html">
-                                                                    <img src="images/episodes/05.jpg" class="img-fluid" alt="">
-                                                                </a>
-                                                                <div class="episode-number">5</div>
-                                                                <div class="episode-play-info">
-                                                                    <div class="episode-play">
-                                                                        <a href="show-details.html" tabindex="0"><i
-                                                                                class="ri-play-fill"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="episodes-description text-body mt-2">
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">Episode 5</a>
-                                                                    <span class="text-primary">2.54 m</span>
-                                                                </div>
-                                                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
-                                                                </p>
-                                                            </div>
-                                                        </div>
+                                                        @endif
+                                                            @endforeach
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+
                                         {{--Fourth Page SIMILAR--}}
 
 

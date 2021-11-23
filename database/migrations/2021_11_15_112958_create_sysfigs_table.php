@@ -33,9 +33,6 @@ class CreateSysfigsTable extends Migration
             $table->boolean('slider')->default(true);
             $table->boolean('upcoming_section')->default(true);
             $table->string('theme')->default('webtube');
-            $table->string('m_url')->default('movies');
-            $table->string('s_url')->default('shows');
-            $table->string('b_url')->default('blogs');
             $table->timestamps();
         });
     }

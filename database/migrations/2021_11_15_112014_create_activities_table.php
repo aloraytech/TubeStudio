@@ -20,13 +20,13 @@ class CreateActivitiesTable extends Migration
             $table->boolean('like')->default(false);
             $table->boolean('favourite')->default(false);
             $table->json('visitor_info')->nullable();
-            $table->foreignId('movies_id')->nullable()->constrained('movies');
-            $table->foreignId('shows_id')->nullable()->constrained('shows');
-            $table->foreignId('seasons_id')->nullable()->constrained('seasons');
-            $table->foreignId('episodes_id')->nullable()->constrained('episodes');
-            $table->foreignId('posts_id')->nullable()->constrained('posts');
-            $table->foreignId('members_id')->nullable()->constrained('members');
-            $table->foreignId('adverts_id')->nullable()->constrained('adverts');
+            $table->foreignId('movies_id')->nullable()->constrained('movies')->onDelete('cascade');
+            $table->foreignId('shows_id')->nullable()->constrained('shows')->onDelete('cascade');
+            $table->foreignId('seasons_id')->nullable()->constrained('seasons')->onDelete('cascade');
+            $table->foreignId('episodes_id')->nullable()->constrained('episodes')->onDelete('cascade');
+            $table->foreignId('posts_id')->nullable()->constrained('posts')->onDelete('cascade');
+            $table->foreignId('members_id')->nullable()->constrained('members')->onDelete('cascade');
+            $table->foreignId('adverts_id')->nullable()->constrained('adverts')->onDelete('cascade');
             $table->timestamps();
         });
     }

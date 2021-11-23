@@ -4,12 +4,12 @@
             <div class="col-sm-12 overflow-hidden">
                 <div class="iq-main-header d-flex align-items-center justify-content-between">
                     <h4 class="main-title">Suggested For You</h4>
-                    <a href="{{url($system->s_url.'/')}}" class="text-primary">View all</a>
+                    <a href="{{url(env('SHOW').'s/')}}" class="text-primary">View all</a>
                 </div>
                 <div class="suggestede-contens">
                     <ul class="list-inline favorites-slider row p-0 mb-0">
                         <li class="slide-item">
-                            <a href="{{url($system->m_url.'/')}}">
+                            <a href="{{url(env('MOVIE').'s/')}}">
                                 <div class="block-images position-relative">
                                     <div class="img-box">
                                         <img src="images/suggested/01.jpg" class="img-fluid" alt="">
@@ -36,7 +36,7 @@
                             </a>
                         </li>
                         <li class="slide-item">
-                            <a href="show-details.html">
+                            <a href="{{url(env('SHOW').'s/')}}">
                                 <div class="block-images position-relative">
                                     <div class="img-box">
                                         <img src="images/suggested/02.jpg" class="img-fluid" alt="">

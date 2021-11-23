@@ -3,12 +3,7 @@
 
 
 
-    <!-- loader Start -->
-   <div id="loading">
-       <div id="loading-center">
-       </div>
-    </div>
-    <!-- loader END -->
+
     <!-- MainContent -->
     <section class="sign-in-page">
         <div class="container">
@@ -26,8 +21,11 @@
                                         <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword2" placeholder="Password" required>
                                     </div>
 
+
+
                                     <div class="sign-info">
                                         <button type="submit" class="btn btn-hover">Sign in</button>
+
                                         <div class="custom-control custom-checkbox d-inline-block">
                                             <input type="checkbox" name="remember" class="custom-control-input" id="customCheck">
                                             <label class="custom-control-label" for="customCheck">Remember Me</label>
@@ -35,6 +33,11 @@
                                     </div>
 
                                 </form>
+                                <div class=" col-12">
+                                    <a href="{{ route('login.user') }}/github" class="btn btn-dark btn-sm btn-block">Github Login</a>
+                                    <a href="{{ route('login.user') }}/google" class="btn btn-hover btn-sm btn-block">Google Login</a>
+                                    <a href="{{ route('login.user') }}/facebook" class="btn btn-primary btn-sm btn-block">Facebook Login</a>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-3">

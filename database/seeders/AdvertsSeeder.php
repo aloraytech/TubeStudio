@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\System\Adverts;
+use App\Models\Business\Adverts;
 use Illuminate\Database\Seeder;
 
 class AdvertsSeeder extends Seeder

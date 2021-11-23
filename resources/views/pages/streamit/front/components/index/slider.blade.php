@@ -5,7 +5,7 @@
         {{-- Slides--}}
         @foreach($shows as $show)
             @if($show->release_on < now())
-                <div class="slide slick-bg s-bg-{{$show->id}}" style="background-image: url('{{asset($show['banner']) }}';">
+                <div class="slide slick-bg s-bg-{{$show->id}}" style="background-image: url('{{asset($show['banner']) }}');">
                     <div class="container-fluid position-relative h-100">
                         <div class="slider-inner h-100">
                             <div class="row align-items-center  h-100">
@@ -24,14 +24,14 @@
                                     <p data-animation-in="fadeInUp" data-delay-in="1.2">{{$show['desc']}}
                                     </p>
                                     <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
-                                        <a href="{{url($system->s_url.'/'.$show['name'])}}" class="btn btn-hover"><i class="fa fa-play mr-2"
+                                        <a href="{{url(env('SHOW').'s/'.$show['name'])}}" class="btn btn-hover"><i class="fa fa-play mr-2"
                                                                                                                      aria-hidden="true"></i>Play Now</a>
-                                        <a href="{{url($system->s_url.'/'.$show['name'])}}" class="btn btn-link">More details</a>
+                                        <a href="{{url(env('SHOW').'s/'.$show['name'])}}" class="btn btn-link">More details</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="trailor-video">
-                                <a href="{{asset('trailers/'.$show->videos->path_url)}}" class="video-open playbtn">
+                                <a href="{{asset(env('TRAILER').'s/'.$show->videos->path_url)}}" class="video-open playbtn">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                          x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
                                          enable-background="new 0 0 213.7 213.7" xml:space="preserve">
