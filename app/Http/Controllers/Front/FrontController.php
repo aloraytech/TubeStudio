@@ -6,10 +6,11 @@ use App\Helpers\YoutubeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Movies\Movies;
 use App\Models\Shows\Shows;
-use App\Models\System\Adverts;
+use App\Models\Business\Adverts;
 use App\Models\System\Sysfigs;
+use App\Models\System\Systems;
 use App\Models\User;
-use App\Models\Users\Activities;
+use App\Models\System\Activities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,9 @@ class FrontController extends Controller
 
     public function index()
     {
+
+
+
         // Check MemberLogin or Not
         $user = [
             'exist' => false, // if guest
@@ -31,7 +35,7 @@ class FrontController extends Controller
 
 
         // Load System Data
-        $system = Sysfigs::find(1);
+        $system = Systems::find(1);
 
         $ads = Adverts::where('status',true)->get();
 

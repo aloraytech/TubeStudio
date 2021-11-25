@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SysfigsSeeder extends Seeder
+class SystemsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,10 +35,10 @@ class SysfigsSeeder extends Seeder
                 'player_size'=>'21by9',
                 'created_at'=> date('Y-m-d h:m:s'),
                 'updated_at'=> date('Y-m-d h:m:s'),
-                ],
+            ],
 
         ];
 
-        DB::table('sysfigs')->insert($data);
+        DB::table('systems')->insert($data);
     }
 }

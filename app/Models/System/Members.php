@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\Business\Subscriptions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,15 +44,25 @@ class Members extends Authenticatable
     ];
 
 
-    public function providers()
+    public function socials()
     {
-        return $this->hasMany(Provider::class,'members_id','id');
+        return $this->hasMany(Socials::class,'members_id','id');
     }
 
+    public function hasSocial($social)
+    {
+        return (bool) $this->socials->where('social', $social)->count();
+    }
 
     public function activities()
     {
         return $this->belongsToMany(Activities::class);
     }
+
+    public function subscriptions()
+    {
+        return $this->belongsToMany(Subscriptions::class, 'subscriptions')->withTimestamps();
+    }
+
 
 }

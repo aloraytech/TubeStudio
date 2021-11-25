@@ -13,6 +13,9 @@
                         <div class="sign-in-page-data">
                             <div class="sign-in-from w-100 m-auto">
                                 <h3 class="mb-3 text-center">Sign in</h3>
+                                @if(!empty($error))
+                                <p>{{$error}}</p>
+                                @endif
                                 <form class="mt-4" action="{{ route('login.user') }}" method="post" > @CSRF
                                     <div class="form-group">
                                         <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email" autocomplete="off" required>

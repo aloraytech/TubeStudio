@@ -2,15 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 
-
+use App\Http\Middleware\AppCommonsMiddleware;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\SocialAuthController;
 // Client
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Front\Movies\MoviesController;
 use App\Http\Controllers\Front\Shows\ShowsController;
 use App\Http\Controllers\Front\Shows\EpisodeController;
 use App\Http\Controllers\Front\Category\CategoryController;
-use App\Http\Controllers\Auth\MemberAuthenticationController;
 use App\Http\Controllers\Member\MemberController;
+use App\Http\Controllers\Front\SearchController;
 
 
 
@@ -31,17 +33,21 @@ use App\Http\Controllers\Member\MemberController;
 
 
 // CLIENT SIDE
+
 Route::get('/', [FrontController::class, 'index']);
 
 // Member Auth
-Route::get('/login', [MemberController::class, 'login'])->name('login.user');
-Route::get('/register', [MemberController::class, 'register'])->name('register.user');
+Route::get('/login', [AuthController::class, 'login'])->name('login.user');
+Route::get('/register', [AuthController::class, 'register'])->name('register.user');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
+
+Route::match(['get','post'],'/search', [SearchController::class, 'searchFront'])->name('search.front');
 
 //Socialite
-Route::get('/login/{provider}', [MemberAuthenticationController::class,'redirectToProvider']);
-Route::get('/login/{provider}/callback', [MemberAuthenticationController::class,'handleProviderCallback']);
+Route::get('/login/{social}', [SocialAuthController::class,'redirectToSocial']);
+Route::get('/login/{social}/callback', [SocialAuthController::class,'handleSocialCallback']);
 
-
+Route::get('/dashboard',[MemberController::class,'dashboard'])->name('dashboard.user');
 
 Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle']);
 
@@ -52,6 +58,7 @@ Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'
 
 
 // Backend Client
+
 
 
 

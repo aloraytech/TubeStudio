@@ -14,19 +14,19 @@
                                 <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                             </div>
                         </a>
-                        <a class="navbar-brand" href="{{url('/')}}"> <img class="img-fluid logo" src="{{$system->logo}}"
-                                                                         alt="{{env('APP_NAME')}}" /> </a>
+                        <a class="navbar-brand" href="index.html"> <img class="img-fluid logo" src="images/logo.png"
+                                                                        alt="streamit" /> </a>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
                                     <li class="menu-item">
-                                        <a href="{{url('')}}">Home</a>
+                                        <a href="index.html">Home</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="{{url(env('CATEGORY').'/'.env('MOVIE').'s/')}}">{{ucfirst(env('MOVIE').'s')}}</a>
+                                        <a href="show-category.html">Tv Shows</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="{{url(env('CATEGORY').'/'.env('SHOW').'s/')}}">{{ucfirst(env('SHOW').'s')}}</a>
+                                        <a href="movie-category.html">Movies</a>
                                     </li>
                                 </ul>
                             </div>
@@ -108,80 +108,46 @@
                                             <div class="iq-sub-dropdown iq-user-dropdown">
                                                 <div class="iq-card shadow-none m-0">
                                                     <div class="iq-card-body p-0 pl-3 pr-3">
-                                                        @guest
-                                                            <a href="{{ url('login') }}" class="iq-sub-card setting-dropdown">
-                                                                <div class="media align-items-center">
-                                                                    <div class="right-icon">
-                                                                        <i class="ri-logout-circle-line text-primary"></i>
-                                                                    </div>
-                                                                    <div class="media-body ml-3">
-                                                                        <h6 class="mb-0 ">{{ __('Login') }}</h6>
-                                                                    </div>
+                                                        <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                            <div class="media align-items-center">
+                                                                <div class="right-icon">
+                                                                    <i class="ri-file-user-line text-primary"></i>
                                                                 </div>
-                                                            </a>
-                                                            @if (Route::has('register'))
-                                                                <a href="{{ route('register') }}" class="iq-sub-card setting-dropdown">
-                                                                    <div class="media align-items-center">
-                                                                        <div class="right-icon">
-                                                                            <i class="ri-logout-circle-line text-primary"></i>
-                                                                        </div>
-                                                                        <div class="media-body ml-3">
-                                                                            <h6 class="mb-0 ">{{ __('Register') }}</h6>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            @endif
-                                                        @else
-
-                                                            <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
-                                                                <div class="media align-items-center">
-                                                                    <div class="right-icon">
-                                                                        <i class="ri-file-user-line text-primary"></i>
-                                                                    </div>
-                                                                    <div class="media-body ml-3">
-                                                                        <h6 class="mb-0 ">Manage Profile</h6>
-                                                                    </div>
+                                                                <div class="media-body ml-3">
+                                                                    <h6 class="mb-0 ">Manage Profile</h6>
                                                                 </div>
-                                                            </a>
-                                                            <a href="setting.html" class="iq-sub-card setting-dropdown">
-                                                                <div class="media align-items-center">
-                                                                    <div class="right-icon">
-                                                                        <i class="ri-settings-4-line text-primary"></i>
-                                                                    </div>
-                                                                    <div class="media-body ml-3">
-                                                                        <h6 class="mb-0 ">Settings</h6>
-                                                                    </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href="setting.html" class="iq-sub-card setting-dropdown">
+                                                            <div class="media align-items-center">
+                                                                <div class="right-icon">
+                                                                    <i class="ri-settings-4-line text-primary"></i>
                                                                 </div>
-                                                            </a>
-                                                            <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">
-                                                                <div class="media align-items-center">
-                                                                    <div class="right-icon">
-                                                                        <i class="ri-settings-4-line text-primary"></i>
-                                                                    </div>
-                                                                    <div class="media-body ml-3">
-                                                                        <h6 class="mb-0 ">Pricing Plan</h6>
-                                                                    </div>
+                                                                <div class="media-body ml-3">
+                                                                    <h6 class="mb-0 ">Settings</h6>
                                                                 </div>
-                                                            </a>
-                                                            <a href="{{ route('logout') }}" class="iq-sub-card setting-dropdown"
-                                                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-
-                                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                                    @csrf
-                                                                </form>
-                                                                <div class="media align-items-center">
-                                                                    <div class="right-icon">
-                                                                        <i class="ri-logout-circle-line text-primary"></i>
-                                                                    </div>
-                                                                    <div class="media-body ml-3">
-                                                                        <h6 class="mb-0 ">{{ __('Logout') }}</h6>
-                                                                    </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">
+                                                            <div class="media align-items-center">
+                                                                <div class="right-icon">
+                                                                    <i class="ri-settings-4-line text-primary"></i>
                                                                 </div>
-                                                            </a>
-
-
-                                                        @endguest
+                                                                <div class="media-body ml-3">
+                                                                    <h6 class="mb-0 ">Pricing Plan</h6>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href="login.html" class="iq-sub-card setting-dropdown">
+                                                            <div class="media align-items-center">
+                                                                <div class="right-icon">
+                                                                    <i class="ri-logout-circle-line text-primary"></i>
+                                                                </div>
+                                                                <div class="media-body ml-3">
+                                                                    <h6 class="mb-0">Logout</h6>
+                                                                </div>
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,80 +228,71 @@
                                         <div class="iq-card shadow-none m-0">
                                             <div class="iq-card-body p-0 pl-3 pr-3">
 
-                                                @guest
-                                                    <a href="{{ url('login') }}" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="ri-logout-circle-line text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">{{ __('Login') }}</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    @if (Route::has('register'))
-                                                        <a href="{{ route('register') }}" class="iq-sub-card setting-dropdown">
-                                                            <div class="media align-items-center">
-                                                                <div class="right-icon">
-                                                                    <i class="ri-logout-circle-line text-primary"></i>
-                                                                </div>
-                                                                <div class="media-body ml-3">
-                                                                    <h6 class="mb-0 ">{{ __('Register') }}</h6>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    @endif
-                                                @else
-
-                                                    <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="ri-file-user-line text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">Manage Profile</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="setting.html" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="ri-settings-4-line text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">Settings</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="ri-settings-4-line text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">Pricing Plan</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="{{ route('logout') }}" class="iq-sub-card setting-dropdown"
-                                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="ri-logout-circle-line text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">{{ __('Logout') }}</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
 
 
-                                                @endguest
+                                                    {{--HTML SNIPPETS--}}
+
+{{--                                                <a href="manage-profile.html" class="iq-sub-card setting-dropdown">--}}
+{{--                                                    <div class="media align-items-center">--}}
+{{--                                                        <div class="right-icon">--}}
+{{--                                                            <i class="ri-file-user-line text-primary"></i>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="media-body ml-3">--}}
+{{--                                                            <h6 class="mb-0 ">Manage Profile</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </a>--}}
+{{--                                                <a href="setting.html" class="iq-sub-card setting-dropdown">--}}
+{{--                                                    <div class="media align-items-center">--}}
+{{--                                                        <div class="right-icon">--}}
+{{--                                                            <i class="ri-settings-4-line text-primary"></i>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="media-body ml-3">--}}
+{{--                                                            <h6 class="mb-0 ">Settings</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </a>--}}
+{{--                                                <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">--}}
+{{--                                                    <div class="media align-items-center">--}}
+{{--                                                        <div class="right-icon">--}}
+{{--                                                            <i class="ri-settings-4-line text-primary"></i>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="media-body ml-3">--}}
+{{--                                                            <h6 class="mb-0 ">Pricing Plan</h6>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </a>--}}
+
+                                                {{--HTML SNIPPETS--}}
+
+
+
+                                                    {{--LOGIN--}}
+
+                                                <a href="{{route('login.user')}}" class="iq-sub-card setting-dropdown">
+                                                    <div class="media align-items-center">
+                                                        <div class="right-icon">
+                                                            <i class="ri-logout-circle-line text-primary"></i>
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <h6 class="mb-0 ">Login</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+
+                                                {{--LOGOUT--}}
+                                                <a href="{{route('logout.user')}}" class="iq-sub-card setting-dropdown">
+                                                    <div class="media align-items-center">
+                                                        <div class="right-icon">
+                                                            <i class="ri-logout-circle-line text-primary"></i>
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <h6 class="mb-0 ">Logout</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+
+
 
 
 

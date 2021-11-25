@@ -15,12 +15,17 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+//            $table->foreignId('packages_id')->nullable()->constrained('packages')
+//                ->onUpdate('cascade')
+//                ->onDelete('cascade');
             $table->foreignId('members_id')->nullable()->constrained('members')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('payment_id')->nullable();
             $table->string('payment_code')->nullable();
-            $table->string('expire_on')->nullable();
+            $table->string('provider')->nullable();
+            $table->dateTime('expire_on')->nullable();
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }

@@ -44,6 +44,11 @@ return [
             'driver' => 'session',
             'provider' => 'customer',
         ],
+        'member' => [
+            'driver' => 'session',
+            'provider' => 'members',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -71,6 +76,10 @@ return [
         'customer' => [
             'driver' => 'eloquent',
             'model' => App\Models\Customer\Customer::class,
+        ],
+        'members' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\System\Members::class,
         ],
 
         // 'users' => [

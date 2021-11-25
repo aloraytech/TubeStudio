@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSysfigsTable extends Migration
+class CreateSystemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSysfigsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sysfigs', function (Blueprint $table) {
+        Schema::create('systems', function (Blueprint $table) {
             $table->id();
             $table->string('slogan')->nullable();
             $table->string('favicon')->nullable();
@@ -44,6 +44,6 @@ class CreateSysfigsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sysfigs');
+        Schema::dropIfExists('system');
     }
 }

@@ -45,7 +45,7 @@
     </div>
     <div class="copyright py-2">
         <div class="container-fluid">
-            <p class="mb-0 text-center font-size-14 text-body">STREAMIT - 2020 All Rights Reserved</p>
+            <p class="mb-0 text-center font-size-14 text-body">{{env('APP_NAME')}} - 2020 All Rights Reserved</p>
         </div>
     </div>
 </footer>

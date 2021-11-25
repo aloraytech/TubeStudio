@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReputationsTable extends Migration
+class CreateSocialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateReputationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reputations', function (Blueprint $table) {
+        Schema::create('socials', function (Blueprint $table) {
             $table->id();
+            $table->string('social');
+            $table->string('social_id');
+            $table->string('avatar')->nullable();
+            $table->foreignId('members_id')->nullable()->constrained('members')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateReputationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reputation');
+        Schema::dropIfExists('socials');
     }
 }

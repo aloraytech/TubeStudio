@@ -18,6 +18,9 @@ class CreatePagesTable extends Migration
             $table->string('title')->default('Undefined PageName');
             $table->text('desc');
             $table->string('type')->default('post');
+            $table->foreignId('categories_id')->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
