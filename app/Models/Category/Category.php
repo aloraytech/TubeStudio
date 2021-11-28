@@ -20,7 +20,7 @@ class Category extends Model
 
     public function movie()
     {
-        return $this->belongsToMany(Movies::class);
+        return $this->belongsToMany(Movies::class,'movies');
     }
 
 

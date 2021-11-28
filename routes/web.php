@@ -34,7 +34,7 @@ use App\Http\Controllers\Front\SearchController;
 
 // CLIENT SIDE
 
-Route::get('/', [FrontController::class, 'index']);
+Route::get('/', [FrontController::class, 'index'])->name('');
 
 // Member Auth
 Route::get('/login', [AuthController::class, 'login'])->name('login.user');
@@ -47,14 +47,14 @@ Route::match(['get','post'],'/search', [SearchController::class, 'searchFront'])
 Route::get('/login/{social}', [SocialAuthController::class,'redirectToSocial']);
 Route::get('/login/{social}/callback', [SocialAuthController::class,'handleSocialCallback']);
 
-Route::get('/dashboard',[MemberController::class,'dashboard'])->name('dashboard.user');
+Route::get('/dashboard',[MemberController::class,'dashboard'])->name('dashboard.user')->name('member.dashboard');
 
-Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle']);
+Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle'])->name('movie.view');
 
-Route::get('/'.env('SHOW').'s/{shows:name}',[ShowsController::class,'getSingle']);
+Route::get('/'.env('SHOW').'s/{shows:name}',[ShowsController::class,'getSingle'])->name('show.view');
 
-Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,'moviesOnly']);
-Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly']);
+Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
+Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly'])->name('category.show');
 
 
 // Backend Client

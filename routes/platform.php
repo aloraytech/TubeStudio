@@ -17,6 +17,23 @@ use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
+use App\Orchid\Screens\System\SystemEditScreen;
+use App\Orchid\Screens\System\SystemListScreen;
+use App\Orchid\Screens\Category\CategoryEditScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
+use App\Orchid\Screens\Movies\MovieEditScreen;
+use App\Orchid\Screens\Movies\MovieListScreen;
+use App\Orchid\Screens\Shows\ShowListScreen;
+use App\Orchid\Screens\Shows\ShowEditScreen;
+use App\Orchid\Screens\System\MemberListScreen;
+use App\Orchid\Screens\System\ActivityListScreen;
+use App\Orchid\Screens\Business\AdvertListScreen;
+use App\Orchid\Screens\Business\AdvertEditScreen;
+use App\Orchid\Screens\Blog\PostEditScreen;
+use App\Orchid\Screens\Blog\PostListScreen;
+use App\Orchid\Screens\Blog\PageEditScreen;
+use App\Orchid\Screens\Blog\PageListScreen;
+use App\Orchid\Screens\Movies\VideoEditScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,3 +130,58 @@ Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.exampl
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');
+
+
+// CUSTOMERS
+Route::screen('movie/{movie?}', MovieEditScreen::class)
+    ->name('platform.movie.edit');
+
+Route::screen('movies', MovieListScreen::class)
+    ->name('platform.movie.list');
+
+Route::screen('video/{video?}', VideoEditScreen::class)
+    ->name('platform.video.edit');
+
+
+
+
+
+
+Route::screen('category/{category?}', CategoryEditScreen::class)
+    ->name('platform.category.edit');
+
+Route::screen('categories', CategoryListScreen::class)
+    ->name('platform.category.list');
+
+
+
+Route::screen('category/{category?}', CategoryEditScreen::class)
+    ->name('platform.category.edit');
+
+Route::screen('categories', CategoryListScreen::class)
+    ->name('platform.category.list');
+
+
+Route::screen('show/{show?}', ShowEditScreen::class)
+    ->name('platform.show.edit');
+
+Route::screen('shows', ShowListScreen::class)
+    ->name('platform.show.list');
+
+
+Route::screen('members', MemberListScreen::class)
+    ->name('platform.member.list');
+
+Route::screen('activities', ActivityListScreen::class)
+    ->name('platform.activity.list');
+
+
+
+
+
+
+
+
+
+
+

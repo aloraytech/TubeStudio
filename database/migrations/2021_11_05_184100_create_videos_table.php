@@ -25,7 +25,7 @@ class CreateVideosTable extends Migration
             $table->string('thumb_h')->nullable();
             $table->string('thumb_w')->nullable();
             $table->text("code")->nullable();
-            $table->text('path_url')->nullable();
+            $table->text('path_url')->nullable(); // Upload Image
             $table->timestamps();
         });
     }

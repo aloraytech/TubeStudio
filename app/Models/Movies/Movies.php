@@ -6,10 +6,13 @@ use App\Models\Category\Category;
 use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Attachment\Attachable;
+use Orchid\Attachment\Models\Attachment;
+use Orchid\Screen\AsSource;
 
 class Movies extends Model
 {
-    use HasFactory;
+    use HasFactory,AsSource;
 
     protected $fillable = [
         'name',
@@ -38,6 +41,12 @@ class Movies extends Model
     {
         return $this->belongsToMany(Activities::class);
     }
+
+
+//    public function banner()
+//    {
+//        return $this->hasOne(Attachment::class, 'id', 'banner')->withDefault();
+//    }
 
 
 }
