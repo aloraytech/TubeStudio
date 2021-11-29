@@ -25,6 +25,7 @@ class MovieListScreen extends Screen
     {
         $movies = Movies::paginate();
         $movies->load('categories');
+
         return [
             'movies' => $movies
         ];

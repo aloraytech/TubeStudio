@@ -15,7 +15,7 @@
                             </div>
                         </a>
                         <a class="navbar-brand" href="{{url('/')}}"> <img class="img-fluid logo" src="images/logo.png"
-                                                                        alt="streamit" /> </a>
+                                                                        alt="{{env('APP_NAME')}}" /> </a>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
@@ -23,10 +23,10 @@
                                         <a href="{{url('/')}}">Home</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="show-category.html">Tv Shows</a>
+                                        <a href="{{route('category.show')}}">Tv Shows</a>
                                     </li>
                                     <li class="menu-item">
-                                        <a href="movie-category.html">Movies</a>
+                                        <a href="{{route('category.movie')}}">Movies</a>
                                     </li>
                                 </ul>
                             </div>

@@ -70,14 +70,14 @@ class VideoEditLayout extends Rows
 
 
 
-//                Cropper::make('video.thumb_url')
-//                    ->title('Uploaded Video Thumbnail')
-//                    ->minCanvas(500)
-//                    ->maxWidth(1000)
-//                    ->maxHeight(800)
-//                    //->targetRelativeUrl()
-//                    //->targetId()
-//                    ,
+                Cropper::make('video.thumb_url')
+                    ->title('Uploaded Video Thumbnail')
+                    ->minCanvas(500)
+                    ->maxWidth(1000)
+                    ->maxHeight(800)
+                    //->targetRelativeUrl()
+                    ->targetId()
+                    ,
 
 
 

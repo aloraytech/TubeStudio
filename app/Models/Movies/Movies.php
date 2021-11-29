@@ -43,10 +43,10 @@ class Movies extends Model
     }
 
 
-//    public function banner()
-//    {
-//        return $this->hasOne(Attachment::class, 'id', 'banner')->withDefault();
-//    }
+    public function banner()
+    {
+        return $this->hasOne(Attachment::class, 'id', 'banner')->withDefault();
+    }
 
 
 }

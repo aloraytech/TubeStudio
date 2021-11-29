@@ -33,16 +33,21 @@ class MovieListLayout extends Table
                     return Link::make($movie->name)
                         ->route('platform.movie.edit', $movie);
                 }),
+
+            TD::make('quality', 'Quality')->render(function ($movie) {
+                return $movie->quality;
+            })->sort(),
+
             TD::make('categories_id', 'Category')->render(function ($movie) {
                 return $movie->categories->name;
+            })->sort(),
+
+            TD::make('updated_at', 'Modified')->render(function ($movie) {
+                return $movie->updated_at;
             })->sort(),
             TD::make('status', 'Status')->render(function ($movie) {
                 return ($movie->status) ? 'Active':'DeActive';
             })->sort(),
-            TD::make('updated_at', 'Modified')->render(function ($movie) {
-                return $movie->updated_at;
-            })->sort(),
-
 
         ];
     }

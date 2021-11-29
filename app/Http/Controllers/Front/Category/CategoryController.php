@@ -8,6 +8,7 @@ use App\Models\Category\Category;
 use App\Models\Movies\Movies;
 use App\Models\Shows\Shows;
 use App\Models\System\Sysfigs;
+use App\Models\System\Systems;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -19,7 +20,7 @@ class CategoryController extends Controller
 
 
         // Load System Data
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
         $movies = Movies::where('status',true)->with('categories','videos')->latest('updated_at')->get();
         $category = Category::where(['status'=>true,'type'=>'movie'])->limit($system->per_page)->get();
         //Upcoming
@@ -34,7 +35,7 @@ class CategoryController extends Controller
     {
 
         // Load System Data
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
         $shows = Shows::where('status',true)->with('categories','seasons')->latest('updated_at')->get();
         $category = Category::where(['status'=>true,'type'=>'show'])->limit($system->per_page)->get();
 

@@ -34,7 +34,7 @@ use App\Http\Controllers\Front\SearchController;
 
 // CLIENT SIDE
 
-Route::get('/', [FrontController::class, 'index'])->name('');
+Route::get('/', [FrontController::class, 'index']);
 
 // Member Auth
 Route::get('/login', [AuthController::class, 'login'])->name('login.user');

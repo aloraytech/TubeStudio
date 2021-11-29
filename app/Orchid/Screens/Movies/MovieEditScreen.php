@@ -12,6 +12,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
@@ -50,7 +51,7 @@ class MovieEditScreen extends Screen
         }
 
         return [
-            'movie' => $movies
+            'movie' => $movies,
         ];
     }
 
@@ -109,6 +110,18 @@ class MovieEditScreen extends Screen
         return [
             MovieEditLayout::class,
 
+            Layout::rows([
+                Cropper::make('movie.banner')
+                    ->title('Movie Banner')
+                    ->placeholder('Add Image')
+                    ->minCanvas(500)
+                    ->maxWidth(1000)
+                    ->maxHeight(800)
+                    ->targetRelativeUrl()
+            ])->canSee($this->exists),
+
+
+
             // Movie Video Modal
             Layout::modal('movieVideoCreateModal', [
                 VideoModalLayout::class
@@ -161,7 +174,7 @@ class MovieEditScreen extends Screen
 
 
     /**
-     * @param Movies $movies
+     * @param Movies $movie
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -171,22 +184,14 @@ class MovieEditScreen extends Screen
 
         // Create
         $data = $request->get('movie');
+        // Fix For Categories ID
+        $movie->categories_id = $data['categories_id'];
         $movie->fill($data)->save();
 
 
-
-
-
-
-
-
-       // $images = $request->input('video.thumb_url', []);
-        // Default Staff Promo
-
-        //   dd($images);
-
+     //   $images = $request->input('movie.banner', []);
 //        if ($images) {
-//            $videos->attachment()->syncWithoutDetaching(
+//            $movie->banner()->syncWithoutDetaching(
 //                $images
 //            );
 //        }

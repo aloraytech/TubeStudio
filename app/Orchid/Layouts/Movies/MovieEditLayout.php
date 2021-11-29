@@ -61,13 +61,13 @@ class MovieEditLayout extends Rows
 
 
             Group::make([
-//                Select::make('movie.categories_id')->fromModel(Category::class, 'name')
-//                    ->title('Select Category'),
-
-
-                Relation::make('movie.categories_id')
-                    ->fromModel(Category::class, 'name','id')
+                Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
                     ->title('Select Category'),
+
+
+//                Relation::make('movie.categories_id')
+//                    ->fromModel(Category::class, 'name','id')
+//                    ->title('Select Category'),
 
 
 
@@ -83,10 +83,24 @@ class MovieEditLayout extends Rows
 
 
             Group::make([
-                Input::make('movie.quality')
+//                Input::make('movie.quality')
+//                    ->title('Quality')
+//                    ->placeholder('Attractive but mysterious name')
+//                    ->help('Specify a short descriptive title for the event'),
+
+
+                Select::make('movie.quality')
+                    ->options([
+                        '240p'   => '240p',
+                        '360p'   => '360p',
+                        '480p'   => '480p',
+                        '720p'   => '720p',
+                        '1080p'   => '1080p',
+                    ])
                     ->title('Quality')
-                    ->placeholder('Attractive but mysterious name')
-                    ->help('Specify a short descriptive title for the event'),
+                    ->help('Allow search bots to index'),
+
+
 
                 Input::make('movie.duration')
                     ->title('Duration')
@@ -99,21 +113,16 @@ class MovieEditLayout extends Rows
                 ->title('Description'),
 
 
-            Group::make([
-
-             //   Cropper::make('movie.banner'),
-
-                Cropper::make('movie.banner')
-                    ->minCanvas(500)
-                    ->maxWidth(1000)
-                    ->maxHeight(800)
-                    ->targetRelativeUrl(),
-
-            ])->fullWidth(),
+//            Cropper::make('movie.banner')
+//                ->title('Movie Banner')
+//                ->placeholder('Add Image')
+//                ->minCanvas(500)
+//                ->maxWidth(1000)
+//                ->maxHeight(800)
+//                ->targetRelativeUrl(),
 
 
 
-           // Input::make('movie.banner'),
 
 
         ];
