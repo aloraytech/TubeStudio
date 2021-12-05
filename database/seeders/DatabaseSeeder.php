@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PostsSeeder::class,
             SystemsSeeder::class,
             AdvertsSeeder::class,
+            TagsSeeder::class,
         ]);
     }
 }

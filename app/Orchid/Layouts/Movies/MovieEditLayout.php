@@ -3,6 +3,8 @@
 namespace App\Orchid\Layouts\Movies;
 
 use App\Models\Category\Category;
+use App\Models\Category\Tags;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
@@ -62,7 +64,7 @@ class MovieEditLayout extends Rows
 
             Group::make([
                 Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
-                    ->title('Select Category'),
+                    ->title('Select Category')->required(),
 
 
 //                Relation::make('movie.categories_id')
@@ -109,8 +111,20 @@ class MovieEditLayout extends Rows
             ])->fullWidth(),
 
 
+            Relation::make('movie.tags')
+                ->fromModel(Tags::class, 'name')
+                ->multiple()
+                ->title('Choose your ideas'),
+
+
+
             Quill::make('movie.desc')->toolbar(["text", "color", "header", "list", "format"])
                 ->title('Description'),
+
+
+
+
+
 
 
 //            Cropper::make('movie.banner')
@@ -120,7 +134,6 @@ class MovieEditLayout extends Rows
 //                ->maxWidth(1000)
 //                ->maxHeight(800)
 //                ->targetRelativeUrl(),
-
 
 
 

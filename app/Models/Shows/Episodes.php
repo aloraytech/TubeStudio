@@ -22,7 +22,7 @@ class Episodes extends Model
 
     public function videos()
     {
-        return $this->hasOne(Videos::class,'videos_id')->withDefault();
+        return $this->hasOne(Videos::class,'id','videos_id')->withDefault();
     }
 
     public function seasons()

@@ -14,14 +14,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
         $error='';
         return view('pages.'.$system->theme.'.front.member.auth.login')->with(compact('system','error'));
     }
 
     public function register(Request $request)
     {
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
         return view('pages.'.$system->theme.'.front.member.auth.registration')->with(compact('system'));
     }
 

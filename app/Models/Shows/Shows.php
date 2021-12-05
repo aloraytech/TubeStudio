@@ -3,6 +3,7 @@
 namespace App\Models\Shows;
 
 use App\Models\Category\Category;
+use App\Models\Category\Tags;
 use App\Models\Movies\Videos;
 use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,9 +36,9 @@ class Shows extends Model
         return $this->hasMany(Seasons::class);
     }
 
-    public function videos()
+    public function trailers()
     {
-        return $this->hasOne(Videos::class,'id','trailer');
+        return $this->hasMany(Trailers::class,'id','trailer');
     }
 
     public function activities()
@@ -45,6 +46,10 @@ class Shows extends Model
         return $this->belongsToMany(Activities::class);
     }
 
+    public function tags()
+    {
+        return $this->hasMany(Tags::class,'id','tags');
+    }
 
 
 

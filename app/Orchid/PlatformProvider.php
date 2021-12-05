@@ -28,7 +28,7 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
         return [
-//            Menu::make('Example screen')
+//            Menu::make('Movies')
 //                ->icon('monitor')
 //                ->route('platform.example')
 //                ->title('Navigation')
@@ -36,20 +36,48 @@ class PlatformProvider extends OrchidServiceProvider
 //                    return 6;
 //                }),
 
-            Menu::make('Categories')
-                ->icon('monitor')
-                ->route('platform.category.list')
-                ->title('Category Section'),
 
-            Menu::make('Movies')
-                ->icon('monitor')
-                ->route('platform.movie.list')
-                ->title('Movies Section'),
+            Menu::make('Studio')
+                ->slug('sub-menu')
+                ->icon('code')
+                ->list([
 
-            Menu::make('Shows')
-                ->icon('monitor')
-                ->route('platform.show.list')
-                ->title('Shows Section'),
+
+                    Menu::make('Movies')
+                        ->icon('monitor')
+                        ->route('platform.movie.list'),
+
+
+                    Menu::make('Shows')
+                        ->icon('monitor')
+                        ->route('platform.show.list'),
+
+
+                ])->title('Studio Management'),
+
+
+
+            Menu::make('Features')
+                ->icon('code')
+                ->list([
+
+
+                    Menu::make('Categories')
+                        ->icon('monitor')
+                        ->route('platform.category.list'),
+
+
+
+
+
+                ])->title('Features List'),
+
+
+
+
+
+
+
 
 
 
@@ -69,13 +97,16 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Setting Section'),
 
 
-//
-//            Menu::make('Dropdown menu')
-//                ->icon('code')
-//                ->list([
-//                    Menu::make('Sub element item 1')->icon('bag'),
-//                    Menu::make('Sub element item 2')->icon('heart'),
-//                ]),
+
+
+
+
+            Menu::make('Dropdown menus')
+                ->icon('code')
+                ->list([
+                    Menu::make('Sub element item 1')->icon('bag'),
+                    Menu::make('Sub element item 2')->icon('heart'),
+                ]),
 //
 //            Menu::make('Basic Elements')
 //                ->title('Form controls')

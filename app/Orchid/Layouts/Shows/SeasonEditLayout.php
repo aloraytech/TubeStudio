@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Orchid\Layouts\Movies;
+namespace App\Orchid\Layouts\Shows;
 
 use Orchid\Screen\Field;
-use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class VideoModalLayout extends Rows
+class SeasonEditLayout extends Rows
 {
     /**
      * Data source.
@@ -19,7 +19,7 @@ class VideoModalLayout extends Rows
      *
      * @var string
      */
-    protected $target = '';
+    protected $target = 'seasons';
 
     /**
      * Get the table cells to be displayed.
@@ -28,16 +28,19 @@ class VideoModalLayout extends Rows
      */
     protected function columns(): array
     {
-        return [];
+        return [
+        ];
     }
 
     protected function fields(): array
     {
         return [
-            Input::make('url')->type('url')
-                ->title('Enter Video Url')
-                ->placeholder('Paste Youtube,DailyMotion Video Url')
-                ->help('Specify a full url for the video'),
+
+            Input::make('seasons.name')->title('Name'),
+
+            TextArea::make('seasons.desc')->title('Description'),
+
+
         ];
     }
 }

@@ -31,7 +31,11 @@
                                 </div>
                             </div>
                             <div class="trailor-video">
-                                <a href="{{asset(env('TRAILER').'s/'.$show->videos->path_url)}}" class="video-open playbtn">
+                                @if(!empty($show->trailers->path_url))
+{{--                                <a href="{{asset(env('TRAILER').'s/'.$show->trailers->path_url)}}" class="video-open playbtn">--}}
+                                    @else
+{{--                                        <a href="{{asset(env('TRAILER').'s/'.$show->trailers->name)}}" class="video-open playbtn">--}}
+                                @endif
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                          x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
                                          enable-background="new 0 0 213.7 213.7" xml:space="preserve">

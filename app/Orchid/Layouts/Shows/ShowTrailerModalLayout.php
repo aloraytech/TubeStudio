@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Orchid\Layouts\Movies;
+namespace App\Orchid\Layouts\Shows;
 
 use Orchid\Screen\Field;
-use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class VideoModalLayout extends Rows
+class ShowTrailerModalLayout extends Rows
 {
     /**
      * Data source.
@@ -19,7 +18,7 @@ class VideoModalLayout extends Rows
      *
      * @var string
      */
-    protected $target = '';
+    protected $target = 'show';
 
     /**
      * Get the table cells to be displayed.
@@ -34,10 +33,17 @@ class VideoModalLayout extends Rows
     protected function fields(): array
     {
         return [
+
+            Input::make('show.trailer.name')
+                ->title('Trailer Name')
+                ->placeholder('Attractive but mysterious Channel name')
+                ->help('Specify a short descriptive title for this name.'),
+
             Input::make('url')->type('url')
                 ->title('Enter Video Url')
                 ->placeholder('Paste Youtube,DailyMotion Video Url')
                 ->help('Specify a full url for the video'),
+
         ];
     }
 }

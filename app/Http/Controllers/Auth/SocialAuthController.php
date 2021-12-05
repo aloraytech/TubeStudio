@@ -52,7 +52,7 @@ class SocialAuthController extends Controller
             // Api Response
             //return response()->json(['error' => 'Invalid credentials provided.'], 422);
             // Web Response
-            $system = Sysfigs::find(1);
+            $system = $this->systems;
             $error='Unable to login using' . $social . '. Please try again.';
             return view('pages.'.$system->theme.'.front.member.auth.login')->with(compact('system','error'));
             //return redirect(env('CLIENT_BASE_URL') . '?error=Unable to login using' . $social . '. Please try again.');

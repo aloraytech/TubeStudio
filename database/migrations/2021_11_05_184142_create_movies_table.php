@@ -25,7 +25,7 @@ class CreateMoviesTable extends Migration
             $table->string('quality')->nullable();
             $table->string('banner')->nullable();
             $table->text('desc')->nullable();
-            $table->text('tags')->nullable();
+            $table->json('tags')->nullable();
             $table->integer('views')->nullable();
             $table->boolean('private')->default(false);
             $table->string('age_group')->default('U');

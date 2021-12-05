@@ -12,7 +12,7 @@ class SearchController extends Controller
     public function searchFront(Request $request)
     {
         $subject = $request->get('subject');
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
         $error='';
         return view('pages.'.$system->theme.'.front.search.search')->with(compact('system','error','subject'));
     }

@@ -24,7 +24,7 @@ class CategoryListScreen extends Screen
     public function query(): array
     {
         return [
-            'category' => Category::paginate(),
+            'category' => Category::orderby('created_at','desc')->paginate(),
         ];
     }
 

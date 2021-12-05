@@ -35,12 +35,13 @@ class FrontController extends Controller
 
 
         // Load System Data
-        $system = Systems::find(1);
+        $system = $this->systems;
 
         $ads = Adverts::where('status',true)->get();
 
         // Load Shows With Episodes
-        $allShows = Shows::with('seasons','seasons.episodes','seasons.trailers','categories','videos')->latest('updated_at')->orderBy('views','desc')->where('status',true)->get();
+        $allShows = Shows::with('seasons','seasons.episodes','seasons.trailers','categories','trailers','trailers.videos')->latest('updated_at')->orderBy('views','desc')->where('status',true)->get();
+
 
         $allMovies = Movies::with('videos')->latest('updated_at')->orderBy('views','desc')->where('status',true)->get();
 

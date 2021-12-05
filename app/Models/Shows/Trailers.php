@@ -13,12 +13,17 @@ class Trailers extends Model
 
     public function videos()
     {
-        return $this->hasOne(Videos::class,'videos_id')->withDefault();
+        return $this->hasOne(Videos::class,'id','videos_id')->withDefault();
     }
 
     public function seasons()
     {
-        return $this->belongsTo(Seasons::class,'id','season_id')->withDefault();
+        return $this->belongsTo(Seasons::class,'id','seasons_id')->withDefault();
+    }
+
+    public function shows()
+    {
+        return $this->belongsTo(Shows::class,'trailer','id')->withDefault();
     }
 
 

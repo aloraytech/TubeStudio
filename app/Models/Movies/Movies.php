@@ -3,6 +3,7 @@
 namespace App\Models\Movies;
 
 use App\Models\Category\Category;
+use App\Models\Category\Tags;
 use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,11 @@ class Movies extends Model
     public function banner()
     {
         return $this->hasOne(Attachment::class, 'id', 'banner')->withDefault();
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tags::class,'id','tags');
     }
 
 

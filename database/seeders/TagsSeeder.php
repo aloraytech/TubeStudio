@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Movies\Movies;
+use App\Models\Category\Tags;
 use Illuminate\Database\Seeder;
 
-class MoviesSeeder extends Seeder
+class TagsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +14,6 @@ class MoviesSeeder extends Seeder
      */
     public function run()
     {
-
-        Movies::factory()
-            ->count(30)
-            ->create();
-
+        Tags::factory()->count(50)->create();
     }
 }

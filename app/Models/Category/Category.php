@@ -7,14 +7,19 @@ use App\Models\Posts;
 use App\Models\Shows\Shows;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
+use Orchid\Attachment\Attachable;
+use Orchid\Attachment\Models\Attachment;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        AsSource,Attachable;
 
     protected $fillable = [
         'name',
         'type',
+        'banner'
     ];
 
 
@@ -32,6 +37,12 @@ class Category extends Model
     public function posts()
     {
         return $this->belongsToMany(Posts::class);
+    }
+
+    public function banners()
+    {
+        //return $this->belongsToMany(Attachment::class,'attachments','id','banner','banner');
+        return $this->hasOne(Attachment::class, 'id', 'banner')->withDefault();
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Movies;
 
 use App\Models\Movies\Movies;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -27,6 +28,11 @@ class MovieListLayout extends Table
     protected function columns(): array
     {
         return [
+
+            TD::make('banner', 'Banner')->render(function ($movie) {
+                return '<img src="'.$movie->banner.'" height="100px" width="150px" class="rounded">';
+            })->sort(),
+
             TD::make('name', 'Name')
                 ->sort()
                 ->render(function (Movies $movie) {

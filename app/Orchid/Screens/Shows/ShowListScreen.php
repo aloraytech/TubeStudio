@@ -2,6 +2,10 @@
 
 namespace App\Orchid\Screens\Shows;
 
+use App\Models\Shows\Shows;
+use App\Orchid\Layouts\Shows\ShowEditLayout;
+use App\Orchid\Layouts\Shows\ShowListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class ShowListScreen extends Screen
@@ -20,7 +24,12 @@ class ShowListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $shows = Shows::orderby('updated_at','desc')->latest()->paginate();
+        $shows->load('seasons.episodes');
+
+        return [
+            'shows'=> $shows,
+        ];
     }
 
     /**
@@ -30,7 +39,11 @@ class ShowListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make('Create new')
+                ->icon('pencil')
+                ->route('platform.show.edit')
+        ];
     }
 
     /**
@@ -40,6 +53,8 @@ class ShowListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            ShowListLayout::class,
+        ];
     }
 }

@@ -12,6 +12,7 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\Shows\SeasonListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -25,6 +26,9 @@ use App\Orchid\Screens\Movies\MovieEditScreen;
 use App\Orchid\Screens\Movies\MovieListScreen;
 use App\Orchid\Screens\Shows\ShowListScreen;
 use App\Orchid\Screens\Shows\ShowEditScreen;
+use App\Orchid\Screens\Shows\SeasonEditScreen;
+use App\Orchid\Screens\Shows\EpisodeEditScreen;
+use App\Orchid\Screens\Shows\TrailerEditScreen;
 use App\Orchid\Screens\System\MemberListScreen;
 use App\Orchid\Screens\System\ActivityListScreen;
 use App\Orchid\Screens\Business\AdvertListScreen;
@@ -176,10 +180,17 @@ Route::screen('activities', ActivityListScreen::class)
     ->name('platform.activity.list');
 
 
+Route::screen('show/{show?}/seasons', SeasonListScreen::class)
+    ->name('platform.season.list');
 
+Route::screen('season/{season?}', SeasonEditScreen::class)
+    ->name('platform.season.edit');
 
+Route::screen('episode/{episode?}', EpisodeEditScreen::class)
+    ->name('platform.episode.edit');
 
-
+//Route::screen('show/{show?}/trailer/{trailer?}', TrailerEditScreen::class)
+//    ->name('platform.trailer.edit');
 
 
 

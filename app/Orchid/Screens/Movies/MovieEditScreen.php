@@ -30,7 +30,7 @@ class MovieEditScreen extends Screen
      *
      * @var string
      */
-    public $name = 'MovieEditScreen';
+    public $name = 'Movie Creation';
 
     /**
      * Query data.
@@ -63,24 +63,24 @@ class MovieEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Creation')
+            Button::make('Add New')
                 ->icon('pencil')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
-            ModalToggle::make('Set Video')
-                ->modal('movieVideoCreateModal')
-                ->method('createMovieVideo')
-                ->icon('full-screen')
-                //->asyncParameters('Hello world!')
-                ->canSee(!$this->exists),
+//            ModalToggle::make('Set Video')
+//                ->modal('movieVideoCreateModal')
+//                ->method('createMovieVideo')
+//                ->icon('full-screen')
+//                //->asyncParameters('Hello world!')
+//                ->canSee(!$this->exists),
 
-            Button::make('Update')
+            Button::make('Save')
                 ->icon('note')
                 ->method('createOrUpdate')
                 ->canSee($this->exists),
 
-            Button::make('Remove')
+            Button::make('Delete')
                 ->icon('trash')
                 ->method('remove')
                 ->canSee($this->exists),
@@ -97,6 +97,17 @@ class MovieEditScreen extends Screen
                 ->route('platform.video.edit',[$this->videoID])
                 ->canSee($this->exists),
 
+            ModalToggle::make('Add Tags')
+                ->modal('createTagsModal')
+                ->method('createTagsModal')
+                ->icon('full-screen'),
+
+
+            ModalToggle::make('Add Category')
+                ->modal('createCategoryModal')
+                ->method('createCategoryModal')
+                ->icon('layers'),
+
         ];
     }
 
@@ -108,6 +119,17 @@ class MovieEditScreen extends Screen
     public function layout(): array
     {
         return [
+
+            Layout::rows([
+
+                Input::make('url')->type('url')
+                    ->title('Video Url')
+                    ->placeholder('Attractive but mysterious name')
+                    ->help('Specify a short descriptive title for the event'),
+
+            ])->canSee(!$this->exists)->title('Place Video Url'),
+
+
             MovieEditLayout::class,
 
             Layout::rows([
@@ -118,14 +140,24 @@ class MovieEditScreen extends Screen
                     ->maxWidth(1000)
                     ->maxHeight(800)
                     ->targetRelativeUrl()
+
+
+
+
             ])->canSee($this->exists),
 
 
 
+
+
+
+
+
+
             // Movie Video Modal
-            Layout::modal('movieVideoCreateModal', [
-                VideoModalLayout::class
-            ])->title('Set Video'),
+//            Layout::modal('movieVideoCreateModal', [
+//                VideoModalLayout::class
+//            ])->title('Set Video'),
 
             // Movie Video Modal
             Layout::modal('movieVideoUpdateModal', [
@@ -182,23 +214,37 @@ class MovieEditScreen extends Screen
     public function createOrUpdate(Movies $movie, Request $request)
     {
 
-        // Create
-        $data = $request->get('movie');
-        // Fix For Categories ID
-        $movie->categories_id = $data['categories_id'];
-        $movie->fill($data)->save();
+
+        if (isset($request->url)) {
+            $grabber = new VideoGrabber($request->url);
+            if ($grabber->resolve()) {
+                // Create Video
+                $vids = $movie->videos()->create($grabber->getVideo());
 
 
-     //   $images = $request->input('movie.banner', []);
-//        if ($images) {
-//            $movie->banner()->syncWithoutDetaching(
-//                $images
-//            );
-//        }
-        Alert::info('You have successfully created an Video.');
-        //    return redirect()->route('platform.movie.list');
-        return redirect()->route('platform.movie.list');
+                $movie->videos_id = $vids->id;
+
+                //dd($movies->videos());
+                // Create
+                $data = $request->get('movie');
+                $data['name'] = $vids->title;
+                $data['banner'] = $vids->thumb_url;
+                // Fix For Categories ID
+                $movie->categories_id = $data['categories_id'] ?? 1;
+                $movie->fill($data)->save();
+                //$movie->save();
+
+
+                Alert::info('You have successfully Replace a Video.');
+                return redirect()->route('platform.movie.edit', $movie->id);
+            }
+        }
     }
+
+
+
+
+
 
 
 
@@ -213,8 +259,12 @@ class MovieEditScreen extends Screen
             $grabber = new VideoGrabber($request->url);
             if($grabber->resolve())
             {
-                //dd($movies->videos());
+                $vids = $grabber->getVideo();
                 $movies->videos()->update($grabber->getVideo());
+
+                $movies->name = $vids['title'];
+                $movies->banner = $vids['thumb_url'];
+                $movies->save();
 
 
                 Alert::info('You have successfully Replace a Video.');
@@ -232,6 +282,10 @@ class MovieEditScreen extends Screen
             $grabber = new VideoGrabber($request->url);
             if($grabber->resolve())
             {
+                $data =[
+
+                ];
+
                 //dd($movies->videos());
                 $movies->videos()->create($grabber->getVideo());
 
