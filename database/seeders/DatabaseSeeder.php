@@ -19,9 +19,11 @@ class DatabaseSeeder extends Seeder
             MoviesSeeder::class,
             ShowsSeeder::class,
             PostsSeeder::class,
+            ThemesSeeder::class,
             SystemsSeeder::class,
             AdvertsSeeder::class,
             TagsSeeder::class,
+            MembersSeeder::class,
         ]);
     }
 }

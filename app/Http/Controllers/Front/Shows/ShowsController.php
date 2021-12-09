@@ -38,7 +38,7 @@ class ShowsController extends Controller
         $system = Sysfigs::find(1);
         $movies = Shows::where('status',true)->with('categories','videos')->latest('updated_at')->get();
 
-        return view('pages.'.$system->theme.'.front.category.movie_list')->with(compact('system','movies'));
+        return view('pages.'.$system->themes->name.'.front.category.movie_list')->with(compact('system','movies'));
     }
 
 }

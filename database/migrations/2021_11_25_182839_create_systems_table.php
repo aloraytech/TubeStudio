@@ -18,7 +18,7 @@ class CreateSystemsTable extends Migration
             $table->string('slogan')->nullable();
             $table->string('favicon')->nullable();
             $table->string('logo')->nullable();
-            $table->json('keywords')->nullable();
+            $table->text('keywords')->nullable();
             $table->text('desc')->nullable();
             $table->text('header')->nullable();
             $table->string('index_bg')->nullable();
@@ -32,7 +32,9 @@ class CreateSystemsTable extends Migration
             $table->string('player_size')->default('21by9');
             $table->boolean('slider')->default(true);
             $table->boolean('upcoming_section')->default(true);
-            $table->string('theme')->default('webtube');
+            $table->foreignId('themes_id')->constrained('themes')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

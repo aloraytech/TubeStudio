@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
         // Recommended
 
-        return view('pages.'.$system->theme.'.front.category.movie_list')->with(compact('system','movies','category'));
+        return view('pages.'.$system->themes->name.'.front.category.movie_list')->with(compact('system','movies','category'));
     }
 
 
@@ -43,6 +43,6 @@ class CategoryController extends Controller
 
         // Recommended
 
-        return view('pages.'.$system->theme.'.front.category.show_list')->with(compact('system','shows','category'));
+        return view('pages.'.$system->themes->name.'.front.category.show_list')->with(compact('system','shows','category'));
     }
 }

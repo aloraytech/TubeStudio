@@ -22,7 +22,7 @@ class PlatformScreen extends Screen
      *
      * @var string
      */
-    public $description = 'Welcome to your Orchid application.';
+    public $description = 'Welcome to WebTube.';
 
     /**
      * Query data.
@@ -43,15 +43,15 @@ class PlatformScreen extends Screen
     {
         return [
             Link::make('Website')
-                ->href('http://orchid.software')
+                ->href('http://aloraytech.in')
                 ->icon('globe-alt'),
 
             Link::make('Documentation')
-                ->href('https://orchid.software/en/docs')
+                ->href('https://github.com/aloraytech/webtube/en/docs')
                 ->icon('docs'),
 
             Link::make('GitHub')
-                ->href('https://github.com/orchidsoftware/platform')
+                ->href('https://github.com/aloraytech/webtube')
                 ->icon('social-github'),
         ];
     }

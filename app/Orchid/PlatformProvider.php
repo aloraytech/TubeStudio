@@ -37,57 +37,26 @@ class PlatformProvider extends OrchidServiceProvider
 //                }),
 
 
-            Menu::make('Studio')
-                ->slug('sub-menu')
-                ->icon('code')
-                ->list([
+        // SIDEBAR
+            Menu::make('Movies')
+                ->icon('film')
+                ->route('platform.movie.list')
+                ->title('Studio Section'),
 
-
-                    Menu::make('Movies')
-                        ->icon('monitor')
-                        ->route('platform.movie.list'),
-
-
-                    Menu::make('Shows')
-                        ->icon('monitor')
-                        ->route('platform.show.list'),
-
-
-                ])->title('Studio Management'),
-
-
-
-            Menu::make('Features')
-                ->icon('code')
-                ->list([
-
-
-                    Menu::make('Categories')
-                        ->icon('monitor')
-                        ->route('platform.category.list'),
-
-
-
-
-
-                ])->title('Features List'),
-
-
-
-
-
-
-
-
-
-
-
+            Menu::make('Tv Shows')
+                ->icon('film')
+                ->route('platform.show.list'),
+                //->title('Tv Shows Section'),
 
 
             Menu::make('Members')
                 ->icon('monitor')
                 ->route('platform.member.list')
                 ->title('Business Section'),
+
+            Menu::make('Advert')
+                ->icon('monitor')
+                ->route('platform.advert.list'),
 
 
 
@@ -97,16 +66,46 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Setting Section'),
 
 
+            Menu::make('Settings')
+                ->icon('monitor')
+                ->route('platform.setting.list'),
+
+            Menu::make('Categories')
+                ->icon('monitor')
+                ->route('platform.category.list'),
+
+            Menu::make('Tags')
+                ->icon('monitor')
+                ->route('platform.tag.list'),
 
 
 
 
-            Menu::make('Dropdown menus')
-                ->icon('code')
-                ->list([
-                    Menu::make('Sub element item 1')->icon('bag'),
-                    Menu::make('Sub element item 2')->icon('heart'),
-                ]),
+
+//            Menu::make('Studio')
+//                ->slug('sub-menu')
+//                ->icon('code')
+//                ->list([
+//                    Menu::make('Movies')
+//                        ->icon('monitor')
+//                        ->route('platform.movie.list'),
+//                    Menu::make('Shows')
+//                        ->icon('monitor')
+//                        ->route('platform.show.list'),
+//                ])->title('Studio Management'),
+//
+//            Menu::make('Features')
+//                ->icon('code')
+//                ->list([
+//                ])->title('Features List'),
+//            Menu::make('Dropdown menus')
+//                ->icon('code')
+//                ->list([
+//                    Menu::make('Sub element item 1')->icon('bag'),
+//                    Menu::make('Sub element item 2')->icon('heart'),
+//                ]),
+
+
 //
 //            Menu::make('Basic Elements')
 //                ->title('Form controls')

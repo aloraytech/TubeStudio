@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\System;
 
+use App\Models\System\Members;
+use App\Orchid\Layouts\System\MemberListLayout;
 use Orchid\Screen\Screen;
 
 class MemberListScreen extends Screen
@@ -20,7 +22,11 @@ class MemberListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $members = Members::orderby('updated_at','desc')->paginate();
+       // dd($members);
+        return [
+            'members' => $members,
+        ];
     }
 
     /**
@@ -40,6 +46,8 @@ class MemberListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            MemberListLayout::class,
+        ];
     }
 }

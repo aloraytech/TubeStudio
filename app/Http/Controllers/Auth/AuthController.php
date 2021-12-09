@@ -16,13 +16,13 @@ class AuthController extends Controller
     {
         $system = $this->systems;
         $error='';
-        return view('pages.'.$system->theme.'.front.member.auth.login')->with(compact('system','error'));
+        return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error'));
     }
 
     public function register(Request $request)
     {
         $system = $this->systems;
-        return view('pages.'.$system->theme.'.front.member.auth.registration')->with(compact('system'));
+        return view('pages.'.$system->themes->name.'.front.member.auth.registration')->with(compact('system'));
     }
 
     public function logout(Request $request)

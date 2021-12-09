@@ -25,14 +25,14 @@ class MoviesController extends Controller
         $system = $this->systems;
 
 //        dd($movies);
-        return view('pages.'.$system->theme.'.front.movie.watch')->with(compact('system','movies','similars','upcoming'));
+        return view('pages.'.$system->themes->name.'.front.movie.watch')->with(compact('system','movies','similars','upcoming'));
 
     }
 
     public function getAll()
     {
         // Load System Data
-        $system = Sysfigs::find(1);
+        $system = $this->systems;
     }
 
 

@@ -2,7 +2,10 @@
 
 namespace App\Orchid\Screens\System;
 
+use App\Models\System\Activities;
+use App\Orchid\Layouts\System\ActivityListLayout;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Alert;
 
 class ActivityListScreen extends Screen
 {
@@ -20,7 +23,10 @@ class ActivityListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $activity = Activities::orderby('updated_at','desc')->paginate();
+        return [
+            'activity' => $activity,
+        ];
     }
 
     /**
@@ -40,6 +46,30 @@ class ActivityListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            ActivityListLayout::class,
+        ];
     }
+
+
+
+
+
+
+
+
+    public function remove(Activities $activity)
+    {
+        $activity->delete();
+
+        Alert::warning('You have successfully deleted the Activity.');
+
+        return redirect()->route('platform.activity.list');
+    }
+
+
+
+
+
+
 }

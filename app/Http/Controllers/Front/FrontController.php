@@ -98,7 +98,7 @@ class FrontController extends Controller
                 return view('optional.coming.soon')->with(compact('system'));
             }else{
                 // Generate Result And Display To Your Client
-                return view('pages.'.$system->theme.'.front.index')->with(compact('shows','system','activities','movies','user','ads','topViewMovie','topViewShow','upcoming'));
+                return view('pages.'.$system->themes->name.'.front.index')->with(compact('shows','system','activities','movies','user','ads','topViewMovie','topViewShow','upcoming'));
             }
         }else{
             // Run Installer

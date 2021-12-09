@@ -3,10 +3,16 @@
 namespace App\Orchid\Screens\Movies;
 
 use App\Helpers\Grabber\VideoGrabber;
+use App\Models\Category\Category;
+use App\Models\Category\Tags;
 use App\Models\Movies\Movies;
 use App\Models\Movies\Videos;
+use App\Orchid\Layouts\Category\CategoryEditLayout;
+use App\Orchid\Layouts\Category\CategoryModalLayout;
 use App\Orchid\Layouts\Movies\MovieEditLayout;
 use App\Orchid\Layouts\Movies\VideoModalLayout;
+use App\Orchid\Layouts\Movies\WhichVideoDetailsLayout;
+use App\Orchid\Layouts\Tags\TagModalLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
@@ -52,6 +58,8 @@ class MovieEditScreen extends Screen
 
         return [
             'movie' => $movies,
+            'exists'=>$this->exists,
+            'content'=>$movies,
         ];
     }
 
@@ -68,12 +76,6 @@ class MovieEditScreen extends Screen
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
-//            ModalToggle::make('Set Video')
-//                ->modal('movieVideoCreateModal')
-//                ->method('createMovieVideo')
-//                ->icon('full-screen')
-//                //->asyncParameters('Hello world!')
-//                ->canSee(!$this->exists),
 
             Button::make('Save')
                 ->icon('note')
@@ -98,18 +100,42 @@ class MovieEditScreen extends Screen
                 ->canSee($this->exists),
 
             ModalToggle::make('Add Tags')
-                ->modal('createTagsModal')
+                ->modal('asyncTagsModal')
                 ->method('createTagsModal')
                 ->icon('full-screen'),
 
 
             ModalToggle::make('Add Category')
-                ->modal('createCategoryModal')
+                ->modal('asyncCategoryModal')
                 ->method('createCategoryModal')
                 ->icon('layers'),
 
         ];
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Views.
@@ -121,14 +147,12 @@ class MovieEditScreen extends Screen
         return [
 
             Layout::rows([
-
                 Input::make('url')->type('url')
                     ->title('Video Url')
                     ->placeholder('Attractive but mysterious name')
                     ->help('Specify a short descriptive title for the event'),
 
             ])->canSee(!$this->exists)->title('Place Video Url'),
-
 
             MovieEditLayout::class,
 
@@ -140,63 +164,26 @@ class MovieEditScreen extends Screen
                     ->maxWidth(1000)
                     ->maxHeight(800)
                     ->targetRelativeUrl()
-
-
-
-
             ])->canSee($this->exists),
 
 
+            Layout::modal('asyncCategoryModal', [
+                CategoryEditLayout::class
+            ])->title('Manage Category'),
 
 
+            Layout::modal('asyncTagsModal', [
+                TagModalLayout::class
+            ])->title('Manage Tags'),
 
 
-
-
-
-            // Movie Video Modal
-//            Layout::modal('movieVideoCreateModal', [
-//                VideoModalLayout::class
-//            ])->title('Set Video'),
 
             // Movie Video Modal
             Layout::modal('movieVideoUpdateModal', [
                 VideoModalLayout::class
             ])->title('Replace Video'),
 
-            Layout::rows([
-
-
-                Group::make([
-                    Input::make('movie.videos.title')
-                        ->title('Video Title')
-                        ->placeholder('Attractive but mysterious name')
-                        ->help('Specify a short descriptive title for this name.')->disabled(true),
-
-                    Input::make('movie.videos.channel')
-                        ->title('Channel Name')
-                        ->placeholder('Attractive but mysterious Channel name')
-                        ->help('Specify a short descriptive title for this name.')->disabled(true),
-                ])->fullWidth(),
-
-                Group::make([
-                    TextArea::make('movie.videos.code')
-                        ->title('Html')
-                        ->placeholder('Attractive but mysterious Channel name')
-                        ->help('Specify a short descriptive title for this name.')->disabled(true),
-                    Input::make('movie.videos.provider')
-                        ->title('Provider')
-                        ->placeholder('Attractive but mysterious Channel name')
-                        ->help('Specify a short descriptive title for this name.')->disabled(true),
-
-                ])->fullWidth(),
-
-
-
-            ])->title('Available Video')->canSee($this->exists),
-
-
-
+            WhichVideoDetailsLayout::class,
         ];
     }
 
@@ -299,10 +286,54 @@ class MovieEditScreen extends Screen
 
 
 
+    // Modal Methods
+
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createCategoryModal(Movies $movies,Category $category, Request $request)
+    {
+        // Create
+        $data = $request->get('category');
+        // Fix For Categories ID
+        //$category->categories_id = $data['categories_id'];
+        $category->fill($data)->save();
+        //$category->fill($data)->save();
+        $images = $request->input('category.banner', []);
+        if ($images) {
+            $category->attachment()->syncWithoutDetaching(
+                $images,
+            );
+
+//            $category->banners()->updateOrCreate(
+//                [$images],
+//            );
 
 
+        }
+        Alert::info('You have successfully created an Category.');
+        //    return redirect()->route('platform.movie.list');
+        return redirect()->route('platform.movie.edit',$movies->id);
+    }
 
 
+    /**
+     * @param Tags $tags
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createTagsModal(Movies $movies,Tags $tags, Request $request)
+    {
+
+        $tags->fill($request->get('tag'))->save();
+
+        Alert::success('You have successfully created an tag.');
+
+        return redirect()->route('platform.movie.edit',$movies->id);
+
+    }
 
 
 

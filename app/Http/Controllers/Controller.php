@@ -16,6 +16,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->systems = Systems::find(1);
+        $this->systems = Systems::with('themes')->find(1);
+      //  dd($this->systems);
+
     }
 }

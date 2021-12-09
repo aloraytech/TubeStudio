@@ -122,22 +122,6 @@ class MovieEditLayout extends Rows
                 ->title('Description'),
 
 
-
-
-
-
-
-//            Cropper::make('movie.banner')
-//                ->title('Movie Banner')
-//                ->placeholder('Add Image')
-//                ->minCanvas(500)
-//                ->maxWidth(1000)
-//                ->maxHeight(800)
-//                ->targetRelativeUrl(),
-
-
-
-
         ];
     }
 }

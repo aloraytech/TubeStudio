@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Screens\System;
 
+use App\Models\System\Systems;
+use App\Orchid\Layouts\System\SystemListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class SystemListScreen extends Screen
@@ -20,7 +23,11 @@ class SystemListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $system = Systems::find(1);
+        $this->s_id = $system->id;
+        return [
+            'system' => $system,
+        ];
     }
 
     /**
@@ -30,7 +37,11 @@ class SystemListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make('Create new')
+                ->icon('pencil')
+                ->route('platform.setting.edit',$this->s_id)
+        ];
     }
 
     /**
@@ -40,6 +51,8 @@ class SystemListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            SystemListLayout::class
+        ];
     }
 }

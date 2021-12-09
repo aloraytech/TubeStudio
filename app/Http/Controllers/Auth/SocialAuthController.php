@@ -54,7 +54,7 @@ class SocialAuthController extends Controller
             // Web Response
             $system = $this->systems;
             $error='Unable to login using' . $social . '. Please try again.';
-            return view('pages.'.$system->theme.'.front.member.auth.login')->with(compact('system','error'));
+            return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error'));
             //return redirect(env('CLIENT_BASE_URL') . '?error=Unable to login using' . $social . '. Please try again.');
         }
 

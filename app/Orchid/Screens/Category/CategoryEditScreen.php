@@ -91,7 +91,6 @@ class CategoryEditScreen extends Screen
 
     public function createOrUpdate(Category $category, Request $request)
     {
-
         // Create
         $data = $request->get('category');
         // Fix For Categories ID
@@ -112,7 +111,7 @@ class CategoryEditScreen extends Screen
 
 
         }
-        Alert::info('You have successfully created an Video.');
+        Alert::info('You have successfully created an Category.');
         //    return redirect()->route('platform.movie.list');
         return redirect()->route('platform.category.list');
     }

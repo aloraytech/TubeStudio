@@ -31,7 +31,7 @@ class SystemsSeeder extends Seeder
                 'installed'=>1,
                 'slider'=>1,
                 'per_page'=>10,
-                'theme' => 'streamit',
+                'themes_id' => 2,
                 'player_size'=>'21by9',
                 'created_at'=> date('Y-m-d h:m:s'),
                 'updated_at'=> date('Y-m-d h:m:s'),

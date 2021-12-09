@@ -5,17 +5,15 @@ namespace App\Models\System;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Systems extends Model
+class Themes extends Model
 {
     use HasFactory;
     protected $hidden = ['created_at','updated_at'];
 
-
-    public function themes()
+    public function systems()
     {
-        return $this->hasOne(Themes::class,'id','themes_id')->withDefault();
+        return $this->belongsTo(Systems::class,'themes_id','id');
     }
-
 
 
 }

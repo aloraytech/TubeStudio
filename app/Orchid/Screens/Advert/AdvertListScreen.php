@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Orchid\Screens\Business;
+namespace App\Orchid\Screens\Advert;
 
+use App\Models\Business\Adverts;
+use App\Orchid\Layouts\Advert\AdvertListLayout;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Toast;
 
 class AdvertListScreen extends Screen
 {
@@ -11,7 +14,7 @@ class AdvertListScreen extends Screen
      *
      * @var string
      */
-    public $name = 'AdvertListScreen';
+    public $name = 'Advertisement';
 
     /**
      * Query data.
@@ -20,7 +23,10 @@ class AdvertListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $adverts = Adverts::orderby('updated_at')->paginate();
+        return [
+            'adverts' => $adverts,
+        ];
     }
 
     /**
@@ -40,6 +46,8 @@ class AdvertListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            AdvertListLayout::class,
+        ];
     }
 }

@@ -31,13 +31,14 @@ use App\Orchid\Screens\Shows\EpisodeEditScreen;
 use App\Orchid\Screens\Shows\TrailerEditScreen;
 use App\Orchid\Screens\System\MemberListScreen;
 use App\Orchid\Screens\System\ActivityListScreen;
-use App\Orchid\Screens\Business\AdvertListScreen;
-use App\Orchid\Screens\Business\AdvertEditScreen;
+use App\Orchid\Screens\Advert\AdvertListScreen;
+use App\Orchid\Screens\Advert\AdvertEditScreen;
 use App\Orchid\Screens\Blog\PostEditScreen;
 use App\Orchid\Screens\Blog\PostListScreen;
 use App\Orchid\Screens\Blog\PageEditScreen;
 use App\Orchid\Screens\Blog\PageListScreen;
 use App\Orchid\Screens\Movies\VideoEditScreen;
+use App\Orchid\Screens\Tags\TagsListScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -157,13 +158,15 @@ Route::screen('category/{category?}', CategoryEditScreen::class)
 Route::screen('categories', CategoryListScreen::class)
     ->name('platform.category.list');
 
+Route::screen('tags', TagsListScreen::class)
+    ->name('platform.tag.list');
 
-
-Route::screen('category/{category?}', CategoryEditScreen::class)
-    ->name('platform.category.edit');
-
-Route::screen('categories', CategoryListScreen::class)
-    ->name('platform.category.list');
+//
+//Route::screen('category/{category?}', CategoryEditScreen::class)
+//    ->name('platform.category.edit');
+//
+//Route::screen('categories', CategoryListScreen::class)
+//    ->name('platform.category.list');
 
 
 Route::screen('show/{show?}', ShowEditScreen::class)
@@ -171,14 +174,6 @@ Route::screen('show/{show?}', ShowEditScreen::class)
 
 Route::screen('shows', ShowListScreen::class)
     ->name('platform.show.list');
-
-
-Route::screen('members', MemberListScreen::class)
-    ->name('platform.member.list');
-
-Route::screen('activities', ActivityListScreen::class)
-    ->name('platform.activity.list');
-
 
 Route::screen('show/{show?}/seasons', SeasonListScreen::class)
     ->name('platform.season.list');
@@ -195,4 +190,23 @@ Route::screen('episode/{episode?}', EpisodeEditScreen::class)
 
 
 
+Route::screen('members', MemberListScreen::class)
+    ->name('platform.member.list');
+
+Route::screen('activities', ActivityListScreen::class)
+    ->name('platform.activity.list');
+
+
+Route::screen('settings', SystemListScreen::class)
+    ->name('platform.setting.list');
+
+Route::screen('setting/{setting?}', SystemEditScreen::class)
+    ->name('platform.setting.edit');
+
+
+Route::screen('adverts', AdvertListScreen::class)
+    ->name('platform.advert.list');
+
+//Route::screen('advert/{advert?}', SystemEditScreen::class)
+//    ->name('platform.advert.edit');
 

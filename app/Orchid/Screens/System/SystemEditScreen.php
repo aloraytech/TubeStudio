@@ -2,6 +2,8 @@
 
 namespace App\Orchid\Screens\System;
 
+use App\Models\System\Systems;
+use App\Orchid\Layouts\System\SystemEditLayout;
 use Orchid\Screen\Screen;
 
 class SystemEditScreen extends Screen
@@ -18,9 +20,12 @@ class SystemEditScreen extends Screen
      *
      * @return array
      */
-    public function query(): array
+    public function query(Systems $system): array
     {
-        return [];
+        $system->load('themes');
+        return [
+            'system'=>$system
+        ];
     }
 
     /**
@@ -40,6 +45,8 @@ class SystemEditScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            SystemEditLayout::class,
+        ];
     }
 }

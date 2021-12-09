@@ -16,11 +16,13 @@ class AdvertsFactory extends Factory
     public function definition()
     {
         return [
+            'name' => $this->faker->word(),
             'position'=> $this->faker->randomElement(['top','right_side','left_side','in_desc','footer']),
             'provider'=> $this->faker->randomElement(['google','medianet','chitika']),
             'banner'=> $this->faker->imageUrl(),
-            'code'=> $this->faker->text(150),
+            'code'=> $this->faker->randomHtml(30),
             'target_url' => $this->faker->url(),
+            'status'=> $this->faker->boolean(),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Screens\Business;
+namespace App\Orchid\Screens\Advert;
 
 use Orchid\Screen\Screen;
 

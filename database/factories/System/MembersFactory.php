@@ -4,6 +4,7 @@ namespace Database\Factories\System;
 
 use App\Models\System\Members;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class MembersFactory extends Factory
 {
@@ -16,7 +17,11 @@ class MembersFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => $this->faker->password(),
+            'remember_token' => Str::random(10),
         ];
     }
 }
