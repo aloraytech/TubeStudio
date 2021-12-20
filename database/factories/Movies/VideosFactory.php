@@ -27,6 +27,7 @@ class VideosFactory extends Factory
             'thumb_h' => 200,
             'thumb_w' => 300,
             'code' => $this->faker->randomHtml(),
+            'url_path' => $this->faker->unique()->url(),
         ];
     }
 }

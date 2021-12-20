@@ -18,11 +18,12 @@ class EpisodesFactory extends Factory
     {
         return [
             'name'=> $this->faker->word(),
-            'banner'=> $this->faker->imageUrl(),
+            'display_image'=> $this->faker->imageUrl(744,432),
             'desc'=> $this->faker->text(200),
             'duration'=> $this->faker->time('i:s'),
             'release_on'=> $this->faker->dateTime(),
             'videos_id'=> Videos::factory(1)->create()->first(),
+            'status'=> $this->faker->boolean(),
         ];
     }
 }

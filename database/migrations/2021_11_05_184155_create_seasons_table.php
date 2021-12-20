@@ -17,10 +17,10 @@ class CreateSeasonsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('desc');
+            $table->string('display_image')->nullable();
             $table->foreignId('shows_id')->constrained('shows')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            //$table->json('episodes');
             $table->timestamps();
         });
     }

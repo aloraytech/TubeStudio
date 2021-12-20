@@ -2,9 +2,14 @@
 
 namespace App\Models\Shows;
 
+use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property $shows_id
+ * @property $name
+ */
 class Seasons extends Model
 {
     use HasFactory;
@@ -18,7 +23,12 @@ class Seasons extends Model
 
     public function episodes()
     {
-        return $this->hasMany(Episodes::class);
+        return $this->hasMany(Episodes::class)->latest('created_at');
+    }
+
+    public function trailers()
+    {
+        return $this->hasMany(Trailers::class)->latest('created_at');
     }
 
     public function shows()
@@ -26,6 +36,9 @@ class Seasons extends Model
         return $this->belongsTo(Shows::class);
     }
 
-
+    public function activities()
+    {
+        return $this->belongsToMany(Activities::class);
+    }
 
 }
