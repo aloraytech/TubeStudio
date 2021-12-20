@@ -7,22 +7,21 @@ class YoutubeHelper
 
 
     private string $url ='';
-    private array $rawData=[];
 
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->url = $url;
     }
 
     public function getVideo()
     {
-        $this->rawData = $this->analyze();
-        return $this->filterdData($this->rawData);
+        return $this->filterdData($this->analyze());
     }
 
 
-
-
+    /**
+     * @return mixed
+     */
     public function analyze()
     {
 
@@ -36,10 +35,11 @@ class YoutubeHelper
         if (preg_match('`src="?([^"\s]+)"?[^>]*\>`',$result['html'],$matches)){
             $result['html'] = $matches[1];
         }
+
         return json_decode(json_encode($result), true);
     }
 
-    private function filterdData($rawData)
+    private function filterdData(array $rawData)
     {
 
 
@@ -54,6 +54,7 @@ class YoutubeHelper
                   "thumb_w" => $rawData['thumbnail_width'],
                   "thumb_url" => $rawData['thumbnail_url'],
                   "code" => $rawData['html'],
+                  "url_path" => $this->url,
         ];
 
     }

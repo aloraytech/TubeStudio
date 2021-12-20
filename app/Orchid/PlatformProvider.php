@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Models\System\Systems;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
@@ -22,130 +23,103 @@ class PlatformProvider extends OrchidServiceProvider
         // ...
     }
 
+    private function getBool($value)
+    {
+        return $value === 1;
+    }
+
     /**
      * @return Menu[]
      */
     public function registerMainMenu(): array
     {
+
+        $system = Systems::first([
+            'logo',
+            'favicon',
+            'slogan',
+            'lang',
+            'installed',
+            "movie_pack",
+            "show_pack",
+            "trailer_pack",
+            "blog_pack",
+            "advert_pack",
+            "social_pack",
+            "shop_pack",
+            "private_pack",
+            "payment_pack",
+            'activity_pack',
+            "valid_secret",
+            'client_email',
+            'suite_by',
+        ]);
+
+
+
+
         return [
-//            Menu::make('Movies')
-//                ->icon('monitor')
-//                ->route('platform.example')
-//                ->title('Navigation')
-//                ->badge(function () {
-//                    return 6;
-//                }),
+            Menu::make('')
+                ->title('Studio Section'),
 
 
         // SIDEBAR
-            Menu::make('Movies')
-                ->icon('film')
+            Menu::make(ucfirst(config('app.path.movie')).'s')
+                ->icon('youtube')
                 ->route('platform.movie.list')
-                ->title('Studio Section'),
+                ->canSee($this->getBool($system->movie_pack)),
 
-            Menu::make('Tv Shows')
+            Menu::make(ucfirst(config('app.path.show')).'s')
                 ->icon('film')
-                ->route('platform.show.list'),
+                ->route('platform.show.list')->canSee($this->getBool($system->show_pack)),
+
+            Menu::make(ucfirst(config('app.path.blog')).'s')
+                ->icon('book-open')
+                ->route('platform.blog.list')->canSee($this->getBool($system->blog_pack)),
                 //->title('Tv Shows Section'),
 
 
-            Menu::make('Members')
-                ->icon('monitor')
-                ->route('platform.member.list')
+
+            Menu::make('')
                 ->title('Business Section'),
 
+            Menu::make('Members')
+                ->icon('people')
+                ->route('platform.member.list'),
+
             Menu::make('Advert')
-                ->icon('monitor')
-                ->route('platform.advert.list'),
+                ->icon('present')
+                ->route('platform.advert.list')->canSee($this->getBool($system->advert_pack)),
 
 
+
+            Menu::make('')
+                ->title('Setting Section'),
 
             Menu::make('Activities')
-                ->icon('monitor')
+                ->icon('puzzle')
                 ->route('platform.activity.list')
-                ->title('Setting Section'),
+                ->canSee($this->getBool($system->activity_pack)),
 
 
             Menu::make('Settings')
-                ->icon('monitor')
+                ->icon('wrench')
                 ->route('platform.setting.list'),
 
-            Menu::make('Categories')
-                ->icon('monitor')
+            Menu::make('Pages')
+                ->icon('list')
+                ->route('platform.page.list'),
+
+            Menu::make(ucfirst(config('app.path.category')))
+                ->icon('organization')
                 ->route('platform.category.list'),
 
             Menu::make('Tags')
-                ->icon('monitor')
+                ->icon('tag')
                 ->route('platform.tag.list'),
 
 
 
-
-
-//            Menu::make('Studio')
-//                ->slug('sub-menu')
-//                ->icon('code')
-//                ->list([
-//                    Menu::make('Movies')
-//                        ->icon('monitor')
-//                        ->route('platform.movie.list'),
-//                    Menu::make('Shows')
-//                        ->icon('monitor')
-//                        ->route('platform.show.list'),
-//                ])->title('Studio Management'),
-//
-//            Menu::make('Features')
-//                ->icon('code')
-//                ->list([
-//                ])->title('Features List'),
-//            Menu::make('Dropdown menus')
-//                ->icon('code')
-//                ->list([
-//                    Menu::make('Sub element item 1')->icon('bag'),
-//                    Menu::make('Sub element item 2')->icon('heart'),
-//                ]),
-
-
-//
-//            Menu::make('Basic Elements')
-//                ->title('Form controls')
-//                ->icon('note')
-//                ->route('platform.example.fields'),
-//
-//            Menu::make('Advanced Elements')
-//                ->icon('briefcase')
-//                ->route('platform.example.advanced'),
-//
-//            Menu::make('Text Editors')
-//                ->icon('list')
-//                ->route('platform.example.editors'),
-//
-//            Menu::make('Overview layouts')
-//                ->title('Layouts')
-//                ->icon('layers')
-//                ->route('platform.example.layouts'),
-//
-//            Menu::make('Chart tools')
-//                ->icon('bar-chart')
-//                ->route('platform.example.charts'),
-//
-//            Menu::make('Cards')
-//                ->icon('grid')
-//                ->route('platform.example.cards')
-//                ->divider(),
-//
-//            Menu::make('Documentation')
-//                ->title('Docs')
-//                ->icon('docs')
-//                ->url('https://orchid.software/en/docs'),
-//
-//            Menu::make('Changelog')
-//                ->icon('shuffle')
-//                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-//                ->target('_blank')
-//                ->badge(function () {
-//                    return Dashboard::version();
-//                }, Color::DARK()),
 
             Menu::make(__('Users'))
                 ->icon('user')

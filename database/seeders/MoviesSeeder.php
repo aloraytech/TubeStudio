@@ -16,7 +16,7 @@ class MoviesSeeder extends Seeder
     {
 
         Movies::factory()
-            ->count(30)
+            ->count(20)
             ->create();
 
     }

@@ -2,6 +2,11 @@
 
 namespace App\Orchid\Screens\Blog;
 
+use App\Models\Blog\Pages;
+use App\Orchid\Layouts\Page\PageListLayout;
+use Orchid\Screen\Action;
+use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;
 
 class PageListScreen extends Screen
@@ -20,26 +25,35 @@ class PageListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $pages = Pages::orderby('created_at','desc')->paginate();
+        return [
+            'pages'=> $pages,
+        ];
     }
 
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make('Create new')
+                ->icon('pencil')
+                ->route('platform.page.edit')
+        ];
     }
 
     /**
      * Views.
      *
-     * @return \Orchid\Screen\Layout[]|string[]
+     * @return Layout[]|string[]
      */
     public function layout(): array
     {
-        return [];
+        return [
+            PageListLayout::class
+        ];
     }
 }

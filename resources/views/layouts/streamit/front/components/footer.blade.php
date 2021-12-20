@@ -1,27 +1,60 @@
+
 <footer class="mb-0">
     <div class="container-fluid">
         <div class="block-space">
             <div class="row">
                 <div class="col-lg-3 col-md-4">
                     <ul class="f-link list-unstyled mb-0">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="movie-category.html">Movies</a></li>
-                        <li><a href="show-category.html">Tv Shows</a></li>
-                        <li><a href="#">Coporate Information</a></li>
+                        @foreach($pages as $page)
+                                @if($page->position === 1)
+                                    <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                                @endif
+
+                                @if($page->position === 2)
+                                    <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                                @endif
+
+                                @if($page->position === 3)
+                                    <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                                @endif
+
+                                @if($page->position === 4)
+                                    <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                                @endif
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4">
                     <ul class="f-link list-unstyled mb-0">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Help</a></li>
+                        @foreach($pages as $page)
+                            @if($page->position === 5)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+
+                            @if($page->position === 6)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+
+                            @if($page->position === 7)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4">
                     <ul class="f-link list-unstyled mb-0">
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Cotact Us</a></li>
-                        <li><a href="#">Legal Notice</a></li>
+                        @foreach($pages as $page)
+                            @if($page->position === 8)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+                            @if($page->position === 9)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+
+                            @if($page->position === 10)
+                                <li><a href="{{route($page->url)}}">{{$page->title}}</a></li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-12 r-mt-15">

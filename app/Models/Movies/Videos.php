@@ -8,6 +8,18 @@ use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
+/**
+ * App\Models\Videos
+ * @property $url_path
+ * @property $title
+ * @property $thumb_url
+ * @property $provider
+ * @property $code
+ * @property $movie
+ * @property $shows
+ * @property $thumbnail
+ * @property $trailer_files
+ */
 class Videos extends Model
 {
     use HasFactory,AsSource,Attachable;
@@ -22,7 +34,8 @@ class Videos extends Model
         'thumb_h',
         'thumb_w',
         'code',
-        'thumb_url'
+        'thumb_url',
+        'url_path',
 
     ];
 

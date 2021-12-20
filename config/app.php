@@ -233,4 +233,19 @@ return [
 
     ],
 
+
+    'path'=>[
+        'category' => env('CATEGORY','categories'),
+        'movie'=> env('MOVIE','movie'),
+        'show'=> env('SHOW','tv-show'),
+        'season'=> env('SEASON','season'),
+        'trailer'=> env('TRAILER','trailer'),
+        'episode'=> env('EPISODE','episode'),
+        'blog'=> env('BLOG','blog'),
+        'post'=> env('POST','post'),
+        'watchlist'=>env('WATCHLIST','watchlist'),
+        'tag'=> env('TAG','tag'),
+        'public_dir'=> env('PUBDIR',''),
+    ],
+
 ];

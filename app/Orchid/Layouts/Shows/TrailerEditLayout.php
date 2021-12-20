@@ -2,10 +2,14 @@
 
 namespace App\Orchid\Layouts\Shows;
 
+use Orchid\Screen\Field;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class TrailerEditLayout extends Table
+class TrailerEditLayout extends Rows
 {
     /**
      * Data source.
@@ -15,7 +19,7 @@ class TrailerEditLayout extends Table
      *
      * @var string
      */
-    protected $target = '';
+    protected $target = 'trailer';
 
     /**
      * Get the table cells to be displayed.
@@ -25,5 +29,19 @@ class TrailerEditLayout extends Table
     protected function columns(): array
     {
         return [];
+    }
+
+    protected function fields(): array
+    {
+        return [
+
+            Input::make('trailer.name')->title('Name')->required(),
+            TextArea::make('trailer.desc')->title('Description')->required(),
+            Input::make('trailer.duration')
+                ->title('Duration')
+                ->placeholder('Set Movie Duration (hh:mm:ss)')
+                ->canSee($this->query->get('exists')),
+
+        ];
     }
 }

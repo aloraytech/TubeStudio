@@ -2,34 +2,56 @@
 
 namespace App\Helpers\Grabber;
 
+use App\Models\Movies\Videos;
+
 class VideoGrabber
 {
 
-    private string $url='';
-    private object|string $helper='';
+    private string $url;
+    private object $helper;
 
-    public function __construct($url)
+    /**
+     * @param string $url
+     */
+    public function __construct(string $url)
     {
         $this->url = $url;
         $this->foundMatch();
     }
 
-
+    /**
+     * @return bool
+     */
     public function resolve()
     {
+        if(!empty($this->helper))
+        {
+            return true;
+        }else{
+            return false;
+        }
 
-        return true;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getVideo()
     {
         return $this->helper->getVideo();
     }
 
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-
-
+    /**
+     * @return DailymotionHelper|object|YoutubeHelper
+     */
     private function foundMatch()
     {
         if(preg_match('/dailymotion/',$this->url,$matches))
@@ -42,13 +64,30 @@ class VideoGrabber
         {
             $this->helper = new YoutubeHelper($this->url);
         }else{
-            $this->helper = '';
+            $this->helper = new YoutubeHelper($this->url);
         }
 
         return $this->helper;
     }
 
 
+    public function exist()
+    {
+        if(!empty($this->helper))
+        {
+            $result = Videos::where('url_path',$this->url)->count();
+
+            if($result)
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }
 
 
 }

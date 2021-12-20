@@ -6,6 +6,7 @@ use App\Models\Business\Adverts;
 use App\Models\Category\Tags;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -30,9 +31,16 @@ class AdvertListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', 'Name')->render(function ($adverts) {
-                return $adverts->name;
-            })->sort(),
+
+            TD::make('title', 'Title')
+                ->sort()
+                ->render(function (Adverts $adverts) {
+                    return Link::make($adverts->name)
+                        ->route('platform.advert.edit', $adverts);
+                }),
+
+
+
 
             TD::make('updated_at', 'Modified')->render(function ($adverts) {
                 return $adverts->updated_at;
@@ -54,15 +62,7 @@ class AdvertListLayout extends Table
                                         'tag_id' => $adverts->id,
                                     ]),
 
-                                // Ticket Modal
-                                ModalToggle::make('Edit Adverts')
-                                    ->icon('pen')
-                                    ->modal('asyncTagsModal')
-                                    ->modalTitle('Modify Tag')
-                                    ->method('createOrUpdate')
-                                    ->asyncParameters([
-                                        'tag_id' => $adverts->id,
-                                    ])
+
                             ]);
                 }),
 

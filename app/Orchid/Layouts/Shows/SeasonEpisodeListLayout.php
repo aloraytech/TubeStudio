@@ -20,7 +20,7 @@ class SeasonEpisodeListLayout extends Table
      *
      * @var string
      */
-    protected $target = 'seasons.episodes';
+    protected $target = 'season.episodes';
 
     protected $title = 'Available Episodes';
 
@@ -33,9 +33,9 @@ class SeasonEpisodeListLayout extends Table
     {
         return [
 
-            TD::make('banner', 'Banner')
+            TD::make('display_image', 'Display Image')
                 ->render(function ($episodes) {
-                    $img = '<a href="'.route('platform.episode.edit', $episodes).'"><img src="'.$episodes->banner.'" height="100px" width="150px" class="rounded" alt="show-thumb"></a>';
+                    $img = '<a href="'.route('platform.episode.edit', $episodes).'"><img src="'.$episodes->display_image.'" height="100px" width="150px" class="rounded" alt="show-thumb"></a>';
                     return $img;
                 })->sort(),
 

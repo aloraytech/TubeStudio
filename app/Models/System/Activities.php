@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\Blog\Posts;
 use App\Models\Movies\Movies;
 use App\Models\Shows\Episodes;
 use App\Models\Shows\Seasons;
@@ -39,6 +40,10 @@ class Activities extends Model
         return $this->hasMany(Movies::class);
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Posts::class);
+    }
 
 
 }

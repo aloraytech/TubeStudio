@@ -6,8 +6,11 @@ use App\Helpers\Grabber\VideoGrabber;
 use App\Models\Shows\Episodes;
 use App\Orchid\Layouts\Movies\VideoModalLayout;
 use App\Orchid\Layouts\Shows\EpisodeEditLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
@@ -16,6 +19,10 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
+/**
+ * @property $episode
+ * @property $exists
+ */
 class EpisodeEditScreen extends Screen
 {
     /**
@@ -28,6 +35,7 @@ class EpisodeEditScreen extends Screen
     /**
      * Query data.
      *
+     * @param Episodes $episodes
      * @return array
      */
     public function query(Episodes $episodes): array
@@ -35,6 +43,7 @@ class EpisodeEditScreen extends Screen
 
         $this->exists = $episodes->exists;
         $episodes->load('videos');
+        $this->episode = $episodes;
 
         return [
             'episode' => $episodes,
@@ -44,7 +53,7 @@ class EpisodeEditScreen extends Screen
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): array
     {
@@ -61,11 +70,16 @@ class EpisodeEditScreen extends Screen
                 ->canSee($this->exists),
 
 
-            ModalToggle::make('Replace Video')
-                ->modal('episodeVideoUpdateModal')
-                ->method('replaceEpisodeVideo')
-                ->icon('full-screen')
-                //->asyncParameters('Hello world!')
+//            ModalToggle::make('Replace Video')
+//                ->modal('episodeVideoUpdateModal')
+//                ->method('replaceEpisodeVideo')
+//                ->icon('full-screen')
+//                //->asyncParameters('Hello world!')
+//                ->canSee($this->exists),
+
+            Link::make('Edit Video Details')
+                ->icon('note')
+                ->route('platform.video.edit',[$this->episode->videos_id])
                 ->canSee($this->exists),
 
 
@@ -127,46 +141,22 @@ class EpisodeEditScreen extends Screen
     /**
      * @param Episodes $episodes
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|void
+     * @return RedirectResponse
      */
     public function createOrUpdate(Episodes $episodes, Request $request)
     {
-
-
-        if (isset($request->url)) {
-            $grabber = new VideoGrabber($request->url);
-            if ($grabber->resolve()) {
-                // Create Video
-                $vids = $episodes->videos()->create($grabber->getVideo());
-
-
-                $episodes->videos_id = $vids->id;
-
-                //dd($movies->videos());
-                // Create
-                $data = $request->get('video');
-                $data['name'] = $vids->title;
-                $data['banner'] = $vids->thumb_url;
-                // Fix For Categories ID
-                //$episodes->season_id = $data['categories_id'] ?? 1;
-                $episodes->name = $vids->title;
-                $episodes->banner = $vids->thumb_url;
-                $episodes->fill($data)->save();
-                //$movie->save();
-
-
-                Alert::info('You have successfully Replace a Video.');
-                return redirect()->route('platform.episode.edit', $episodes->id);
-            }
-        }
+        $data = $request->get('episode');
+        $episodes->fill($data)->save();
+        Alert::info('You have successfully Update a '.ucfirst(config('app.path.episode')).': '.$episodes->name);
+        return redirect()->route('platform.season.edit', $episodes->seasons_id);
     }
 
 
-
-
-
-
-
+    /**
+     * @param Episodes $episodes
+     * @param Request $request
+     * @return RedirectResponse|void
+     */
     public function replaceEpisodeVideo(Episodes $episodes,Request $request)
     {
 
@@ -200,9 +190,18 @@ class EpisodeEditScreen extends Screen
     }
 
 
-
-
-
+    /**
+     * @param Episodes $episodes
+     * @return RedirectResponse
+     */
+    public function remove(Episodes $episodes)
+    {
+        $_title = $episodes->name;
+        $season = $episodes->seasons_id;
+        $episodes->delete();
+        Alert::warning('You have successfully deleted the'.ucfirst(config('app.path.episode')).": ".$_title);
+        return redirect()->route('platform.season.edit', $season);
+    }
 
 
 

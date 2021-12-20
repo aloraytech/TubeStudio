@@ -13,7 +13,9 @@ use App\Orchid\Layouts\Movies\MovieEditLayout;
 use App\Orchid\Layouts\Movies\VideoModalLayout;
 use App\Orchid\Layouts\Movies\WhichVideoDetailsLayout;
 use App\Orchid\Layouts\Tags\TagModalLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -24,11 +26,16 @@ use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
+/**
+ * @property $videoID
+ * @property $movie
+ */
 class MovieEditScreen extends Screen
 {
     /**
@@ -37,10 +44,11 @@ class MovieEditScreen extends Screen
      * @var string
      */
     public $name = 'Movie Creation';
+    private bool $exists;
 
     /**
      * Query data.
-     *
+     * @param Movies $movies
      * @return array
      */
     public function query(Movies $movies): array
@@ -54,6 +62,14 @@ class MovieEditScreen extends Screen
             $this->description = 'Edit your case study details';
             $movies->load(['categories','videos',]);
             $this->videoID = $movies->videos->id;
+            if(empty($movies->display_image))
+            {
+                $movies->display_image = "https://via.placeholder.com/744x432.png?text=744X432";
+            }
+            if(empty($movies->banner))
+            {
+                $movies->banner = "https://via.placeholder.com/1930x1080.png?text=1920X1080";
+            }
         }
 
         return [
@@ -71,8 +87,8 @@ class MovieEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make('Add New')
-                ->icon('pencil')
+            Button::make('Create')
+                ->icon('film')
                 ->method('createOrUpdate')
                 ->canSee(!$this->exists),
 
@@ -89,50 +105,29 @@ class MovieEditScreen extends Screen
 
             ModalToggle::make('Replace Video')
                 ->modal('movieVideoUpdateModal')
-                ->method('replaceMovieVideo')
+                ->method('replaceVideoOfThisMovie')
                 ->icon('full-screen')
                 //->asyncParameters('Hello world!')
                 ->canSee($this->exists),
 
-            Link::make('Modify Video')
+            Link::make('Edit Video Details')
                 ->icon('note')
                 ->route('platform.video.edit',[$this->videoID])
                 ->canSee($this->exists),
 
-            ModalToggle::make('Add Tags')
+            ModalToggle::make('New Tags')
                 ->modal('asyncTagsModal')
-                ->method('createTagsModal')
-                ->icon('full-screen'),
+                ->method('createTags')
+                ->icon('config'),
 
 
-            ModalToggle::make('Add Category')
+            ModalToggle::make('New Category')
                 ->modal('asyncCategoryModal')
-                ->method('createCategoryModal')
+                ->method('createCategory')
                 ->icon('layers'),
 
         ];
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -149,21 +144,31 @@ class MovieEditScreen extends Screen
             Layout::rows([
                 Input::make('url')->type('url')
                     ->title('Video Url')
-                    ->placeholder('Attractive but mysterious name')
-                    ->help('Specify a short descriptive title for the event'),
-
+                    ->placeholder('Paste video link here')
+                    ->help('Specify a valid video link for generate movie')->required(),
+                Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
+                    ->title('Select Category')->required(),
             ])->canSee(!$this->exists)->title('Place Video Url'),
 
             MovieEditLayout::class,
 
             Layout::rows([
+                Group::make([
                 Cropper::make('movie.banner')
-                    ->title('Movie Banner')
-                    ->placeholder('Add Image')
-                    ->minCanvas(500)
-                    ->maxWidth(1000)
-                    ->maxHeight(800)
+                    ->title('Banner')
+                    ->placeholder('Add Banner Image')
+                    ->minCanvas(1000)
+                    ->maxWidth(1920)
+                    ->maxHeight(1080)
+                    ->targetRelativeUrl(),
+                Cropper::make('movie.display_image')
+                    ->title('Display Image')
+                    ->placeholder('Add Display Image')
+                    ->minCanvas(744)
+                    ->maxWidth(744)
+                    ->maxHeight(432)
                     ->targetRelativeUrl()
+                ])->fullWidth(),
             ])->canSee($this->exists),
 
 
@@ -183,6 +188,7 @@ class MovieEditScreen extends Screen
                 VideoModalLayout::class
             ])->title('Replace Video'),
 
+
             WhichVideoDetailsLayout::class,
         ];
     }
@@ -196,104 +202,112 @@ class MovieEditScreen extends Screen
      * @param Movies $movie
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse|void
      */
     public function createOrUpdate(Movies $movie, Request $request)
     {
 
-
-        if (isset($request->url)) {
+        $creation = $movie->exists;
+        if (isset($request->url))
+        {
+            // Create
             $grabber = new VideoGrabber($request->url);
-            if ($grabber->resolve()) {
-                // Create Video
-                $vids = $movie->videos()->create($grabber->getVideo());
+            if(!$grabber->exist())
+            {
+                if ($grabber->resolve())
+                {
+                    // Create Video
+                    $grabberData = $movie->videos()->create($grabber->getVideo());
+                    $movie->videos_id = $grabberData->id;
+                    //dd($movies->videos());
+                    // Create
+                    $data = $request->get('movie');
+                    $data['name'] = $grabberData->title;
+                    $data['banner'] = $grabberData->thumb_url;
+                    $data['display_image'] = $grabberData->thumb_url;
+                    // Fix For Categories ID
+                    $movie->categories_id = $data['categories_id'];
+                    $movie->release_on = now();
+                    $movie->quality = '240p';
+                    $movie->duration = '00:00:00';
+                    $movie->fill($data)->save();
+                    //$movie->save();
+                    $contentTitle = $data['name'] ?? $movie->name;
 
-
-                $movie->videos_id = $vids->id;
-
-                //dd($movies->videos());
-                // Create
-                $data = $request->get('movie');
-                $data['name'] = $vids->title;
-                $data['banner'] = $vids->thumb_url;
-                // Fix For Categories ID
-                $movie->categories_id = $data['categories_id'] ?? 1;
-                $movie->fill($data)->save();
-                //$movie->save();
-
-
-                Alert::info('You have successfully Replace a Video.');
-                return redirect()->route('platform.movie.edit', $movie->id);
+                    if($creation)
+                    {
+                        Alert::success('You have successfully Update '.$contentTitle);
+                    }else{
+                        Alert::success('You have successfully Create '.$contentTitle);
+                    }
+                    return redirect()->route('platform.movie.edit', $movie->id);
+                }
+            }else{
+                Alert::warning('A Movie already exist with this video url : <i>'.$request->url.'</i>');
+                return redirect()->route('platform.movie.list');
             }
+
+        }else{
+            // Update
+            $data = $request->get('movie');
+
+            if(empty($data['banner'])){$data['banner'] = 'https://via.placeholder.com/1920x1080/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
+            if(empty($data['display_image'])){$data['display_image'] = 'https://via.placeholder.com/744x432/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
+
+            if(empty($data['release_on'])){$data['release_on'] = now();}
+            if(empty($data['duration'])){$data['duration']='00:00:00';}
+            $movie->fill($data)->save();
+            Alert::success('You have successfully Update a Movie.');
+            return redirect()->route('platform.movie.list');
         }
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    public function replaceMovieVideo(Movies $movies,Request $request)
+    /**
+     * @param Movies $movie
+     * @param Request $request
+     * @return RedirectResponse|void
+     */
+    public function replaceVideoOfThisMovie(Movies $movie,Request $request)
     {
+        $this->exists = $movie->exists;
         if(isset($request->url))
         {
             $grabber = new VideoGrabber($request->url);
             if($grabber->resolve())
             {
-                $vids = $grabber->getVideo();
-                $movies->videos()->update($grabber->getVideo());
+                $grabberData = $grabber->getVideo();
+                $movie->videos()->update($grabber->getVideo());
 
-                $movies->name = $vids['title'];
-                $movies->banner = $vids['thumb_url'];
-                $movies->save();
+                $movie->name = $grabberData['title'];
+                $movie->banner = $grabberData['thumb_url'];
+                $movie->save();
 
-
-                Alert::info('You have successfully Replace a Video.');
-                return redirect()->route('platform.movie.edit',$movies->id);
+                if($this->exists)
+                {
+                    Alert::success('You have successfully Replace a Video.');
+                }else{
+                    Alert::warning('A Movie already exist with this video.');
+                }
+                return redirect()->route('platform.movie.edit',$movie->id);
             }
         }
 
     }
 
 
-    public function createMovieVideo(Movies $movies,Request $request)
-    {
-        if(isset($request->url))
-        {
-            $grabber = new VideoGrabber($request->url);
-            if($grabber->resolve())
-            {
-                $data =[
-
-                ];
-
-                //dd($movies->videos());
-                $movies->videos()->create($grabber->getVideo());
-
-
-                Alert::info('You have successfully Replace a Video.');
-                return redirect()->route('platform.movie.list',$movies->id);
-            }
-        }
-
-    }
 
 
 
     // Modal Methods
 
     /**
+     * @param Movies $movies
      * @param Category $category
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function createCategoryModal(Movies $movies,Category $category, Request $request)
+    public function createCategory(Movies $movies,Category $category, Request $request)
     {
         // Create
         $data = $request->get('category');
@@ -307,11 +321,6 @@ class MovieEditScreen extends Screen
                 $images,
             );
 
-//            $category->banners()->updateOrCreate(
-//                [$images],
-//            );
-
-
         }
         Alert::info('You have successfully created an Category.');
         //    return redirect()->route('platform.movie.list');
@@ -320,24 +329,30 @@ class MovieEditScreen extends Screen
 
 
     /**
+     * @param Movies $movies
      * @param Tags $tags
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function createTagsModal(Movies $movies,Tags $tags, Request $request)
+    public function createTags(Movies $movies,Tags $tags, Request $request)
     {
-
         $tags->fill($request->get('tag'))->save();
-
         Alert::success('You have successfully created an tag.');
-
         return redirect()->route('platform.movie.edit',$movies->id);
-
     }
 
 
-
-
+    /**
+     * @param Movies $movies
+     * @return RedirectResponse
+     */
+    public function remove(Movies $movies)
+    {
+        $_title = $movies->name;
+        $movies->delete();
+        Alert::warning('You have successfully deleted the movie : '.$_title);
+        return redirect()->route('platform.movie.list');
+    }
 
 
 }

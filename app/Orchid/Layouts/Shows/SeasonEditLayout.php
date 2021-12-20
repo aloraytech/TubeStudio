@@ -19,7 +19,7 @@ class SeasonEditLayout extends Rows
      *
      * @var string
      */
-    protected $target = 'seasons';
+    protected $target = 'season';
 
     /**
      * Get the table cells to be displayed.
@@ -36,9 +36,9 @@ class SeasonEditLayout extends Rows
     {
         return [
 
-            Input::make('seasons.name')->title('Name'),
+            Input::make('season.name')->title('Name'),
 
-            TextArea::make('seasons.desc')->title('Description'),
+            TextArea::make('season.desc')->title('Description'),
 
 
         ];

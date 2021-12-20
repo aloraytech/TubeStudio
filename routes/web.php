@@ -13,6 +13,8 @@ use App\Http\Controllers\Front\Shows\EpisodeController;
 use App\Http\Controllers\Front\Category\CategoryController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Front\SearchController;
+use App\Http\Controllers\Front\Pages\PageController;
+use App\Http\Controllers\Front\Blog\PostController;
 
 
 
@@ -33,36 +35,42 @@ use App\Http\Controllers\Front\SearchController;
 
 
 // CLIENT SIDE
-
-Route::get('/', [FrontController::class, 'index']);
-
+Route::get('/', [FrontController::class, 'index'])->name('landing.index');
 // Member Auth
-Route::get('/login', [AuthController::class, 'login'])->name('login.user');
-Route::get('/register', [AuthController::class, 'register'])->name('register.user');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
-
-Route::match(['get','post'],'/search', [SearchController::class, 'searchFront'])->name('search.front');
+Route::match(['get','post'],'/login', [AuthController::class, 'login'])->name('login.user');
+Route::match(['get','post'],'/register', [AuthController::class, 'register'])->name('register.user');
 
 //Socialite
-Route::get('/login/{social}', [SocialAuthController::class,'redirectToSocial']);
-Route::get('/login/{social}/callback', [SocialAuthController::class,'handleSocialCallback']);
-
-Route::get('/dashboard',[MemberController::class,'dashboard'])->name('dashboard.user')->name('member.dashboard');
-
+Route::get('/login/{provider?}', [SocialAuthController::class,'redirectToProvider'])->name('provider.login');
+Route::get('/login/{provider?}/callback', [SocialAuthController::class,'handleProviderCallback'])->name('provider.callback');
+// Default Pages
+Route::match(['get','post'],'/search', [SearchController::class, 'searchFront'])->name('search.front');
+Route::get('/about-us',[PageController::class,'view'])->name('pages.about.us');
+Route::get('/information',[PageController::class,'view'])->name('pages.information');
+Route::get('/privacy-policy',[PageController::class,'view'])->name('pages.privacy.policy');
+Route::get('/terms-and-conditions',[PageController::class,'view'])->name('pages.terms.and.conditions');
+Route::get('/help',[PageController::class,'view'])->name('pages.help');
+Route::get('/faq',[PageController::class,'view'])->name('pages.faq');
+Route::get('/contact-us',[PageController::class,'view'])->name('pages.contact.us');
+Route::get('/legals',[PageController::class,'view'])->name('pages.legals');
+// Studio Pages
 Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle'])->name('movie.view');
-
 Route::get('/'.env('SHOW').'s/{shows:name}',[ShowsController::class,'getSingle'])->name('show.view');
-
 Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
 Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly'])->name('category.show');
-
-
-// Backend Client
-
+Route::get('/'.env('CATEGORY').'/'.env('BLOG').'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');
 
 
 
-// Backend Admin
 
-//Route::get('/dashboard','');
+
+
+// Backend Member
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('details', [AuthController::class, "details"])->name('detail.user');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
+    Route::get('/dashboard',[MemberController::class,'dashboard'])->name('member.dashboard.index');
+    Route::get('/library',[MemberController::class,'dashboard'])->name('member.dashboard.library');
+    Route::get('/watchlist',[MemberController::class,'dashboard'])->name('member.dashboard.watchlist');
+});
 

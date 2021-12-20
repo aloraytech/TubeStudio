@@ -18,8 +18,8 @@ class TrailersFactory extends Factory
     {
         return [
             'name'=> $this->faker->word(),
-            'banner'=> $this->faker->imageUrl(),
-            'desc'=> $this->faker->text(200),
+            'display_image'=> $this->faker->imageUrl(744,432),
+            'desc'=> $this->faker->text(),
             'duration'=> $this->faker->time('i:s'),
             'videos_id'=> Videos::factory(1)->create()->first(),
         ];

@@ -16,10 +16,10 @@ class CreateTrailersTable extends Migration
         Schema::create('trailers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('banner')->nullable();
+            $table->string('display_image');
             $table->text('desc')->nullable();
             $table->string('duration')->nullable();
-            $table->foreignId('videos_id')->constrained('videos')
+            $table->foreignId('videos_id')->unique()->constrained('videos')
                  ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('seasons_id')->constrained('seasons')

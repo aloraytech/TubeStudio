@@ -4,97 +4,113 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\System\Members;
-use App\Models\System\Socials;
-use App\Models\System\Sysfigs;
+use App\Models\System\Providers;
+use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse as JsonResponseAlias;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
+/**
+ *
+ */
 class SocialAuthController extends Controller
 {
+
+    private string $provider='';
+    private object $providerDetail;
+    private array $validProvider = ['facebook', 'github', 'google'];
+    private string $msg ='';
+    private string $accessToken='';
+    private const API_RESPONSE = 'api';
+    private const WEB_RESPONSE ='web';
+
+
 
 
     /**
      * Redirect the user to the Provider authentication page.
      *
-     * @param string $social
-     * @return JsonResponseAlias
+     * @param string $provider
+     * @return JsonResponseAlias|void
      */
-    public function redirectToSocial(string $social)
+    public function redirectToProvider(string $provider)
     {
-        $validated = $this->validateSocial($social);
-        if (!is_null($validated)) {
-            return $validated;
+        $this->provider = $provider;
+        if ($this->validateProvider()) {
+            return Socialite::driver($provider)->stateless()->redirect();
         }
-        return Socialite::driver($social)->stateless()->redirect();
     }
 
 
     /**
      * Obtain the user information from Provider.
-     * @param $social
-     * @return Application|JsonResponseAlias|RedirectResponse|Redirector|void
+     * @param string $provider
+     * @param Request $request
+     * @return Application|Redirector|RedirectResponse
+     * @throws Exception
      */
-    public function handleSocialCallback($social)
+    public function handleProviderCallback(string $provider,Request $request)
     {
-        $validated = $this->validateSocial($social);
-        if (!is_null($validated)) {
-            return $validated;
-        }
+        $system = $this->systems;
+        $pages = $this->pages;
+        $this->provider = $provider;
+
+
         try {
-            $socialDetail = Socialite::driver($social)->stateless()->user();
-        } catch (ClientException $exception) {
+            if ($this->validateProvider()) {
+                $this->providerDetail = Socialite::driver($provider)->stateless()->user();
+                if(!empty($this->providerDetail))
+                {
+                    return $this->resolve($request);
+                }else{
+                    throw new Exception('Unable to login using' . ucfirst($this->provider) . '. Please try again.');
+                }
+            }else{
+                throw new Exception('Unable to login using' . ucfirst($this->provider) . '. Please try again.');
+            }
+
+        } catch (ClientException $e) {
+            report($e);
             // Api Response
             //return response()->json(['error' => 'Invalid credentials provided.'], 422);
             // Web Response
-            $system = $this->systems;
-            $error='Unable to login using' . $social . '. Please try again.';
-            return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error'));
-            //return redirect(env('CLIENT_BASE_URL') . '?error=Unable to login using' . $social . '. Please try again.');
+            $error=$e->getMessage();
+            // Same Site
+            return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error','pages'));
+            // Client Site
+            //return redirect(env('CLIENT_BASE_URL') . '?error=Unable to login using' . $provider . '. Please try again.');
         }
 
-        $existMember = $this->memberExist($socialDetail,$social);
+
+    }
 
 
+    private function resolve(Request $request)
+    {
 
+        $this->memberResolver();
 
-        if(!$existMember->count())
+        if (Auth::guard('member')->check())
         {
-            $member = Members::firstOrCreate([
-                'name'=> $socialDetail->getName(),
-                'email'=> $socialDetail->getEmail(),
-                'email_verified_at' => now(),
-                'password'=> null,
-                'status' => true,
-            ]);
-            if(!$member->hasSocial($social))
-            {
-                $member->socials()->updateOrCreate([
-                    'social_id'=> $socialDetail->getId(),
-                    'social'=> $social,
-                    'members_id'=> $member->id,
-                    'avatar' => $socialDetail->getAvatar()
-                ]);
-            }
-            Auth::guard('member')->login($member);
-        }else{
-            Auth::guard('member')->login($existMember);
-        }
+            //Success login
+            $this->accessToken = Auth::guard('member')->user()->createToken('authToken')->accessToken;
+            $user = Auth::guard('member')->user();
+            $user->setAttribute('last_login', Carbon::now())->save();
+            return $this->send(true);
 
-
-
-        if (Auth::guard('member')->check()) {
-            $accessToken = Auth::guard('member')->user()->createToken('authToken')->accessToken;
-
-            //return redirect(url('/') . '/auth/social-callback?token=' . $accessToken);
-            return redirect(url('/dashboard'),302);
-        } else {
-            return response()->json(['error' => 'social login error']);
+        } else{
+            // Error Login
+            $this->msg=ucfirst($this->provider) .' provider  error';
+            return $this->send();
         }
 
 
@@ -107,36 +123,114 @@ class SocialAuthController extends Controller
 //        return redirect(url('/dashboard'),302);
     }
 
-    /**
-     * @param $social
-     * @return JsonResponseAlias|void
-     */
-    protected function validateSocial($social)
+
+
+
+    private function memberResolver()
     {
-        if (!in_array($social, ['facebook', 'github', 'google'])) {
-            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+
+        // Check New Member Or Returning One
+        $existMember = $this->memberExist();
+        // dd($existMember);
+        // Check Member Existence
+        if(!is_null($existMember))
+        {
+            if(!$existMember->count())
+            {
+                // For New Member
+                // Create New Member Record
+                $member = Members::firstOrCreate([
+                    'name'=> $this->providerDetail->getName(),
+                    'email'=> $this->providerDetail->getEmail(),
+                    'email_verified_at' => now(),
+                    'password'=> null,
+                    'status' => true,
+                ]);
+                if(!$member->hasProvider($this->provider))
+                {
+                    $member->providers()->updateOrCreate([
+                        'provider_id'=> $this->providerDetail->getId(),
+                        'provider'=> $this->provider,
+                        'members_id'=> $member->id,
+                        'avatar' => $this->providerDetail->getAvatar()
+                    ]);
+                }
+                Auth::guard('member')->login($member);
+            }else{
+                // Returning Member
+                Auth::guard('member')->login($existMember);
+            }
+        }else{
+            Auth::guard('member')->login($existMember);
         }
+
     }
 
 
 
-
-    private function memberExist($detail,$social)
+    /**
+     * @return bool
+     */
+    protected function validateProvider()
     {
-        if($this->validateSocial($social))
+        return in_array($this->provider, $this->validProvider);
+    }
+
+
+    /**
+     * @return null
+     */
+    private function memberExist()
+    {
+        $providerUser = $this->providerDetail;
+        $provider = $this->provider;
+        if($this->validateProvider())
         {
             // Check Social Record
-            $socialMember = Socials::where('social_id', $detail->getId())->first();
-            return $socialMember ? $socialMember->user : null;
+            $providerMember = Providers::where('provider_id', $providerUser->getId())->first();
+            return $providerMember ? $providerMember->user : null;
         }else{
             // Check Member Tables
-            return Members::where('email', $detail->getEmail())->orWhereHas('socials', function ($q) use ($detail, $social) {
-                $q->where('social_id', $detail->getId())->where('social', $social);
-            })->first();
+            return Members::where('email', $providerUser->getEmail())
+                ->orWhereHas('providers', function ($q) use ($providerUser, $provider)
+                    {
+                        $q->where('provider_id', $providerUser->getId())
+                            ->where('provider', $provider);
+                    })->first();
+
         }
     }
 
+    /**
+     * @param bool $status
+     * @param string
+     * @return Application|Factory|View|JsonResponseAlias
+     */
+    private function send(bool $status=false,string $type = self::WEB_RESPONSE)
+    {
+        if ($type === self::API_RESPONSE) {
+            return response()->json(['status' => $status, 'error' => $this->msg,'token'=>$this->accessToken, ['Access-Token' => $this->accessToken]]);
+        } else {
+            $system = $this->systems;
+            $pages = $this->pages;
+            $error = $this->msg;
+            if($status)
+            {
+                if(!empty($this->accessToken))
+                {
+                    return redirect(url('/') . '/auth/provider-callback?token=' . $this->accessToken);
+                }else{
+                    return redirect(route('member.dashboard.index',$this->accessToken),302);
+                }
 
+            }else{
+                return view('pages.' . $system->themes->name . '.front.member.auth.login')->with(compact('system', 'error', 'pages'));
+            }
+
+
+        }
+
+    }
 
 
 

@@ -6,6 +6,10 @@ use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property $shows_id
+ * @property $name
+ */
 class Seasons extends Model
 {
     use HasFactory;

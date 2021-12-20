@@ -31,7 +31,7 @@ class Category extends Model
 
     public function shows()
     {
-        return $this->belongsToMany(Shows::class);
+        return $this->belongsToMany(Shows::class,'shows','categories_id')->where('type','=','show');
     }
 
     public function posts()

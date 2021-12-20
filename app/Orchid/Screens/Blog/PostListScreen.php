@@ -2,6 +2,10 @@
 
 namespace App\Orchid\Screens\Blog;
 
+use App\Models\Blog\Posts;
+use App\Orchid\Layouts\Post\PostListLayout;
+use Orchid\Screen\Action;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
 class PostListScreen extends Screen
@@ -20,17 +24,24 @@ class PostListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        $post = Posts::with('categories')->orderby('created_at','desc')->paginate();
+        return [
+            'post' => $post
+        ];
     }
 
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make('Create new')
+                ->icon('pencil')
+                ->route('platform.blog.edit')
+        ];
     }
 
     /**
@@ -40,6 +51,8 @@ class PostListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            PostListLayout::class,
+        ];
     }
 }

@@ -29,8 +29,8 @@ class MovieListLayout extends Table
     {
         return [
 
-            TD::make('banner', 'Banner')->render(function ($movie) {
-                return '<img src="'.$movie->banner.'" height="100px" width="150px" class="rounded">';
+            TD::make('display_image', 'Display')->render(function ($movie) {
+                return '<img src="'.$movie->display_image.'" height="100px" width="150px" class="rounded">';
             })->sort(),
 
             TD::make('name', 'Name')

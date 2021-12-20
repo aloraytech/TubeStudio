@@ -28,7 +28,7 @@ use App\Orchid\Screens\Shows\ShowListScreen;
 use App\Orchid\Screens\Shows\ShowEditScreen;
 use App\Orchid\Screens\Shows\SeasonEditScreen;
 use App\Orchid\Screens\Shows\EpisodeEditScreen;
-use App\Orchid\Screens\Shows\TrailerEditScreen;
+use App\Orchid\Screens\Shows\EpisodeListScreen;
 use App\Orchid\Screens\System\MemberListScreen;
 use App\Orchid\Screens\System\ActivityListScreen;
 use App\Orchid\Screens\Advert\AdvertListScreen;
@@ -39,6 +39,8 @@ use App\Orchid\Screens\Blog\PageEditScreen;
 use App\Orchid\Screens\Blog\PageListScreen;
 use App\Orchid\Screens\Movies\VideoEditScreen;
 use App\Orchid\Screens\Tags\TagsListScreen;
+use App\Orchid\Screens\Shows\TrailerListScreen;
+use App\Orchid\Screens\Shows\TrailerEditScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,11 +177,18 @@ Route::screen('show/{show?}', ShowEditScreen::class)
 Route::screen('shows', ShowListScreen::class)
     ->name('platform.show.list');
 
+// Seasons
 Route::screen('show/{show?}/seasons', SeasonListScreen::class)
     ->name('platform.season.list');
 
 Route::screen('season/{season?}', SeasonEditScreen::class)
     ->name('platform.season.edit');
+// Trailers
+Route::screen('seasons/{season?}/trailers', TrailerListScreen::class)
+    ->name('platform.trailer.list');
+
+Route::screen('trailer/{trailer?}', TrailerEditScreen::class)
+    ->name('platform.trailer.edit');
 
 Route::screen('episode/{episode?}', EpisodeEditScreen::class)
     ->name('platform.episode.edit');
@@ -204,9 +213,23 @@ Route::screen('setting/{setting?}', SystemEditScreen::class)
     ->name('platform.setting.edit');
 
 
+
 Route::screen('adverts', AdvertListScreen::class)
     ->name('platform.advert.list');
 
-//Route::screen('advert/{advert?}', SystemEditScreen::class)
-//    ->name('platform.advert.edit');
+Route::screen('advert/{advert?}', AdvertEditScreen::class)
+    ->name('platform.advert.edit');
 
+
+Route::screen('blogs', PostListScreen::class)
+    ->name('platform.blog.list');
+
+Route::screen('blog/{blog?}', PostEditScreen::class)
+    ->name('platform.blog.edit');
+
+
+Route::screen('pages', PageListScreen::class)
+    ->name('platform.page.list');
+
+Route::screen('page/{page?}', PageEditScreen::class)
+    ->name('platform.page.edit');

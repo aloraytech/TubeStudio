@@ -5,33 +5,41 @@ namespace App\Orchid\Screens\Shows;
 use App\Models\Shows\Shows;
 use App\Orchid\Layouts\Shows\SeasonForShowModalLayout;
 use App\Orchid\Layouts\Shows\SeasonListLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
+/**
+ * @property $show
+ * @property $name
+ * @property $description
+ * @property $exists
+ */
 class SeasonListScreen extends Screen
 {
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
-    public $name = 'SeasonListScreen';
+
 
     /**
      * Query data.
      *
+     * @param Shows $show
      * @return array
      */
     public function query(Shows $show): array
     {
-        $show->load('seasons', 'seasons.episodes');
+        $show->load('seasons', 'seasons.episodes','seasons.trailers')->orderby('modified_at','desc');
         $this->show = $show;
+        $this->name = 'View All '.ucfirst(config('app.path.season')).'s';
+        $this->description = 'All '.ucfirst(config('app.path.season')).' From '.$this->show->name.' '.ucfirst(config('app.path.show'));
         return [
             'seasons' => $show->seasons,
+            'show' => $show,
 
         ];
     }
@@ -39,12 +47,14 @@ class SeasonListScreen extends Screen
     /**
      * Button commands.
      *
-     * @return \Orchid\Screen\Action[]
+     * @return Action[]
      */
     public function commandBar(): array
     {
         return [
-
+            Link::make('Back to Show')
+                ->icon('note')
+                ->route('platform.show.edit',[$this->show]),
 
             ModalToggle::make('Add Season')
                 ->modal('seasonForShowModal')
@@ -62,6 +72,7 @@ class SeasonListScreen extends Screen
     public function layout(): array
     {
         return [
+
             SeasonListLayout::class,
 
 
@@ -79,7 +90,7 @@ class SeasonListScreen extends Screen
      * @param Shows $shows
      * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function createOrUpdate(Shows $shows, Request $request)
     {

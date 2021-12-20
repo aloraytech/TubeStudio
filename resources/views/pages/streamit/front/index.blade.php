@@ -2,22 +2,33 @@
 @section('content')
 
 
-    @if($system->slider)
+    @if($system->has_slider)
             {{--Slider Start--}}
         @include('pages.streamit.front.components.index.slider')
             {{--Slider End--}}
     @endif
 
+
     <!-- MainContent -->
     <div class="main-content">
-        @if($user['exist'])
+
+
+
+
+
+
+
+
+
+
+    @if($user['exist'])
             {{--Favourites--}}
                 @include('pages.streamit.front.components.index.favorites')
             {{--End Favourites--}}
         @endif
 
             {{--Upcoming--}}
-        @if($system->upcoming_section)
+        @if($system->has_upcoming)
             @if($upcoming['has'])
                 @include('pages.streamit.front.components.index.upcoming')
             @endif

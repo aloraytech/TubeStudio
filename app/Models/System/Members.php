@@ -9,6 +9,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property $providers
+ * @property $id
+ * @property $name
+ * @property $email
+ * @property $accessToken
+ * @property $guarded
+ * @property $attributes
+ * @property $rememberTokenName
+ */
 class Members extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,14 +54,14 @@ class Members extends Authenticatable
     ];
 
 
-    public function socials()
+    public function providers()
     {
-        return $this->hasMany(Socials::class,'members_id','id');
+        return $this->hasMany(Providers::class,'members_id','id');
     }
 
-    public function hasSocial($social)
+    public function hasProvider($provider)
     {
-        return (bool) $this->socials->where('social', $social)->count();
+        return (bool) $this->providers->where('provider', $provider)->count();
     }
 
     public function activities()

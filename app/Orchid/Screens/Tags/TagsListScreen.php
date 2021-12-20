@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Tags;
 use App\Models\Category\Tags;
 use App\Orchid\Layouts\Tags\TagModalLayout;
 use App\Orchid\Layouts\Tags\TagsListLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
@@ -52,8 +53,8 @@ class TagsListScreen extends Screen
     }
 
 
-
     /**
+     * @param Tags $tags
      * @return array
      */
     public function asyncGetData(Tags $tags): array
@@ -88,27 +89,24 @@ class TagsListScreen extends Screen
     /**
      * @param Tags $tags
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function createOrUpdate(Tags $tags, Request $request)
     {
         $tags->fill($request->get('tag'))->save();
-
-        Alert::success('You have successfully created an tag.');
-
+        Alert::success('You have successfully created an '.ucfirst(config('app.path.tag')));
         return redirect()->route('platform.tag.list');
     }
 
     /**
      * @param Tags $tags
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function remove(Tags $tags)
     {
+        $_title = $tags->name;
         $tags->delete();
-
-        Alert::warning('You have successfully deleted the tag.');
-
+        Alert::warning('You have successfully deleted the '.ucfirst(config('app.path.tag')).': '.$_title);
         return redirect()->route('platform.tag.list');
     }
 

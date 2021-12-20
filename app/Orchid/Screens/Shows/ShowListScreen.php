@@ -24,7 +24,7 @@ class ShowListScreen extends Screen
      */
     public function query(): array
     {
-        $shows = Shows::orderby('updated_at','desc')->latest()->paginate();
+        $shows = Shows::orderby('created_at','desc')->paginate();
         $shows->load('seasons.episodes');
 
         return [
@@ -42,7 +42,9 @@ class ShowListScreen extends Screen
         return [
             Link::make('Create new')
                 ->icon('pencil')
-                ->route('platform.show.edit')
+                ->route('platform.show.edit'),
+
+
         ];
     }
 

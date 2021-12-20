@@ -7,16 +7,24 @@ use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property $id
+ * @property $name
+ * @property $display_image
+ * @property $release_on
+ * @property $videos
+ */
 class Episodes extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'banner',
+        'display_image',
         'desc',
         'duration',
         'release_on',
+        'status'
     ];
 
 

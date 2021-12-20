@@ -23,7 +23,7 @@ class MovieListScreen extends Screen
      */
     public function query(): array
     {
-        $movies = Movies::paginate();
+        $movies = Movies::orderby('created_at','desc')->paginate();
         $movies->load('categories');
 
         return [

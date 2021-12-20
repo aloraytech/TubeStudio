@@ -21,20 +21,38 @@ class CreateSystemsTable extends Migration
             $table->text('keywords')->nullable();
             $table->text('desc')->nullable();
             $table->text('header')->nullable();
+            $table->string('lang')->default('en');
+            $table->boolean('coming_soon')->default(false);
+            $table->dateTime('coming_soon_upto')->nullable();
+            $table->integer('per_page')->default(10);
+            $table->string('player_size')->default('21by9');
             $table->string('index_bg')->nullable();
             $table->string('login_bg')->nullable();
             $table->string('signup_bg')->nullable();
-            $table->boolean('private')->default(false);
-            $table->boolean('coming_soon')->default(false);
-            $table->dateTime('coming_soon_upto')->nullable();
-            $table->boolean('installed')->default(true);
-            $table->integer('per_page')->default(10);
-            $table->string('player_size')->default('21by9');
-            $table->boolean('slider')->default(true);
-            $table->boolean('upcoming_section')->default(true);
             $table->foreignId('themes_id')->constrained('themes')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->boolean('has_slider')->default(true);
+            $table->boolean('has_upcoming')->default(true);
+            $table->boolean('movie_pack')->default(true);
+            $table->boolean('show_pack')->default(true);
+            $table->boolean('trailer_pack')->default(true);
+            $table->boolean('blog_pack')->default(true);
+            $table->boolean('advert_pack')->default(true);
+            $table->boolean('social_pack')->default(false);
+            $table->boolean('shop_pack')->default(false);
+            $table->boolean('private_pack')->default(true);
+            $table->boolean('payment_pack')->default(true);
+            $table->boolean('activity_pack')->default(true);
+            $table->boolean('installed')->default(true);
+            $table->text('secret')->nullable();
+            $table->boolean('valid_secret')->default(true);
+            $table->dateTime('valid_upto')->nullable();
+            $table->string('client_email')->nullable();
+            $table->string('contact_us')->nullable();
+            $table->string('version')->nullable();
+            $table->string('ray_api')->default('https://client.aloraytech.in');
+            $table->string('suite_by')->default('Aloray Technologies');
             $table->timestamps();
         });
     }

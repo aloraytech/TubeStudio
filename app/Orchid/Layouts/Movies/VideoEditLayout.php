@@ -2,6 +2,9 @@
 
 namespace App\Orchid\Layouts\Movies;
 
+use Illuminate\Http\Client\Request;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Group;
@@ -12,7 +15,11 @@ use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
-
+/**
+ * @property $exists
+ * @property $name
+ * @property $description
+ */
 class VideoEditLayout extends Rows
 {
     /**
@@ -32,9 +39,11 @@ class VideoEditLayout extends Rows
      */
     protected function columns(): array
     {
-        return [];
     }
 
+    /**
+     * @throws \Throwable
+     */
     protected function fields(): array
     {
         return [
@@ -124,8 +133,6 @@ class VideoEditLayout extends Rows
                     ->help('Specify a short descriptive title for this name.'),
 
             ])->fullWidth(),
-
-
 
 
 

@@ -55,12 +55,12 @@ class EpisodeEditLayout extends Rows
 
             Group::make([
 
-                Cropper::make('episode.banner')
-                    ->title('Episode Banner')
+                Cropper::make('episode.display_image')
+                    ->title('Episode Display')
                     ->placeholder('Add Image')
-                    ->minCanvas(500)
-                    ->maxWidth(1000)
-                    ->maxHeight(800)
+                    ->minCanvas(744)
+                    ->maxWidth(744)
+                    ->maxHeight(432)
                     ->targetRelativeUrl(),
 
 

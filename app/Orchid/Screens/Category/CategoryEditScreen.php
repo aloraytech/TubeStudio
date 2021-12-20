@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Category;
 use App\Models\Category\Category;
 use App\Models\Movies\Movies;
 use App\Orchid\Layouts\Category\CategoryEditLayout;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
@@ -83,43 +84,39 @@ class CategoryEditScreen extends Screen
     }
 
 
-
-
-
-
-
-
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function createOrUpdate(Category $category, Request $request)
     {
-        // Create
-        $data = $request->get('category');
-        // Fix For Categories ID
-        //$category->categories_id = $data['categories_id'];
-
+        $creation = $category->exists;
+        $data = $request->get('page');
         $category->fill($data)->save();
+        $contentTitle = $data['title'] ?? $category->title;
 
-
-        $images = $request->input('category.banner', []);
-        if ($images) {
-            $category->attachment()->syncWithoutDetaching(
-                $images,
-            );
-
-//            $category->banners()->updateOrCreate(
-//                [$images],
-//            );
-
-
+        if($creation)
+        {
+            Alert::success('You have successfully Update '.$contentTitle);
+        }else{
+            Alert::success('You have successfully Create '.$contentTitle);
         }
-        Alert::info('You have successfully created an Category.');
-        //    return redirect()->route('platform.movie.list');
         return redirect()->route('platform.category.list');
     }
 
 
-
-
-
+    /**
+     * @param Category $category
+     * @return RedirectResponse
+     */
+    public function remove(Category $category)
+    {
+        $_title = $category->name;
+        $category->delete();
+        Alert::warning('You have successfully deleted the category : '.$_title);
+        return redirect()->route('platform.category.list');
+    }
 
 
 

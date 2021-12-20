@@ -18,7 +18,7 @@ class CategoryModalLayout extends Rows
      *
      * @var string
      */
-    protected $target = '';
+    protected $target = 'categories';
 
     /**
      * Get the table cells to be displayed.
@@ -34,7 +34,7 @@ class CategoryModalLayout extends Rows
     {
         return [
 
-            Input::make()
+            Input::make('categories.name')->title('Name'),
 
 
 

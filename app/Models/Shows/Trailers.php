@@ -10,6 +10,15 @@ class Trailers extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'display_image',
+        'desc',
+        'duration',
+        'status',
+        'videos_id'
+    ];
+
 
     public function videos()
     {

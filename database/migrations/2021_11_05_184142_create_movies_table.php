@@ -18,12 +18,13 @@ class CreateMoviesTable extends Migration
             $table->foreignId('categories_id')->constrained('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('videos_id')->constrained('videos')
+            $table->foreignId('videos_id')->unique()->constrained('videos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('name');
             $table->string('quality')->nullable();
             $table->string('banner')->nullable();
+            $table->string('display_image')->nullable();
             $table->text('desc')->nullable();
             $table->json('tags')->nullable();
             $table->integer('views')->nullable();

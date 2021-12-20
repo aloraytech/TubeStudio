@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Movies;
 
 use App\Models\Category\Category;
 use App\Models\Category\Tags;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Cropper;
@@ -32,6 +33,7 @@ class MovieEditLayout extends Rows
      */
     protected $target = 'movie';
 
+
     /**
      * Get the table cells to be displayed.
      *
@@ -43,6 +45,9 @@ class MovieEditLayout extends Rows
         ];
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     protected function fields(): array
     {
         return [
@@ -52,45 +57,27 @@ class MovieEditLayout extends Rows
                 Input::make('movie.name')
                     ->title('Name')
                     ->placeholder('Attractive but mysterious name')
-                    ->help('Specify a short descriptive title for the event'),
+                    ->help('Specify a short descriptive title for the event')->canSee($this->query->get('exists')),
 
 
             ])->fullWidth(),
 
 
-
-
-
-
             Group::make([
-                Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
-                    ->title('Select Category')->required(),
-
-
-//                Relation::make('movie.categories_id')
-//                    ->fromModel(Category::class, 'name','id')
-//                    ->title('Select Category'),
-
-
-
+                Select::make('movie.categories_id')->fromQuery(Category::where('type', '=', 'movie'), 'name')
+                    ->title('Select Category')->required()->canSee($this->query->get('exists')),
 
                 DateTimer::make('movie.release_on')
-                    ->title('Release On:')
+                    ->title('Publish On:')
                     ->format('Y-m-d')
                     ->allowInput()
                     ->enableTime()
                     ->format24hr()
-                    ->required(),
+                    ->required()->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
 
             Group::make([
-//                Input::make('movie.quality')
-//                    ->title('Quality')
-//                    ->placeholder('Attractive but mysterious name')
-//                    ->help('Specify a short descriptive title for the event'),
-
-
                 Select::make('movie.quality')
                     ->options([
                         '240p'   => '240p',
@@ -100,26 +87,35 @@ class MovieEditLayout extends Rows
                         '1080p'   => '1080p',
                     ])
                     ->title('Quality')
-                    ->help('Allow search bots to index'),
+                    ->canSee($this->query->get('exists')),
 
+                Select::make('movie.age_group')
+                    ->options([
+                        'Kids'   => 'Kids',
+                        'U'   => 'U',
+                        '18+'   => '18+',
+                    ])
+                    ->title('Age Group')
+                   ->canSee($this->query->get('exists')),
 
 
                 Input::make('movie.duration')
                     ->title('Duration')
-                    ->placeholder('Attractive but mysterious name')
-                    ->help('Specify a short descriptive title for the event'),
+                    ->placeholder('Set Movie Duration (hh:mm:ss)')
+                    ->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
 
             Relation::make('movie.tags')
                 ->fromModel(Tags::class, 'name')
                 ->multiple()
-                ->title('Choose your ideas'),
-
+                ->title('Choose Tags')
+                ->placeholder('Click here to get tags')
+                ->canSee($this->query->get('exists')),
 
 
             Quill::make('movie.desc')->toolbar(["text", "color", "header", "list", "format"])
-                ->title('Description'),
+                ->title('Description')->canSee($this->query->get('exists')),
 
 
         ];

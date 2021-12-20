@@ -9,6 +9,7 @@ use App\Orchid\Layouts\Movies\VideoEditLayout;
 use App\Orchid\Layouts\Movies\VideoModalLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
@@ -72,6 +73,8 @@ class VideoEditScreen extends Screen
                 ->icon('trash')
                 ->method('remove')
                 ->canSee($this->exists),
+
+
         ];
     }
 

@@ -15,7 +15,7 @@ class MoviesController extends Controller
     {
 
         $movies->load('videos');
-
+        $pages = $this->pages;
         $allMovies = Movies::where('status',true)->latest('updated_at')->get();
         $similars = $allMovies->where('categories_id','=',$movies->categories_id);
         $upcoming = $allMovies->where('release_on','>',now());
@@ -25,7 +25,7 @@ class MoviesController extends Controller
         $system = $this->systems;
 
 //        dd($movies);
-        return view('pages.'.$system->themes->name.'.front.movie.watch')->with(compact('system','movies','similars','upcoming'));
+        return view('pages.'.$system->themes->name.'.front.movie.watch')->with(compact('system','pages','movies','similars','upcoming'));
 
     }
 

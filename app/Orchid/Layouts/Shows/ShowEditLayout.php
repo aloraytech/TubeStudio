@@ -40,6 +40,9 @@ class ShowEditLayout extends Rows
         return [];
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     protected function fields(): array
     {
         return [
@@ -47,7 +50,7 @@ class ShowEditLayout extends Rows
                 Input::make('show.name')
                     ->title('Name')
                     ->placeholder('Attractive but mysterious name')
-                    ->help('Specify a short descriptive title for the show'),
+                    ->help('Specify a short descriptive title for the show')->required(),
 
 
                 Input::make('show.views')
@@ -62,8 +65,8 @@ class ShowEditLayout extends Rows
             Group::make([
                 Select::make('show.private')
                     ->options([
-                        1   => 'Private',
                         0   => 'Global',
+                        1   => 'Private',
                     ])
                     ->title('Visibility')
                     ->help('Set Private For Subscribed Member And Global For All'),
@@ -72,7 +75,7 @@ class ShowEditLayout extends Rows
                 Relation::make('show.tags')
                     ->fromModel(Tags::class, 'name')
                     ->multiple()
-                    ->title('Choose Tags From List'),
+                    ->title('Choose Tags From List')->required(),
 
             ])->fullWidth(),
 
@@ -80,7 +83,7 @@ class ShowEditLayout extends Rows
 
 
             Group::make([
-                Select::make('show.categories_id')->fromModel(Category::class, 'name','id')
+                Select::make('show.categories_id')->fromQuery(Category::where('type', '=', 'show'), 'name')
                     ->title('Select Category')->required(),
 
                 DateTimer::make('show.release_on')
@@ -89,19 +92,8 @@ class ShowEditLayout extends Rows
                     ->allowInput()
                     ->enableTime()
                     ->format24hr()
-                    ->required(),
+                    ->required()->canSee($this->query->get('exists')),
             ])->fullWidth(),
-
-
-
-
-
-
-
-
-
-
-
 
 
 

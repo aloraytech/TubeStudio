@@ -9,6 +9,16 @@ use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property $categories_id
+ * @property $videos_id
+ * @property $id
+ * @property $name
+ * @property $release_on
+ * @property $banner
+ * @property $display_image
+ * @property $status
+ */
 class Shows extends Model
 {
     use HasFactory;
@@ -18,7 +28,12 @@ class Shows extends Model
         'banner',
         'desc',
         'tags',
-        'display_image'
+        'private',
+        'display_image',
+        'release_on',
+        'age_group',
+        'duration',
+        'status',
     ];
 
     protected $casts = [
@@ -26,9 +41,11 @@ class Shows extends Model
     ];
 
 
+
     public function categories()
     {
-        return $this->hasOne(Category::class,'id','categories_id');
+        return $this->hasOne(Category::class,'id','categories_id')->withDefault();
+
     }
 
     public function seasons()

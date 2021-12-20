@@ -33,8 +33,9 @@ class SeasonListLayout extends Table
 
             TD::make('banner', 'Banner')
                 ->render(function ($seasons) {
-                    $img = '<a href="'.route('platform.season.edit', $seasons).'"><img src="https://via.placeholder.com/100X150?text=Thumb" height="100px" width="150px" class="rounded" alt="season-thumb"></a>';
-                    return $img;
+                    $placeholder = url('https://via.placeholder.com/100X120/FF0000/FFFFFF?text=Thumb');
+                    return '<a href="'.route('platform.season.edit', $seasons).'">
+                    <img src="'.$placeholder.'" height="100px" width="100px" class="rounded" alt="season-thumb"></a>';
                 })->sort(),
 
 

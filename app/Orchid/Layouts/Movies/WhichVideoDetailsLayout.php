@@ -21,7 +21,7 @@ class WhichVideoDetailsLayout extends Rows
      * @var string
      */
     protected $target = 'content';
-    protected $title = 'Available Video Details';
+    protected $title = '';
 
     /**
      * Get the table cells to be displayed.
@@ -42,22 +42,22 @@ class WhichVideoDetailsLayout extends Rows
                 Input::make('content.videos.title')
                     ->title('Video Title')
                     ->placeholder('Add a video to get video Title')
-                    ->disabled(true),
+                    ->disabled(true)->canSee($this->query->get('exists')),
                 Input::make('content.videos.channel')
                     ->title('Channel Name')
                     ->placeholder('Add a video to get video Channel Name')
-                    ->disabled(true),
+                    ->disabled(true)->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
             Group::make([
                 TextArea::make('content.videos.code')
                     ->title('Embedded Code')
                     ->placeholder('Add a video to get video Embedded Code')
-                    ->disabled(true),
+                    ->disabled(true)->canSee($this->query->get('exists')),
                 Input::make('content.videos.provider')
                     ->title('Provider')
                     ->placeholder('Add a video to get video Provider')
-                    ->disabled(true),
+                    ->disabled(true)->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
 

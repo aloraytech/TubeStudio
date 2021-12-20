@@ -11,6 +11,22 @@ use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
+/**
+ * App/Models/Movies
+ * @property $videos
+ * @property $categories
+ * @property $activities
+ * @property $banner
+ * @property $tags
+ * @property $id
+ * @property $name
+ * @property $quality
+ * @property $desc
+ * @property $release_on
+ * @property $duration
+ * @property $videos_id
+ * @property $categories_id
+ */
 class Movies extends Model
 {
     use HasFactory,AsSource;
@@ -19,13 +35,19 @@ class Movies extends Model
         'name',
         'quality',
         'banner',
+        'display_image',
         'desc',
-        'tags',
+        'views',
+        'age_group',
+        'duration',
         'release_on',
+        'status',
     ];
     protected $casts = [
         'tags'=> 'array',
     ];
+
+
 
     public function videos()
     {

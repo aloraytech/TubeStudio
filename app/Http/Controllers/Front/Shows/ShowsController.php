@@ -14,18 +14,16 @@ class ShowsController extends Controller
 
         $shows->load('seasons','seasons.episodes','seasons.trailers','categories');
 
-
+        $pages = $this->pages;
+        $system = $this->systems;
 
         $allMovies = Shows::where('status',true)->latest('updated_at')->get();
         $similars = $allMovies->where('categories_id','=',$shows->categories_id);
         $upcoming = $allMovies->where('release_on','>',now());
 
 
-        // Load System Data
-        $system = Sysfigs::find(1);
-
 //        dd($movies);
-        return view('pages.'.$system->theme.'.front.show.watch')->with(compact('system','shows','similars','upcoming'));
+        return view('pages.'.$system->theme.'.front.show.watch')->with(compact('system','pages','shows','similars','upcoming'));
 
     }
 
@@ -35,10 +33,11 @@ class ShowsController extends Controller
     {
         echo "Hello";
         // Load System Data
-        $system = Sysfigs::find(1);
+        $pages = $this->pages;
+        $system = $this->systems;
         $movies = Shows::where('status',true)->with('categories','videos')->latest('updated_at')->get();
 
-        return view('pages.'.$system->themes->name.'.front.category.movie_list')->with(compact('system','movies'));
+        return view('pages.'.$system->themes->name.'.front.category.movie_list')->with(compact('system','pages','movies'));
     }
 
 }
