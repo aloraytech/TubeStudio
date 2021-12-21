@@ -7,10 +7,10 @@
                     <div class="main-circle"><i class="las la-bars"></i></div>
                 </div>
                 <div class="iq-navbar-logo d-flex justify-content-between">
-                    <a href="index.html" class="header-logo">
-                        <img src="../assets/images/logo.png" class="img-fluid rounded-normal" alt="">
+                    <a href="{{route('member.dashboard.index')}}" class="header-logo">
+                        <img src="{{$system->logo}}" class="img-fluid rounded-normal" alt="">
                         <div class="logo-title">
-                            <span class="text-primary text-uppercase">Streamit</span>
+                            <span class="text-primary text-uppercase">{{strtoupper(config('app.name'))}}</span>
                         </div>
                     </a>
                 </div>
@@ -84,7 +84,7 @@
                                                 <img class="avatar-40 rounded" src="../assets/images/user/01.jpg" alt="">
                                             </div>
                                             <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">Barry Emma Watson</h6>
+                                                <h6 class="mb-0 ">{{$user->name}}</h6>
                                                 <small class="float-left font-size-12">13 Jun</small>
                                             </div>
                                         </div>
@@ -156,7 +156,7 @@
 
 
                                     <div class="d-inline-block w-100 text-center p-3">
-                                        <a class="bg-primary iq-sign-btn" href="{{ route('logout.user') }}" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                        <a class="bg-primary iq-sign-btn" href="{{ route('logout') }}" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
 
 

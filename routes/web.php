@@ -37,8 +37,10 @@ use App\Http\Controllers\Front\Blog\PostController;
 // CLIENT SIDE
 Route::get('/', [FrontController::class, 'index'])->name('landing.index');
 // Member Auth
-Route::match(['get','post'],'/login', [AuthController::class, 'login'])->name('login.user');
-Route::match(['get','post'],'/register', [AuthController::class, 'register'])->name('register.user');
+
+Route::match(['get','post'],'/login', [AuthController::class, 'login'])->name('login');
+Route::match(['get','post'],'/register', [AuthController::class, 'register'])->name('register');
+Route::match(['get','post'],'/forget-password', [AuthController::class, 'forget'])->name('forget.password');
 
 //Socialite
 Route::get('/login/{provider?}', [SocialAuthController::class,'redirectToProvider'])->name('provider.login');
@@ -67,10 +69,10 @@ Route::get('/'.env('CATEGORY').'/'.env('BLOG').'s/',[CategoryController::class,'
 
 // Backend Member
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('details', [AuthController::class, "details"])->name('detail.user');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.user');
-    Route::get('/dashboard',[MemberController::class,'dashboard'])->name('member.dashboard.index');
-    Route::get('/library',[MemberController::class,'dashboard'])->name('member.dashboard.library');
-    Route::get('/watchlist',[MemberController::class,'dashboard'])->name('member.dashboard.watchlist');
+    Route::get('/details', [AuthController::class, "details"])->name('detail.user');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/member/dashboard',[MemberController::class,'dashboard'])->name('member.dashboard.index');
+    Route::get('/member/dashboard/library',[MemberController::class,'library'])->name('member.dashboard.library');
+    Route::get('/member/dashboard/watchlist',[MemberController::class,'watchlist'])->name('member.dashboard.watchlist');
 });
 

@@ -148,6 +148,7 @@ class AuthController extends Controller
         {
             report($e);
 
+
         }
 
 
@@ -163,11 +164,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+
         Auth::guard('member')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        $error = 'Successfully logged out';
-        return route('landing.index',[$error]);
+        return redirect(route('login'));
     }
 
 
@@ -187,6 +188,17 @@ class AuthController extends Controller
 
 
 
+
+    public function forget(Request $request)
+    {
+
+        $system = $this->systems;
+        $pages = $this->pages;
+        $error ='';
+
+        return view('pages.'.$system->themes->name.'.front.member.auth.reset_password')->with(compact('system','pages','error'));
+
+    }
 
 
 

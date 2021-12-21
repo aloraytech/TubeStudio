@@ -14,20 +14,31 @@
                                 <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                             </div>
                         </a>
-                        <a class="navbar-brand" href="{{url('/')}}"> <img class="img-fluid logo" src="images/logo.png"
+                        <a class="navbar-brand" href="{{route('landing.index')}}"> <img class="img-fluid logo" src="{{$system->logo}}"
                                                                         alt="{{env('APP_NAME')}}" /> </a>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
                                     <li class="menu-item">
-                                        <a href="{{url('/')}}">Home</a>
+                                        <a href="{{route('landing.index')}}">Home</a>
                                     </li>
+                                    @if($system->show_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.show')}}">Tv Shows</a>
+                                        <a href="{{route('category.show')}}">{{ucfirst(config('app.path.show'))}}</a>
                                     </li>
+                                    @endif
+                                    @if($system->movie_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.movie')}}">Movies</a>
+                                        <a href="{{route('category.movie')}}">{{ucfirst(config('app.path.movie'))}}</a>
                                     </li>
+                                    @endif
+
+                                    @if($system->blog_pack)
+                                        <li class="menu-item">
+                                            <a href="{{route('category.blog')}}">{{ucfirst(config('app.path.blog'))}}</a>
+                                        </li>
+                                    @endif
+
                                 </ul>
                             </div>
                         </div>
@@ -269,7 +280,7 @@
 
                                                     {{--LOGIN--}}
 
-                                                <a href="{{route('login.user')}}" class="iq-sub-card setting-dropdown">
+                                                <a href="{{route('login')}}" class="iq-sub-card setting-dropdown">
                                                     <div class="media align-items-center">
                                                         <div class="right-icon">
                                                             <i class="ri-logout-circle-line text-primary"></i>
@@ -281,7 +292,7 @@
                                                 </a>
 
                                                 {{--LOGOUT--}}
-                                                <a href="{{route('logout.user')}}" class="iq-sub-card setting-dropdown">
+                                                <a href="{{route('logout')}}" class="iq-sub-card setting-dropdown">
                                                     <div class="media align-items-center">
                                                         <div class="right-icon">
                                                             <i class="ri-logout-circle-line text-primary"></i>
