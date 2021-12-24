@@ -48,11 +48,22 @@ class MovieListLayout extends Table
                 return $movie->categories->name;
             })->sort(),
 
+            TD::make('release_on', 'Published')->render(function ($movie) {
+                    $remain = ($movie->release_on > now()) ? '<i class="text-success">'.
+                        ((date_diff(date_create($movie->release_on), date_create(now()))->days > 365) ? round(date_diff(date_create($movie->release_on), date_create(now()))->days/365) .' Years Left' : date_diff(date_create($movie->release_on), date_create(now()))->days . ' Days Left' )
+                        . '</i>' :
+                        ' <i class="text-info">'.( (date_diff(date_create(now()),date_create($movie->release_on))->days >365) ? round(date_diff(date_create(now()),date_create($movie->release_on))->days/365) .' Years Passed' :
+                            date_diff(date_create(now()),date_create($movie->release_on))->days . ' Days Passed') . '</i>';
+
+                return date_format(date_create($movie->release_on),'Y-m-d') .'<br> <b>( </b>'.$remain.'<b> )</b>';
+                //return now();
+            })->sort(),
+
             TD::make('updated_at', 'Modified')->render(function ($movie) {
                 return $movie->updated_at;
             })->sort(),
             TD::make('status', 'Status')->render(function ($movie) {
-                return ($movie->status) ? 'Active':'DeActive';
+                return ($movie->status) ? '<b class="text-success">Active</b>':'<b class="text-danger">DeActive</b>';
             })->sort(),
 
         ];

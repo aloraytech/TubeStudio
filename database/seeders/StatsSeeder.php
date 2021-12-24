@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Movies\Movies;
 use Illuminate\Database\Seeder;
 
-class MoviesSeeder extends Seeder
+class StatsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +13,6 @@ class MoviesSeeder extends Seeder
      */
     public function run()
     {
-
-        Movies::factory()
-            ->count(50)
-            ->create();
-
+        //
     }
 }

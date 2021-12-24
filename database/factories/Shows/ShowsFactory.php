@@ -29,6 +29,7 @@ class ShowsFactory extends Factory
             'age_group' => $this->faker->randomElement(['U','18+','Kids']),
             'trailer' => Videos::factory(1)->create()->first(),
             'release_on' => $this->faker->dateTime(),
+            'views' => $this->faker->randomDigit(),
         ];
     }
 }

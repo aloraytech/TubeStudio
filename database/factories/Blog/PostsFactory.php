@@ -17,7 +17,7 @@ class PostsFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->word(),
+            'name' => $this->faker->word(),
             'desc' => $this->faker->text(200),
             'categories_id' => Category::factory(1)->state([
                 'type' => 'blog',
@@ -25,6 +25,7 @@ class PostsFactory extends Factory
             'banner' => $this->faker->imageUrl(),
             'display_image' => $this->faker->imageUrl(),
             'tags' => $this->faker->words(10),
+            'views' => $this->faker->randomDigit()
         ];
     }
 }

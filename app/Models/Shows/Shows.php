@@ -65,7 +65,7 @@ class Shows extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tags::class,'id','tags');
+        return $this->hasMany(Tags::class,'id','tags_id');
     }
 
 

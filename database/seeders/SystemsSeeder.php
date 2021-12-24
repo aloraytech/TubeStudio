@@ -55,6 +55,7 @@ class SystemsSeeder extends Seeder
                 'version'=> 'v.1.0',
                 'created_at'=> date('Y-m-d h:m:s'),
                 'updated_at'=> date('Y-m-d h:m:s'),
+
             ]
 
         ];

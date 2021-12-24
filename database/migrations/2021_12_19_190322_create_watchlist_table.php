@@ -15,12 +15,8 @@ class CreateWatchlistTable extends Migration
     {
         Schema::create('watchlist', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('movies_id')->nullable()->constrained('movies')->onUpdate('restrict')->onDelete('restrict');
-            $table->foreignId('episodes_id')->nullable()->constrained('episodes')->onUpdate('restrict')->onDelete('restrict');
-            $table->foreignId('posts_id')->nullable()->constrained('posts')->onUpdate('restrict')->onDelete('restrict');
-            $table->foreignId('members_id')->nullable()->constrained('members')->onUpdate('restrict')->onDelete('restrict');
-
+            $table->foreignId('parent_id')->nullable()->constrained('watchlist')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name')->default('New List');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Movies;
 
+use App\Helpers\Customizer\PathCustomizer;
 use App\Helpers\Grabber\VideoGrabber;
 use App\Models\Category\Category;
 use App\Models\Category\Tags;
@@ -76,6 +77,7 @@ class MovieEditScreen extends Screen
             'movie' => $movies,
             'exists'=>$this->exists,
             'content'=>$movies,
+            'select'=>'movie',
         ];
     }
 
@@ -132,6 +134,10 @@ class MovieEditScreen extends Screen
 
 
 
+
+
+
+
     /**
      * Views.
      *
@@ -146,7 +152,7 @@ class MovieEditScreen extends Screen
                     ->title('Video Url')
                     ->placeholder('Paste video link here')
                     ->help('Specify a valid video link for generate movie')->required(),
-                Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
+                Select::make('movie.categories_id')->fromQuery(Category::where('type', '=', 'movie'), 'name')
                     ->title('Select Category')->required(),
             ])->canSee(!$this->exists)->title('Place Video Url'),
 
@@ -173,13 +179,13 @@ class MovieEditScreen extends Screen
 
 
             Layout::modal('asyncCategoryModal', [
-                CategoryEditLayout::class
-            ])->title('Manage Category'),
+                CategoryModalLayout::class
+            ])->title('Create '.Str::ucfirst(config('app.path.category'))),
 
 
             Layout::modal('asyncTagsModal', [
                 TagModalLayout::class
-            ])->title('Manage Tags'),
+            ])->title('Create '.Str::ucfirst(config('app.path.tag'))),
 
 
 
@@ -311,8 +317,11 @@ class MovieEditScreen extends Screen
     {
         // Create
         $data = $request->get('category');
+        if(empty($data['banner'])){$data['banner'] = 'https://via.placeholder.com/1920x1080/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
+        if(empty($data['desc'])){$data['desc'] = Str::snake('Containing '.$data['name'] .' '. config('app.path.category').' Content');}
         // Fix For Categories ID
-        //$category->categories_id = $data['categories_id'];
+        $category->parent_id = $data['parent_id'];
+        $category->type = 'movie';
         $category->fill($data)->save();
         //$category->fill($data)->save();
         $images = $request->input('category.banner', []);

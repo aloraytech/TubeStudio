@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Helpers\SystemHandler;
 use App\Models\System\Systems;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
@@ -34,26 +35,8 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
 
-        $system = Systems::first([
-            'logo',
-            'favicon',
-            'slogan',
-            'lang',
-            'installed',
-            "movie_pack",
-            "show_pack",
-            "trailer_pack",
-            "blog_pack",
-            "advert_pack",
-            "social_pack",
-            "shop_pack",
-            "private_pack",
-            "payment_pack",
-            'activity_pack',
-            "valid_secret",
-            'client_email',
-            'suite_by',
-        ]);
+        $handler = new SystemHandler();
+        $system = $handler->getSystem();
 
 
 

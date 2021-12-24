@@ -1,3 +1,11 @@
+<?php
+
+    $cc = 0;
+
+
+?>
+
+
 <section id="iq-trending" class="s-margin">
     <div class="container-fluid">
         <div class="row">
@@ -13,7 +21,7 @@
 
                         {{--Show Sliders--}}
 
-                        @foreach($shows as $show)
+                        @foreach($trending as $show)
 
                         <li>
                             <a href="javascript:void(0);">
@@ -32,11 +40,13 @@
                     <ul id="trending-slider" class="list-inline p-0 m-0  d-flex align-items-center">
 
                         {{--Show Details--}}
-                        @foreach($shows as $show)
-
+                        @foreach($trending as $show)
+                        <?php
+                            $cc += 1;
+                        ?>
                         <li>
                             <div class="trending-block position-relative"
-                                 style="background-image: url(images/trending/01.jpg);">
+                                 style="background-image: url({{$system->index_bg}});">
                                 <div class="trending-custom-tab">
                                     <div class="tab-title-info position-relative">
                                         <ul class="trending-pills d-flex nav nav-pills justify-content-center align-items-center text-center"
@@ -71,26 +81,30 @@
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="res-logo">
                                                         <div class="channel-logo">
-                                                            <img src="{{$system->logo}}" class="c-logo" alt="{{env('APP_NAME')}}">
+                                                            <img src="{{$system->logo}}" class="c-logo" alt="{{(strtoupper(config('app.name')))}}">
                                                         </div>
                                                     </div>
                                                 </a>
                                                 <h1 class="trending-text big-title text-uppercase">{{$show->name}}</h1>
                                                 <div class="d-flex align-items-center text-white text-detail">
                                                     <span class="badge badge-secondary p-3">{{$show->age_group}}</span>
-                                                    <span class="ml-3">{{$show->seasons->count()}} Seasons</span>
+                                                    <span class="ml-3">{{$show->seasons_count}} Seasons</span>
                                                     <span class="trending-year">2020</span>
                                                 </div>
                                                 <div class="d-flex align-items-center series mb-4">
                                                     <a href="javascript:void(0);"><img src="assets/front/images/trending/trending-label.png"
                                                                                        class="img-fluid" alt=""></a>
-                                                    <span class="text-gold ml-3">#2 in Series Today</span>
+
+
+
+                                                    <span class="text-gold ml-3">#{{$cc}} Best in Series Today</span>
+
                                                 </div>
                                                 <p class="trending-dec">{{$show->desc}}
                                                 </p>
                                                 <div class="p-btns">
                                                     <div class="d-flex align-items-center p-0">
-                                                        <a href="show-details.html" class="btn btn-hover mr-2" tabindex="0"><i
+                                                        <a href="{{route('show.view',$show->name)}}" class="btn btn-hover mr-2" tabindex="0"><i
                                                                 class="fa fa-play mr-2" aria-hidden="true"></i>Play Now</a>
                                                         <a href="javascript:void(0);" class="btn btn-link" tabindex="0"><i class="ri-add-line"></i>My
                                                             List</a>
@@ -176,20 +190,20 @@
                                                             @foreach($season->trailers as $trailer)
                                                         <div class="e-item">
                                                             <div class="block-image position-relative">
-                                                                <a href="{{url($system->s_url.'/watch/'.$trailer->name)}}" target="_blank">
+                                                                <a href="{{route('trailer.view',$trailer->name)}}" target="_blank">
                                                                     <img src="{{$trailer->banner}}" class="img-fluid" alt="">
                                                                 </a>
                                                                 <div class="episode-number">1</div>
                                                                 <div class="episode-play-info">
                                                                     <div class="episode-play">
-                                                                        <a href="{{url($system->s_url.'/watch/'.$trailer->title)}}" target="_blank" tabindex="0"><i
+                                                                        <a href="{{route('trailer.view',$trailer->name)}}" target="_blank" tabindex="0"><i
                                                                                 class="ri-play-fill"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="episodes-description text-body mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="{{url($system->s_url.'/watch/'.$trailer->title)}}" target="_blank">Trailer</a>
+                                                                    <a href="{{route('trailer.view',$trailer->name)}}" target="_blank">Trailer</a>
                                                                     <span class="text-primary">2.25 m</span>
                                                                 </div>
                                                                 <p class="mb-0">{{$trailer->desc}}</p>
@@ -212,32 +226,32 @@
                                             <div class="trending-info align-items-center w-100 animated fadeInUp">
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="channel-logo">
-                                                        <img src="images/logo.png" class="c-logo" alt="stramit">
+                                                        <img src="{{$system->logo}}" class="c-logo" alt="{{(strtoupper(config('app.name')))}}">
                                                     </div>
                                                 </a>
                                                 <h1 class="trending-text big-title text-uppercase">the hero camp</h1>
                                                 <div class="episodes-contens mt-4">
                                                     <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0">
 
-                                                        @foreach($shows as $similarShow)
+                                                        @foreach($trending as $similarShow)
                                                         @if($show->categories_id === $similarShow->categories_id)
 
                                                         <div class="e-item">
                                                             <div class="block-image position-relative">
-                                                                <a href="show-details.html">
+                                                                <a href="{{route('show.view',$show->name)}}">
                                                                     <img src="{{$similarShow->banner}}" class="img-fluid" alt="">
                                                                 </a>
                                                                 <div class="episode-number">2</div>
                                                                 <div class="episode-play-info">
                                                                     <div class="episode-play">
-                                                                        <a href="show-details.html" tabindex="0"><i
+                                                                        <a href="{{route('show.view',$show->name)}}" tabindex="0"><i
                                                                                 class="ri-play-fill"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="episodes-description text-body mt-2">
                                                                 <div class="d-flex align-items-center justify-content-between">
-                                                                    <a href="show-details.html">{{$similarShow->name}}</a>
+                                                                    <a href="{{route('show.view',$show->name)}}">{{$similarShow->name}}</a>
                                                                     <span class="text-primary">{{$similarShow->duration}}</span>
                                                                 </div>
                                                                 <p class="mb-0">{{$similarShow->desc}}</p>

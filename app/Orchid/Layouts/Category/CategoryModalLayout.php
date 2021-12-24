@@ -2,8 +2,12 @@
 
 namespace App\Orchid\Layouts\Category;
 
+use App\Models\Category\Category;
+use Illuminate\Support\Str;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -18,7 +22,7 @@ class CategoryModalLayout extends Rows
      *
      * @var string
      */
-    protected $target = 'categories';
+    protected $target = 'category';
 
     /**
      * Get the table cells to be displayed.
@@ -34,8 +38,12 @@ class CategoryModalLayout extends Rows
     {
         return [
 
-            Input::make('categories.name')->title('Name'),
+            Input::make('category.name')->title('Name')->required(),
 
+            Select::make('category.parent_id')->title('Parent '.Str::ucfirst(config('app.path.category')))
+                ->fromQuery(Category::where('type', '=', $this->query->get('select')), 'name'),
+
+            TextArea::make('category.desc')->title('Description'),
 
 
 

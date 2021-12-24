@@ -62,9 +62,9 @@ Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,
 Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly'])->name('category.show');
 Route::get('/'.env('CATEGORY').'/'.env('BLOG').'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');
 
+Route::get('/'.env('TRAILER').'s/{trailer:name}',[ShowsController::class,'watchTrailer'])->name('trailer.view');
 
-
-
+Route::get('/'.env('CATEGORY').'/{category?}',[CategoryController::class,'getCategory'])->name('category.category');
 
 
 // Backend Member

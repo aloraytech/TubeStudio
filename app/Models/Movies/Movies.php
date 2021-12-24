@@ -5,6 +5,7 @@ namespace App\Models\Movies;
 use App\Models\Category\Category;
 use App\Models\Category\Tags;
 use App\Models\System\Activities;
+use App\Models\System\Stats;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Attachment\Attachable;
@@ -42,6 +43,7 @@ class Movies extends Model
         'duration',
         'release_on',
         'status',
+        'tags',
     ];
     protected $casts = [
         'tags'=> 'array',
@@ -60,9 +62,9 @@ class Movies extends Model
         return $this->hasOne(Category::class,'id','categories_id')->withDefault();
     }
 
-    public function activities()
+    public function stats()
     {
-        return $this->belongsToMany(Activities::class);
+        return $this->hasMany(Stats::class,'movies_id','id');
     }
 
 

@@ -120,11 +120,11 @@ class PostEditScreen extends Screen
         $creation = $posts->exists;
         $data = $request->get('post');
         $posts->categories_id = $data['categories_id'];
-        if(empty($data['banner'])) {$data['banner'] = 'https://via.placeholder.com/1920x1080/FF0000/FFFFFF?Text='.Str::snake($data['title']);}
-        if(empty($data['display_image'])){$data['display_image'] = 'https://via.placeholder.com/744x432/FF0000/FFFFFF?Text='.Str::snake($data['title']);}
+        if(empty($data['banner'])) {$data['banner'] = 'https://via.placeholder.com/1920x1080/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
+        if(empty($data['display_image'])){$data['display_image'] = 'https://via.placeholder.com/744x432/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
         $posts->tags = $data['tags'];
         $posts->fill($data)->save();
-        $contentTitle = $data['title'] ?? $posts->title;
+        $contentTitle = $data['name'] ?? $posts->name;
 
         if($creation)
         {

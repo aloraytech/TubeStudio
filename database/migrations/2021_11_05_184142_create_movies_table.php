@@ -15,12 +15,7 @@ class CreateMoviesTable extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categories_id')->constrained('categories')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('videos_id')->unique()->constrained('videos')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+
             $table->string('name');
             $table->string('quality')->nullable();
             $table->string('banner')->nullable();
@@ -33,6 +28,12 @@ class CreateMoviesTable extends Migration
             $table->dateTime('release_on')->nullable();
             $table->string('duration')->nullable();
             $table->boolean('status')->default(true);
+            $table->foreignId('categories_id')->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('videos_id')->unique()->constrained('videos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

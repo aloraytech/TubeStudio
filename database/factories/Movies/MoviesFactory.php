@@ -31,6 +31,7 @@ class MoviesFactory extends Factory
             'age_group' => $this->faker->randomElement(['U','18+','Kids']),
             'release_on' => $this->faker->dateTime(),
             'duration'=> $this->faker->time('i:s'),
+            'views' => $this->faker->randomDigit()
         ];
     }
 }

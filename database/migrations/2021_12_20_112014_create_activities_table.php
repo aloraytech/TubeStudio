@@ -18,23 +18,12 @@ class CreateActivitiesTable extends Migration
             $table->string('in_time');
             $table->string('out_time');
             $table->string('subject')->default('new activity');
-            $table->string('url')->nullable();
-
-
-            $table->boolean('like')->default(false);
-            $table->boolean('favourite')->default(false);
-            $table->boolean('watchlist')->default(false);
-            $table->json('detail')->nullable();
-
-            $table->foreignId('movies_id')->nullable()->constrained('movies')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('shows_id')->nullable()->constrained('shows')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('seasons_id')->nullable()->constrained('seasons')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('episodes_id')->nullable()->constrained('episodes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('posts_id')->nullable()->constrained('posts')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('pages_id')->nullable()->constrained('pages')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('url_visit')->nullable();
+            $table->string('url_from')->nullable();
+            $table->boolean('guest')->default(true);
+            $table->string('guest_contact')->nullable();
             $table->foreignId('members_id')->nullable()->constrained('members')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('adverts_id')->nullable()->constrained('adverts')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->json('detail')->nullable();
             $table->timestamps();
         });
     }

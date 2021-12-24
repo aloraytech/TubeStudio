@@ -18,13 +18,13 @@ class ShowsSeeder extends Seeder
     public function run()
     {
         Shows::factory()
-            ->count(20)
+            ->count(50)
             ->has(Seasons::factory()
                 ->has(Episodes::factory()
-                    ->count(5),'episodes')
+                    ->count(10),'episodes')
                 ->has(Trailers::factory()
                     ->count(5),'trailers')
-                ->count(5),'seasons')
+                ->count(10),'seasons')
             ->create();
     }
 }

@@ -44,8 +44,8 @@ class PostEditLayout extends Rows
         return [
 
             Group::make([
-                Input::make('post.title')
-                    ->title('Title')
+                Input::make('post.name')
+                    ->title('Name')
                     ->placeholder('Attractive but mysterious name')
                     ->help('Specify a short descriptive title for the event'),
 
