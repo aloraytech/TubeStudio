@@ -32,22 +32,6 @@ class FrontController extends Controller
 
     public function index(Request $request)
     {
-//        $customizer = new \App\Helpers\PathCustomizer();
-//        $customizer->setPath(json_encode([
-//            'category' => 'categories',
-//            'movie'=> 'movie',
-//            'show'=> 'tv-show',
-//            'season'=> 'season',
-//            'trailer'=> 'trailer',
-//            'episode'=> 'episode',
-//            'blog'=> 'blog',
-//            'post'=> 'post',
-//            'watchlist'=>'watchlist',
-//            'tag'=> 'tag',
-//            'public_dir'=> 'public',
-//
-//        ]));
-
 
         $system = $this->systems;
         $pages = $this->pages;
@@ -105,6 +89,7 @@ class FrontController extends Controller
                 return view('optional.coming.soon')->with(compact('system','pages'));
             }
         }else{
+
             // Run Installer
             return view('optional.setup.installer')->with(compact('system','pages'));
         }

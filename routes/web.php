@@ -15,8 +15,9 @@ use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Front\SearchController;
 use App\Http\Controllers\Front\Pages\PageController;
 use App\Http\Controllers\Front\Blog\PostController;
-
-
+use App\Helpers\PathCustomizer;
+$customizer = new PathCustomizer();
+$path = $customizer->getPath();
 
 /*
 |--------------------------------------------------------------------------
@@ -56,15 +57,15 @@ Route::get('/faq',[PageController::class,'view'])->name('pages.faq');
 Route::get('/contact-us',[PageController::class,'view'])->name('pages.contact.us');
 Route::get('/legals',[PageController::class,'view'])->name('pages.legals');
 // Studio Pages
-Route::get('/'.env('MOVIE').'s/{movies:name}',[MoviesController::class,'getSingle'])->name('movie.view');
-Route::get('/'.env('SHOW').'s/{shows:name}',[ShowsController::class,'getSingle'])->name('show.view');
-Route::get('/'.env('CATEGORY').'/'.env('MOVIE').'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
-Route::get('/'.env('CATEGORY').'/'.env('SHOW').'s/',[CategoryController::class,'showsOnly'])->name('category.show');
-Route::get('/'.env('CATEGORY').'/'.env('BLOG').'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');
+Route::get('/'.$path['movie'].'s/{movies:name}',[MoviesController::class,'getSingle'])->name('movie.view');
+Route::get('/'.$path['show'].'s/{shows:name}',[ShowsController::class,'getSingle'])->name('show.view');
+Route::get('/'.$path['category'].'/'.$path['movie'].'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
+Route::get('/'.$path['category'].'/'.$path['show'].'s/',[CategoryController::class,'showsOnly'])->name('category.show');
+Route::get('/'.$path['category'].'/'.$path['blog'].'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');
 
-Route::get('/'.env('TRAILER').'s/{trailer:name}',[ShowsController::class,'watchTrailer'])->name('trailer.view');
+Route::get('/'.$path['category'].'s/{trailer:name}',[ShowsController::class,'watchTrailer'])->name('trailer.view');
 
-Route::get('/'.env('CATEGORY').'/{category?}',[CategoryController::class,'getCategory'])->name('category.category');
+Route::get('/'.$path['category'].'/{category?}',[CategoryController::class,'getCategory'])->name('category.category');
 
 
 // Backend Member

@@ -1,8 +1,8 @@
 <?php
     $pub_dir ='';
-    if(!file_exists(asset('assets/front/css/bootstrap.min.css')))
+    if(file_exists(asset('public/assets/front/css/bootstrap.min.css')))
     {
-        $pub_dir = 'public/'
+        $pub_dir = 'public/';
     }
 ?>
 <!doctype html>

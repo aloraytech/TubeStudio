@@ -24,18 +24,18 @@
                                     </li>
                                     @if($system->show_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.show')}}">{{ucfirst(config('app.path.show'))}}</a>
+                                        <a href="{{route('category.show')}}">{{ucfirst($system->path->show)}}</a>
                                     </li>
                                     @endif
                                     @if($system->movie_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.movie')}}">{{ucfirst(config('app.path.movie'))}}</a>
+                                        <a href="{{route('category.movie')}}">{{ucfirst($system->path->movie)}}</a>
                                     </li>
                                     @endif
 
                                     @if($system->blog_pack)
                                         <li class="menu-item">
-                                            <a href="{{route('category.blog')}}">{{ucfirst(config('app.path.blog'))}}</a>
+                                            <a href="{{route('category.blog')}}">{{ucfirst($system->path->blog)}}</a>
                                         </li>
                                     @endif
 

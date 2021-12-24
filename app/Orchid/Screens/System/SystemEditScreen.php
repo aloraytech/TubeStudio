@@ -102,7 +102,9 @@ class SystemEditScreen extends Screen
     public function createOrUpdate(Systems $systems, Request $request)
     {
         $data = $request->get('system');
+        $data['installed'] = true;
         $systems->themes_id = $data['themes_id'];
+
         $systems->fill($data)->save();
         Alert::success('System Successfully Updated');
         return redirect()->route('platform.setting.list');
