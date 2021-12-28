@@ -146,7 +146,7 @@ Route::screen('movie/{movie?}', MovieEditScreen::class)
 Route::screen('movies', MovieListScreen::class)
     ->name('platform.movie.list');
 
-Route::screen('video/{video?}', VideoEditScreen::class)
+Route::screen('video/{video?}}', VideoEditScreen::class)
     ->name('platform.video.edit');
 
 

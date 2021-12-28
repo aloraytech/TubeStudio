@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePagesTable extends Migration
@@ -15,6 +16,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+
             $table->string('title')->default('Undefined PageName');
             $table->text('desc')->nullable();
             $table->integer('position')->default(0);

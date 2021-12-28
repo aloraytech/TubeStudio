@@ -72,10 +72,28 @@ class ShowEditLayout extends Rows
                     ->help('Set Private For Subscribed Member And Global For All'),
 
 
-                Relation::make('show.tags')
-                    ->fromModel(Tags::class, 'name')
-                    ->multiple()
-                    ->title('Choose Tags From List')->required(),
+                Select::make('show.age_group')
+                    ->options([
+                        'Kids'   => 'Kids',
+                        'U'   => 'U',
+                        '18+'   => '18+',
+                    ])
+                    ->title('Age Group')
+                    ->canSee($this->query->get('exists')),
+
+
+
+
+
+//                Relation::make('show.tags')
+//                    ->fromModel(Tags::class, 'name','id')
+//                    ->multiple()
+//                    ->title('Choose Tags From List')->required(),
+
+
+                Select::make('show.tags')->title('Choose Tags')
+                    ->fromModel(Tags::class, 'slug', 'slug')->multiple()
+                    ->required(),
 
             ])->fullWidth(),
 

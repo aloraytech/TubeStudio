@@ -33,7 +33,7 @@ class SystemsSeeder extends Seeder
                 'login_bg'=> 'https://via.placeholder.com/1024X682?text=Signin Background',
                 'signup_bg'=>'https://via.placeholder.com/1024X682?text=Signup Background',
                 'index_bg'=>'https://via.placeholder.com/1920X900?text=Landing Background',
-                'themes_id' => 1,
+                'themes_id' => 2,
                 'has_slider' => true,
                 'has_upcoming' => true,
                 'movie_pack' =>  true,

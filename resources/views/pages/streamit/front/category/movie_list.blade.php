@@ -32,19 +32,10 @@
                     aria-haspopup="true" aria-expanded="false">
                 Genres
             </button>
-            <div class="dropdown-menu three-column" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Hindi</a>
-                <a class="dropdown-item" href="#">Tamil</a>
-                <a class="dropdown-item" href="#">Punjabi</a>
-                <a class="dropdown-item" href="#">English</a>
-                <a class="dropdown-item" href="#">Comedies</a>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Romance</a>
-                <a class="dropdown-item" href="#">Dramas</a>
-                <a class="dropdown-item" href="#">Bollywood</a>
-                <a class="dropdown-item" href="#">Hollywood</a>
-                <a class="dropdown-item" href="#">Children & Family</a>
-                <a class="dropdown-item" href="#">Award-Winning</a>
+            <div class="dropdown-menu three-column" aria-labelledby="dropdownMenuButton2">
+                @foreach($category as $genre)
+                    <a class="dropdown-item" href="{{route('category.view',$genre->name)}}">{{$genre->name}}</a>
+                @endforeach
             </div>
         </div>
 

@@ -25,6 +25,7 @@ use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Upload;
@@ -72,12 +73,14 @@ class MovieEditScreen extends Screen
                 $movies->banner = "https://via.placeholder.com/1930x1080.png?text=1920X1080";
             }
         }
+        $this->tags = $movies->tags;
 
         return [
             'movie' => $movies,
             'exists'=>$this->exists,
             'content'=>$movies,
             'select'=>'movie',
+            'tags' => $movies->tags,
         ];
     }
 
@@ -158,7 +161,17 @@ class MovieEditScreen extends Screen
 
             MovieEditLayout::class,
 
+
+
+
+
+
+
+
             Layout::rows([
+
+
+
                 Group::make([
                 Cropper::make('movie.banner')
                     ->title('Banner')
@@ -213,6 +226,7 @@ class MovieEditScreen extends Screen
     public function createOrUpdate(Movies $movie, Request $request)
     {
 
+
         $creation = $movie->exists;
         if (isset($request->url))
         {
@@ -237,6 +251,9 @@ class MovieEditScreen extends Screen
                     $movie->quality = '240p';
                     $movie->duration = '00:00:00';
                     $movie->fill($data)->save();
+                    // Tags
+
+
                     //$movie->save();
                     $contentTitle = $data['name'] ?? $movie->name;
 
@@ -345,7 +362,7 @@ class MovieEditScreen extends Screen
      */
     public function createTags(Movies $movies,Tags $tags, Request $request)
     {
-        $tags->fill($request->get('tag'))->save();
+//        $tags->fill($request->get('tag'))->save();
         Alert::success('You have successfully created an tag.');
         return redirect()->route('platform.movie.edit',$movies->id);
     }

@@ -1,9 +1,4 @@
-<?php
 
-    $cc = 0;
-
-
-?>
 
 
 <section id="iq-trending" class="s-margin">
@@ -40,10 +35,8 @@
                     <ul id="trending-slider" class="list-inline p-0 m-0  d-flex align-items-center">
 
                         {{--Show Details--}}
-                        @foreach($trending as $show)
-                        <?php
-                            $cc += 1;
-                        ?>
+                        @foreach($trending as $key => $show)
+
                         <li>
                             <div class="trending-block position-relative"
                                  style="background-image: url({{$system->index_bg}});">
@@ -76,7 +69,7 @@
 
                                     <div class="trending-content">
                                         {{--First Page OVERVIEW--}}
-                                        <div id="trending-data1" class="overview-tab tab-pane fade active show">
+                                        <div id="trending-data1" class="overview-tab tab-pane fade active show" style="background-image: url('{{asset($show->banner) }}');background-size: 1920px 1080px;">
                                             <div class="trending-info align-items-center w-100 animated fadeInUp">
                                                 <a href="javascript:void(0);" tabindex="0">
                                                     <div class="res-logo">
@@ -97,10 +90,10 @@
 
 
 
-                                                    <span class="text-gold ml-3">#{{$cc}} Best in Series Today</span>
+                                                    <span class="text-gold ml-3">#{{$key}} Best in Series Today</span>
 
                                                 </div>
-                                                <p class="trending-dec">{{$show->desc}}
+                                                <p class="trending-dec">{{\App\Helpers\BladeCustomizer::description($show->desc)}}
                                                 </p>
                                                 <div class="p-btns">
                                                     <div class="d-flex align-items-center p-0">
@@ -114,7 +107,10 @@
 {{--                                                    <div class="text-primary title">Starring: <span class="text-body">Wagner--}}
 {{--                                                   Moura, Boyd Holbrook, Joanna</span>--}}
 {{--                                                    </div>--}}
-                                                    <div class="text-primary title">Tags: <span class="text-body">{{implode(', ', array_map(fn($m) => "$m", $show->tags))}}</span>
+                                                    <div class="text-primary title">Tags:
+                                                        @foreach($show->tags as $tag)
+                                                            <span class="text-body">{{$tag}}</span>
+                                                        @endforeach
                                                     </div>
                                                     <div class="text-primary title">Category: <span class="text-body">{{$show->categories->name}}</span>
                                                     </div>
@@ -161,7 +157,7 @@
                                                                         <a href="{{url(env('SHOW').'s/'.$season->name.'/'.$episode->name)}}">{{$episode->name}}</a>
                                                                         <span class="text-primary">{{$episode->duration}}</span>
                                                                     </div>
-                                                                    <p class="mb-0"> {{$episode->desc}}</p>
+                                                                    <p class="mb-0"> {{\App\Helpers\BladeCustomizer::description($episode->desc)}}</p>
 
                                                                 </div>
                                                             </div>
@@ -206,7 +202,7 @@
                                                                     <a href="{{route('trailer.view',$trailer->name)}}" target="_blank">Trailer</a>
                                                                     <span class="text-primary">2.25 m</span>
                                                                 </div>
-                                                                <p class="mb-0">{{$trailer->desc}}</p>
+                                                                <p class="mb-0">{{\App\Helpers\BladeCustomizer::description($trailer->desc)}}</p>
                                                             </div>
                                                         </div>
                                                             @endforeach
@@ -254,7 +250,7 @@
                                                                     <a href="{{route('show.view',$show->name)}}">{{$similarShow->name}}</a>
                                                                     <span class="text-primary">{{$similarShow->duration}}</span>
                                                                 </div>
-                                                                <p class="mb-0">{{$similarShow->desc}}</p>
+                                                                <p class="mb-0">{{\App\Helpers\BladeCustomizer::description($similarShow->desc)}}</p>
                                                             </div>
                                                         </div>
                                                         @endif

@@ -7,6 +7,7 @@ use App\Models\Category\Category;
 use App\Models\Category\Tags;
 
 use Orchid\Screen\Fields\Cropper;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Quill;
@@ -54,12 +55,34 @@ class PostEditLayout extends Rows
 
             ])->fullWidth(),
 
+        Group::make([
+
+            DateTimer::make('post.release_on')
+                ->title('Publish On:')
+                ->format('Y-m-d')
+                ->allowInput()
+                ->enableTime()
+                ->format24hr()
+                ->required()->canSee($this->query->get('exists')),
 
             Relation::make('post.tags')
                 ->fromModel(Tags::class, 'name')
                 ->multiple()
                 ->title('Choose Tags')
                 ->placeholder('Click here to get tags'),
+
+
+            Select::make('post.age_group')
+                ->options([
+                    'Kids'   => 'Kids',
+                    'U'   => 'U',
+                    '18+'   => '18+',
+                ])
+                ->title('Age Group')
+                ->canSee($this->query->get('exists')),
+
+        ])->fullWidth(),
+
 
 
 

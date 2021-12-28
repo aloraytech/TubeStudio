@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/style.css')}}" />
     <!-- Responsive -->
     <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/responsive.css')}}" />
+    <!-- App-Header -->
+    {{\App\Helpers\BladeCustomizer::header_maker($system->header)}}
+
 </head>
 <body>
 <!-- loader Start -->
@@ -48,6 +51,7 @@
 <!-- back-to-top End -->
 <!-- jQuery, Popper JS -->
 <script src="{{asset($pub_dir.'assets/front/js/jquery-3.4.1.min.js')}}"></script>
+<script src="{{asset($pub_dir.'assets/custom.js')}}"></script>
 <script src="{{asset($pub_dir.'assets/front/js/popper.min.js')}}"></script>
 <!-- Bootstrap JS -->
 <script src="{{asset($pub_dir.'assets/front/js/bootstrap.min.js')}}"></script>
@@ -64,6 +68,7 @@
 <!-- Custom JS-->
 <script src="{{asset($pub_dir.'assets/front/js/custom.js')}}"></script>
 <script src="{{asset($pub_dir.'assets/front/js/userscript.js')}}"></script>
+
 </body>
 </html>
 

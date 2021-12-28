@@ -41,6 +41,9 @@ class EpisodeEditLayout extends Rows
             Group::make([
                 Input::make('episode.name')->title('Name')->required(),
 
+                Input::make('episode.e_code')->title('Code')->required()
+                ->help('Set Code With Season No And Episode No S1E01'),
+
                 Input::make('episode.duration')->title('Duration')->required(),
 
                 DateTimer::make('episode.release_on')

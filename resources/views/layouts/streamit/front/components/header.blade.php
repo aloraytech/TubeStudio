@@ -16,6 +16,8 @@
                         </a>
                         <a class="navbar-brand" href="{{route('landing.index')}}"> <img class="img-fluid logo" src="{{$system->logo}}"
                                                                         alt="{{env('APP_NAME')}}" /> </a>
+
+
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
@@ -24,24 +26,26 @@
                                     </li>
                                     @if($system->show_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.show')}}">{{ucfirst($system->path->show)}}</a>
+                                        <a href="{{route('show.page')}}">{{ucfirst($system->path->show)}}</a>
                                     </li>
                                     @endif
                                     @if($system->movie_pack)
                                     <li class="menu-item">
-                                        <a href="{{route('category.movie')}}">{{ucfirst($system->path->movie)}}</a>
+                                        <a href="{{route('movie.page')}}">{{ucfirst($system->path->movie)}}</a>
                                     </li>
                                     @endif
 
                                     @if($system->blog_pack)
                                         <li class="menu-item">
-                                            <a href="{{route('category.blog')}}">{{ucfirst($system->path->blog)}}</a>
+                                            <a href="{{route('blog.page')}}">{{ucfirst($system->path->blog)}}</a>
                                         </li>
                                     @endif
 
                                 </ul>
                             </div>
                         </div>
+
+
                         <div class="mobile-more-menu">
                             <a href="javascript:void(0);" class="more-toggle" id="dropdownMenuButton"
                                data-toggle="more-toggle" aria-haspopup="true" aria-expanded="false">
@@ -167,8 +171,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Right Menu--}}
                         <div class="navbar-right menu-right">
                             <ul class="d-flex align-items-center list-inline m-0">
+                                    {{-- Search--}}
                                 <li class="nav-item nav-icon">
                                     <a href="#" class="search-toggle device-search">
                                         <i class="ri-search-line"></i>
@@ -183,6 +190,7 @@
                                         </form>
                                     </div>
                                 </li>
+                                    {{-- Notifications--}}
                                 <li class="nav-item nav-icon">
                                     <a href="#" class="search-toggle" data-toggle="search-toggle">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22"
@@ -230,6 +238,7 @@
                                         </div>
                                     </div>
                                 </li>
+                                    {{-- User Login Logout--}}
                                 <li class="nav-item nav-icon">
                                     <a href="#" class="iq-user-dropdown search-toggle p-0 d-flex align-items-center"
                                        data-toggle="search-toggle">
@@ -280,18 +289,22 @@
 
                                                     {{--LOGIN--}}
 
-                                                <a href="{{route('login')}}" class="iq-sub-card setting-dropdown">
-                                                    <div class="media align-items-center">
-                                                        <div class="right-icon">
-                                                            <i class="ri-logout-circle-line text-primary"></i>
+                                                @if(!auth()->check())
+                                                    <a href="{{route('login')}}" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="ri-logout-circle-line text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0 ">Login</h6>
+                                                            </div>
                                                         </div>
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="mb-0 ">Login</h6>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+                                                @endif
+
 
                                                 {{--LOGOUT--}}
+                                                @if(auth()->check())
                                                 <a href="{{route('logout')}}" class="iq-sub-card setting-dropdown">
                                                     <div class="media align-items-center">
                                                         <div class="right-icon">
@@ -302,7 +315,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-
+                                                @endif
 
 
 
@@ -319,6 +332,9 @@
                                 </li>
                             </ul>
                         </div>
+
+
+
                     </nav>
                     <div class="nav-overlay"></div>
                 </div>

@@ -15,10 +15,17 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('slug');
+            $table->integer('views')->nullable();
             $table->timestamps();
         });
+
+
+
+
     }
+
+
 
     /**
      * Reverse the migrations.

@@ -44,6 +44,7 @@ class PostEditScreen extends Screen
         if($this->exists){ $this->name = 'Blog Modification';}
         return [
             'post'=>$posts,
+            'exists' => $this->exists,
         ];
     }
 

@@ -3,27 +3,55 @@
 namespace App\Http\Controllers\Front\Shows;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category\Tags;
+use App\Models\Shows\Seasons;
 use App\Models\Shows\Shows;
 use App\Models\System\Sysfigs;
 use Illuminate\Http\Request;
 
 class ShowsController extends Controller
 {
-    public function getSingle(Shows $shows,Request $request)
+    public function getSingle(Shows $shows,Seasons $seasons,Request $request)
     {
 
-        $shows->load('seasons','seasons.episodes','seasons.trailers','categories');
 
+        // Default Data
         $pages = $this->pages;
         $system = $this->systems;
 
-        $allMovies = Shows::where('status',true)->latest('updated_at')->get();
-        $similars = $allMovies->where('categories_id','=',$shows->categories_id);
-        $upcoming = $allMovies->where('release_on','>',now());
+
+        if(empty($seasons->id)){
+            $firstSeason = Seasons::with(['episodes' => function ($query) {$query->oldest()->first();}])
+                ->where('shows_id',$shows->id)->oldest()->first();
+            $firstSeasonDetail = Seasons::with('episodes','trailers')->where('id',$firstSeason->id)->get();
+        }else{
+            $firstSeason = $seasons->load('episodes','trailers');
+            $firstSeasonDetail = Seasons::with('episodes','trailers')->where('id',$firstSeason->id)->get();
+        }
 
 
-//        dd($movies);
-        return view('pages.'.$system->theme.'.front.show.watch')->with(compact('system','pages','shows','similars','upcoming'));
+        $seasonEpisode = $firstSeason;
+        //$seasonTrailer = $firstSeason::with(['trailers' => function ($query) {$query->orderBy('created_at')->first();}])->orderBy('created_at')->first();
+
+        $allSeasons = $shows->load('seasons','seasons.episodes');
+        $totalEpisodesCount = 0;
+        foreach ($allSeasons->seasons as $ses)
+        {
+            $totalEpisodesCount +=$ses->episodes->count();
+        }
+
+
+//        dd($firstSeasonDetail);
+
+
+
+  // dd($seasonEpisode,$firstSeasonDetail,$allSeasons);
+
+
+
+
+        return view('pages.'.$this->themes.'.front.show.single')
+            ->with(compact('system','pages','shows','allSeasons','seasonEpisode','firstSeasonDetail','totalEpisodesCount'));
 
     }
 

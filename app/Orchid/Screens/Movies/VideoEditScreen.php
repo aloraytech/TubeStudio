@@ -5,6 +5,8 @@ namespace App\Orchid\Screens\Movies;
 use App\Helpers\Grabber\VideoGrabber;
 use App\Models\Movies\Movies;
 use App\Models\Movies\Videos;
+use App\Models\Shows\Episodes;
+use App\Models\Shows\Trailers;
 use App\Orchid\Layouts\Movies\VideoEditLayout;
 use App\Orchid\Layouts\Movies\VideoModalLayout;
 use Illuminate\Http\Request;
@@ -27,11 +29,14 @@ class VideoEditScreen extends Screen
     /**
      * Query data.
      *
+     * @param Videos $videos
      * @return array
      */
     public function query(Videos $videos): array
     {
+
         $this->exists = $videos->exists;
+
         if ($this->exists) {
             $this->name = 'Video Modification';
             $this->description = 'Modify Video Details';
@@ -124,9 +129,35 @@ class VideoEditScreen extends Screen
 //                $images
 //            );
 //        }
-        Alert::info('You have successfully created an Video.');
-     //    return redirect()->route('platform.movie.list');
-        return redirect()->route('platform.movie.edit',$videos->movie->id);
+
+//        Multitype Return On Demand
+
+       // $movie = Movies::where('videos_id',$videos->id)->count();
+        $episode = Episodes::where('videos_id',$videos->id)->first();
+        $trailer = Trailers::where('videos_id',$videos->id)->first();
+
+
+        if(!is_null($trailer))
+        {
+            if($trailer->exists)
+            {
+                Alert::info('You have successfully created a Trailer Video.');
+                return redirect()->route('platform.season.edit',$trailer->seasons_id);
+            }
+        }elseif (!is_null($episode))
+        {
+            if ($episode->exists)
+            {
+                Alert::info('You have successfully created an Episode Video.');
+                return redirect()->route('platform.season.edit',$episode->seasons_id);
+            }
+        }else{
+            Alert::info('You have successfully created a Movie Video.');
+            //    return redirect()->route('platform.movie.list');
+            return redirect()->route('platform.movie.edit',$videos->movie->id);
+        }
+
+
     }
 
 
@@ -166,9 +197,37 @@ class VideoEditScreen extends Screen
             }
         }
 
+        // Multiple Return Handler
+        $episode = Episodes::where('videos_id',$videos->id)->first();
+        $trailer = Trailers::where('videos_id',$videos->id)->first();
 
-        Alert::info('You have successfully Replace a Video.');
-        return redirect()->route('platform.movie.list');
+
+        if(!is_null($trailer))
+        {
+            if($trailer->exists)
+            {
+                $trailer->name = $videos->title;
+                $trailer->display_image = $videos->thumb_url;
+                $trailer->save();
+                Alert::info('You have successfully created a Trailer Video.');
+                return redirect()->route('platform.season.edit',$trailer->seasons_id);
+            }
+        }elseif (!is_null($episode))
+        {
+            if ($episode->exists)
+            {
+                $episode->name = $videos->title;
+                $episode->display_image = $videos->thumb_url;
+                $episode->save();
+                Alert::info('You have successfully created an Episode Video.');
+                return redirect()->route('platform.season.edit',$episode->seasons_id);
+            }
+        }else{
+            Alert::info('You have successfully created a Movie Video.');
+            //    return redirect()->route('platform.movie.list');
+            return redirect()->route('platform.movie.edit',$videos->movie->id);
+        }
+
     }
 
 

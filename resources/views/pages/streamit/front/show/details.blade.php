@@ -4,10 +4,15 @@
 
 
     <!-- Banner Start -->
+{{--    <div class="video-container iq-main-slider">--}}
+{{--        <video class="video d-block" controls loop>--}}
+{{--            <source src="video/sample-video.mp4" type="video/mp4">--}}
+{{--        </video>--}}
+{{--    </div>--}}
     <div class="video-container iq-main-slider">
-        <video class="video d-block" controls loop>
-            <source src="video/sample-video.mp4" type="video/mp4">
-        </video>
+        <div class="embed-responsive embed-responsive-{{$system->player}}">
+            <iframe class="embed-responsive-item" src="{{$episodes->videos->code}}" allowfullscreen></iframe>
+        </div>
     </div>
     <!-- Banner End -->
     <!-- MainContent -->
@@ -16,15 +21,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="trending-info season-info g-border">
-                        <h4 class="trending-text big-title text-uppercase mt-0">The Hero Camp</h4>
+                        <h4 class="trending-text big-title text-uppercase mt-0">{{$shows->name}}</h4>
                         <div class="d-flex align-items-center text-white text-detail episode-name mb-0">
-                            <span>S1E01</span>
-                            <span class="trending-year">Lorem Ipsum is dummy text</span>
+                            <span>{{$episodes->e_code}}</span>
+                            <span class="trending-year">{{$episodes->name}}</span>
                         </div>
-                        <p class="trending-dec w-100 mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                            unknown printer took a galley of type and scrambled it to make a type specimen book. It has
-                            survived not only five centuries.</p>
+                        <p class="trending-dec w-100 mb-0">{{str_replace('<p>','',str_replace('</p>','',$episodes->desc))}}</p>
+
                         <ul class="list-inline p-0 mt-4 share-icons music-play-lists">
                             <li><span><i class="ri-add-line"></i></span></li>
                             <li><span><i class="ri-heart-fill"></i></span></li>
@@ -43,6 +46,8 @@
                 </div>
             </div>
         </section>
+
+
         <section id="iq-favorites">
             <div class="container-fluid">
                 <div class="block-space">
@@ -55,14 +60,15 @@
                         </div>
                     </div>
                     <div class="row">
+                        @foreach($seasons->episodes as $key => $ep)
                         <div class="col-1-5 col-md-6 iq-mb-30">
                             <div class="epi-box">
                                 <div class="epi-img position-relative">
-                                    <img src="images/episodes/01.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">1</div>
+                                    <img src="{{$ep->display_image}}" class="img-fluid img-zoom" alt="">
+                                    <div class="episode-number">{{$key+1}}</div>
                                     <div class="episode-play-info">
                                         <div class="episode-play">
-                                            <a href="show-details.html">
+                                            <a href="{{route('episode.view',[$shows->name,$seasons->name,$ep->name])}}">
                                                 <i class="ri-play-fill"></i>
                                             </a>
                                         </div>
@@ -70,241 +76,17 @@
                                 </div>
                                 <div class="epi-desc p-3">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
+                                        <span class="text-white">{{\Illuminate\Support\Facades\Date::createFromDate($ep->created_at)->format('d.m.Y')}}</span>
+                                        <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($ep->duration)}}</span>
                                     </div>
                                     <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
+                                        <h6 class="epi-name text-white mb-0"> {{str_replace('<p>','',str_replace('</p>','',$ep->desc))}}
                                         </h6>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/02.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">2</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/03.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">3</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/04.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">4</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/05.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">5</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/06.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">6</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/07.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">7</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/08.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">8</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/09.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">9</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1-5 col-md-6 iq-mb-30">
-                            <div class="epi-box">
-                                <div class="epi-img position-relative">
-                                    <img src="images/episodes/10.jpg" class="img-fluid img-zoom" alt="">
-                                    <div class="episode-number">10</div>
-                                    <div class="episode-play-info">
-                                        <div class="episode-play">
-                                            <a href="show-details.html">
-                                                <i class="ri-play-fill"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="epi-desc p-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="text-white">11 Aug 20</span>
-                                        <span class="text-primary">30m</span>
-                                    </div>
-                                    <a href="show-details.html">
-                                        <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                        </h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

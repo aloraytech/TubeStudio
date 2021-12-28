@@ -12,7 +12,9 @@ class PathCustomizer
     public function getPath()
     {
         $paths = Storage::get($this->pathLocation);
+
         return json_decode($paths,true);
+
     }
 
 

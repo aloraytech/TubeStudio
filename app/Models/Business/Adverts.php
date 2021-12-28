@@ -11,7 +11,18 @@ class Adverts extends Model
 
 
     protected $fillable = [
-        'name','desc',
+        'name',
+        'position',
+        'provider',
+        'banner',
+        'code',
+        'target_url',
+        'target_view',
+        'target_click',
+        'target_county',
+        'views',
+        'clicks',
+        'status'
     ];
 
 

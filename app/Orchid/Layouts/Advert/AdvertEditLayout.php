@@ -45,32 +45,29 @@ class AdvertEditLayout extends Rows
 
             Group::make([
 
-                Input::make('advert.name')->title('Name')->type('text'),
-                Select::make('advert.position')
-                    ->options([
-                        'tr'   => 'Top Right',
-                        'tc'   => 'Top Center',
-                        'tl'   => 'Top Left',
-                        'mr'   => 'Middle Right',
-                        'mc'   => 'Middle Center',
-                        'ml'   => 'Middle Left',
-                        'bc'   => 'Between Content',
-                        'pup'   => 'PopUp',
-                        'lr'   => 'Lower Right',
-                        'lc'   => 'Lower Center',
-                        'll'   => 'Lower Left',
-                    ])
-                    ->title('Set Position')->required(),
+                Input::make('advert.name')->title('Name')->type('text')->required(),
+
 
 
                 Select::make('advert.provider')
                     ->options([
-                        'global'   => '3rd Party',
-                        'private'   => ucfirst(config('app.name')),
+                        'global'   => 'Global Ads Providers [GOOGLE]',
+                        'private'   => 'Private Ads Provider [OWN]',
 
                     ])
                     ->title('Set Provider')->required(),
             ])->fullWidth(),
+
+
+            Select::make('advert.position')
+                ->options([
+                    'top' => ' Top ',
+                    'right_side' => ' Right ',
+                    'left_side' => ' Left ',
+                    'in_desc' => ' Between Desc ',
+                    'footer' => ' Footer ',
+                ])->autocomplete()->horizontal()
+                ->title('Set Position')->required(),
 
 
             Group::make([

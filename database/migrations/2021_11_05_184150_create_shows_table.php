@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateShowsTable extends Migration
@@ -15,13 +16,14 @@ class CreateShowsTable extends Migration
     {
         Schema::create('shows', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
             $table->string('banner')->nullable();
             $table->text('desc')->nullable();
-            $table->json('tags')->nullable();
             $table->integer('views')->nullable();
             $table->boolean('private')->default(false);
             $table->string('display_image')->nullable();
+            $table->json('tags')->nullable();
             $table->foreignId('categories_id')->constrained('categories')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

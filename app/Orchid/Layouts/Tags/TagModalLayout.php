@@ -34,7 +34,7 @@ class TagModalLayout extends Rows
     {
         return [
 
-            Input::make('tag.name')
+            Input::make('tag.slag')
 
 
         ];

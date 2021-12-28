@@ -28,11 +28,12 @@ class AdvertEditScreen extends Screen
      *
      * @var string
      */
-    public $name = 'AdvertEditScreen';
+    public $name = 'Advert Creation';
 
     /**
      * Query data.
      *
+     * @param Adverts $adverts
      * @return array
      */
     public function query(Adverts $adverts): array
@@ -43,6 +44,10 @@ class AdvertEditScreen extends Screen
         if($adverts->provider === 'private')
         {
             $this->custom = true;
+        }
+        if($this->exists)
+        {
+            $this->name = 'Advert Modification';
         }
         return [
             'advert' => $adverts,

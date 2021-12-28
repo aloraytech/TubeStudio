@@ -8,6 +8,9 @@ use App\Models\System\Activities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ */
 class Posts extends Model
 {
     use HasFactory;
@@ -20,11 +23,15 @@ class Posts extends Model
         'status',
         'views',
         'tags',
+        'age_group',
+        'release_on',
     ];
 
     protected $casts = [
         'tags'=> 'array',
     ];
+
+
 
 
     public function categories()
@@ -39,7 +46,16 @@ class Posts extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tags::class,'id','tags_id');
+//        return $this->hasMany(Tags::class,'id')->find($tag_list);
+
+        $related = $this->hasMany(Tags::class);
+        $related->setQuery(
+            Tags::whereIn('id', $this->tags)->getQuery()
+        );
+
+        return $related;
+
+
     }
 
 }

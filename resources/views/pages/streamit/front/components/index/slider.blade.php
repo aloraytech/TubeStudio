@@ -25,12 +25,12 @@
                                             <span class="ml-3">{{$slide->tags->count()}} Tags</span>
                                         @endif
                                     </div>
-                                    <p data-animation-in="fadeInUp" data-delay-in="1.2">{{$slide->desc}}
-                                    </p>
+                                    <p data-animation-in="fadeInUp" data-delay-in="1.2">{{\App\Helpers\BladeCustomizer::description($slide->desc)}}</p>
+
                                     <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
-                                        <a href="{{url(env('SHOW').'s/'.$slide->name)}}" class="btn btn-hover"><i class="fa fa-play mr-2"
+                                        <a href="{{url($system->path->show.'s/'.$slide->name)}}" class="btn btn-hover"><i class="fa fa-play mr-2"
                                                                                                                      aria-hidden="true"></i>Play Now</a>
-                                        <a href="{{url(env('SHOW').'s/'.$slide->name)}}" class="btn btn-link">More details</a>
+                                        <a href="{{url($system->path->show.'s/'.$slide->name)}}" class="btn btn-link">More details</a>
                                     </div>
                                 </div>
                             </div>

@@ -2,6 +2,8 @@
 
 namespace App\Models\Movies;
 
+use App\Models\Shows\Episodes;
+use App\Models\Shows\Trailers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Attachment\Attachable;
@@ -50,14 +52,14 @@ class Videos extends Model
     }
 
 
-    public function movie()
+    public function movies()
     {
         return $this->belongsTo(Movies::class,'videos_id','id')->withDefault();
     }
 
-    public function shows()
+    public function episodes()
     {
-        return $this->belongsTo(Shows::class);
+        return $this->belongsTo(Episodes::class,'videos_id','id')->withDefault();
     }
 
     public function thumbnail()
@@ -65,9 +67,9 @@ class Videos extends Model
         return $this->hasOne(Attachment::class, 'id', 'thumb_url')->withDefault();
     }
 
-    public function trailer_files()
+    public function trailers()
     {
-        return $this->hasOne(Attachment::class, 'id', 'path_url')->withDefault();
+        return $this->belongsTo(Trailers::class,'videos_id','id')->withDefault();
     }
 
 

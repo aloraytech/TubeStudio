@@ -21,17 +21,18 @@ class Tags extends Model
 
     public function movies()
     {
-        return $this->belongsTo(Movies::class,'tags_id','id')->withDefault();
+
+        return $this->belongsTo(Movies::class)->whereJsonContains('tags',$this->toArray($this->tags));
     }
 
     public function shows()
     {
-        return $this->belongsTo(Shows::class,'tags_id','id')->withDefault();
+        return $this->belongsToMany(Shows::class);
     }
 
     public function posts()
     {
-        return $this->belongsTo(Posts::class,'tags_id','id')->withDefault();
+        return $this->belongsToMany(Posts::class);
     }
 
 

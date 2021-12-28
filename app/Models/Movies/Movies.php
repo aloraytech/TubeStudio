@@ -3,6 +3,7 @@
 namespace App\Models\Movies;
 
 use App\Models\Category\Category;
+use App\Models\Category\MoviesTags;
 use App\Models\Category\Tags;
 use App\Models\System\Activities;
 use App\Models\System\Stats;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
+use function MongoDB\BSON\fromJSON;
 
 /**
  * App/Models/Movies
@@ -75,7 +77,17 @@ class Movies extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tags::class,'id','tags');
+
+       return $this->hasMany(Tags::class,'id');
+
+        //    return $this->hasMany(Tags::class,'id');
+//        $related->setQuery(
+//            Tags::whereIn('id', $this->tags)->getQuery()
+//        );
+//
+//        return $related;
+
+
     }
 
 

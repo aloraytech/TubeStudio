@@ -5,7 +5,7 @@
     @if($system->has_slider)
         @if($content->slider)
                 {{--Slider Start--}}
-{{--            @include('pages.streamit.front.components.index.slider')--}}
+            @include('pages.streamit.front.components.index.slider')
                 {{--Slider End--}}
         @endif
     @endif

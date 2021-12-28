@@ -3,6 +3,7 @@
 namespace App\Models\Shows;
 
 use App\Models\Category\Category;
+use App\Models\Category\ShowsTags;
 use App\Models\Category\Tags;
 use App\Models\Movies\Videos;
 use App\Models\System\Activities;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $banner
  * @property $display_image
  * @property $status
+ * @property $tags
  */
 class Shows extends Model
 {
@@ -53,6 +55,12 @@ class Shows extends Model
         return $this->hasMany(Seasons::class);
     }
 
+//    public function oldestSeason()
+//    {
+//        return $this->seasons()->oldest('seasons.created_at');
+//    }
+
+
     public function trailers()
     {
         return $this->hasMany(Trailers::class,'id','trailer');
@@ -65,7 +73,16 @@ class Shows extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tags::class,'id','tags_id');
+//        return $this->hasMany(Tags::class,'id')->find($tag_list);
+
+        $related = $this->hasMany(Tags::class);
+        $related->setQuery(
+            Tags::whereIn('id', $this->tags)->getQuery()
+        );
+
+        return $related;
+
+
     }
 
 

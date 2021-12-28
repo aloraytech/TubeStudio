@@ -8,7 +8,9 @@ use App\Models\System\Systems;
 use App\Orchid\Layouts\System\SystemListLayout;
 use App\Orchid\Layouts\System\SystemPathModalLayout;
 use App\Orchid\Layouts\Tags\TagModalLayout;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
@@ -111,6 +113,7 @@ class SystemListScreen extends Screen
         $data = $request->get('path');
 
         $customizer->setPath($data);
+
         Alert::success('You have successfully Update Application Path Configuration. ');
         return redirect()->route('platform.setting.list');
 
