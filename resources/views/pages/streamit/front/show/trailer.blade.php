@@ -11,7 +11,7 @@
 {{--    </div>--}}
     <div class="video-container iq-main-slider">
         <div class="embed-responsive embed-responsive-{{$system->player}}">
-            <iframe class="embed-responsive-item" src="{{$episodes->videos->code}}" allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" src="{{$trailer->videos->code}}" allowfullscreen></iframe>
         </div>
     </div>
     <!-- Banner End -->
@@ -23,10 +23,10 @@
                     <div class="trending-info season-info g-border">
                         <h4 class="trending-text big-title text-uppercase mt-0">{{$shows->name}}</h4>
                         <div class="d-flex align-items-center text-white text-detail episode-name mb-0">
-                            <span>{{$episodes->e_code}}</span>
-                            <span class="trending-year">{{$episodes->name}}</span>
+                            {{-- <span>{{$trailer->e_code}}</span> --}}
+                            <span class="trending-year">{{$trailer->name}}</span>
                         </div>
-                        <p class="trending-dec w-100 mb-0">{{str_replace('<p>','',str_replace('</p>','',$episodes->desc))}}</p>
+                        <p class="trending-dec w-100 mb-0">{{str_replace('<p>','',str_replace('</p>','',$trailer->desc))}}</p>
 
                         <ul class="list-inline p-0 mt-4 share-icons music-play-lists">
                             <li><span><i class="ri-add-line"></i></span></li>
@@ -54,13 +54,13 @@
                     <div class="row">
                         <div class="col-sm-12 overflow-hidden">
                             <div class="iq-main-header d-flex align-items-center justify-content-between">
-                                <h4 class="main-title">Latest Episodes</h4>
+                                <h4 class="main-title">Latest Trailer</h4>
                                 <a href="{{route('show.page')}}" class="text-primary">View all</a>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        @foreach($seasons->episodes as $key => $ep)
+                        @foreach($seasons->trailers as $key => $ep)
                         <div class="col-1-5 col-md-6 iq-mb-30">
                             <div class="epi-box">
                                 <div class="epi-img position-relative">
@@ -68,7 +68,7 @@
                                     <div class="episode-number">{{$key+1}}</div>
                                     <div class="episode-play-info">
                                         <div class="episode-play">
-                                            <a href="{{route('episode.view',[$shows->name,$seasons->name,$ep->name])}}">
+                                            <a href="{{route('trailer.view',[$ep->id])}}">
                                                 <i class="ri-play-fill"></i>
                                             </a>
                                         </div>
@@ -79,7 +79,7 @@
                                         <span class="text-white">{{\Illuminate\Support\Facades\Date::createFromDate($ep->created_at)->format('d.m.Y')}}</span>
                                         <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($ep->duration)}}</span>
                                     </div>
-                                    <a href="{{route('show.page')}}">
+                                    <a href="{{route('trailer.view',[$ep->id])}}">
                                         <h6 class="epi-name text-white mb-0"> {{str_replace('<p>','',str_replace('</p>','',$ep->desc))}}
                                         </h6>
                                     </a>

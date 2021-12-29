@@ -211,7 +211,7 @@
                             <ul class="favorites-slider list-inline  row p-0 mb-0">
                                 @foreach($upcoming as $up)
                                 <li class="slide-item">
-{{--                                    <a href="{{route('show.view',$up->shows->name)}}">--}}
+{{--                                    <a href="{{route('show.view',[$up->shows->name])}}">--}}
                                         <div class="block-images position-relative">
                                             <div class="img-box">
                                                 <img src="{{$up->shows->banner}}" class="img-fluid" alt="">

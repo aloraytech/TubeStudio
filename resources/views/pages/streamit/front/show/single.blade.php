@@ -79,9 +79,13 @@
 
         <section class="container-fluid seasons">
             <div class="iq-custom-select d-inline-block sea-epi s-margin">
-                <select name="{{$system->path->show.'s/'.$allSeasons->name}}" class="form-control season-select" id="seasonSelector">
-                    @foreach($allSeasons->seasons as $season)
-                    <option value="{{$season->name}}">{{ucfirst($season->name)}}</option>
+                <select name="{{$system->path->show.'/'.$allSeasons->name}}" class="form-control season-select" id="seasonSelector">
+                    @foreach($allSeasons->seasons as $seasonItem)
+                    @if($seasons->id === $seasonItem->id)
+                    <option selected="true" value="{{$seasonItem->name}}">{{ucfirst($seasonItem->name)}}</option>
+                    @else
+                    <option value="{{$seasonItem->name}}">{{ucfirst($seasonItem->name)}}</option>
+                    @endif
                     @endforeach
                 </select>
             </div>
@@ -116,7 +120,7 @@
                                         <div class="episode-play-info">
                                             <div class="episode-play">
                                                 <a href="{{route('episode.view',[$shows->name,$seasonEpisode->name,$episode->name])}}">
-{{--                                                    Route--}}
+
                                                     <i class="ri-play-fill"></i>
                                                 </a>
                                             </div>
@@ -128,7 +132,7 @@
                                             <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($episode->duration)}}</span>
                                         </div>
                                         <a href="{{route('episode.view',[$shows->name,$seasonEpisode->name,$episode->name])}}">
-                                            <h6 class="epi-name text-white mb-0"> {{str_replace('<p>','',str_replace('</p>','',$episode->desc))}} </h6>
+                                            <h6 class="epi-name text-white mb-0"> {{\App\Helpers\BladeCustomizer::description($episode->desc)}} </h6>
                                         </a>
                                     </div>
                                 </div>
@@ -148,16 +152,17 @@
                     <div class="block-space">
                         <div class="row">
                             @foreach($firstSeasonDetail as $seasonDetail)
-                            @foreach($seasonDetail->trailers as $trailer)
+                            @foreach($seasonDetail->trailers as $key => $trailer)
 
-                            <div class="col-1-5 col-md-6 iq-mb-30">
+                            <div class="col-1-5 col-md-6 iq-mb-30" id="episode-card">
                                 <div class="epi-box">
                                     <div class="epi-img position-relative">
                                         <img src="{{$trailer->display_image}}" class="img-fluid img-zoom" alt="">
-                                        <div class="episode-number">1</div>
+                                        <div class="episode-number">{{$key+1}}</div>
                                         <div class="episode-play-info">
                                             <div class="episode-play">
-                                                <a href="{{route('trailer.view',$trailer->name)}}">
+                                                <a href="{{route('trailer.view',[$trailer->id])}}">
+
                                                     <i class="ri-play-fill"></i>
                                                 </a>
                                             </div>
@@ -165,16 +170,16 @@
                                     </div>
                                     <div class="epi-desc p-3">
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <span class="text-white">{{$trailer->created_at}}</span>
+                                            <span class="text-white">{{\Illuminate\Support\Facades\Date::createFromDate($trailer->release_on)->format("Y/m/d")}}</span>
                                             <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($trailer->duration)}}</span>
                                         </div>
-                                        <a href="show-details.html">
-                                            <h6 class="epi-name text-white mb-0">Lorem Ipsum is simply dummy text
-                                            </h6>
+                                        <a href="{{route('trailer.view',[$trailer->id])}}">
+                                            <h6 class="epi-name text-white mb-0"> {{\App\Helpers\BladeCustomizer::description($trailer->desc)}} </h6>
                                         </a>
                                     </div>
                                 </div>
                             </div>
+
                             @endforeach
                             @endforeach
                         </div>

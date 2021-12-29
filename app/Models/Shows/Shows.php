@@ -3,7 +3,6 @@
 namespace App\Models\Shows;
 
 use App\Models\Category\Category;
-use App\Models\Category\ShowsTags;
 use App\Models\Category\Tags;
 use App\Models\Movies\Videos;
 use App\Models\System\Activities;
@@ -54,6 +53,13 @@ class Shows extends Model
     {
         return $this->hasMany(Seasons::class);
     }
+
+
+    public function oldestSeasons()
+    {
+        return $this->hasMany(Seasons::class)->oldest('created_at')->where('status',true);
+    }
+
 
 //    public function oldestSeason()
 //    {

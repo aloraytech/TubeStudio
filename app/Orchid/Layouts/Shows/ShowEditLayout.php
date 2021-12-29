@@ -81,23 +81,19 @@ class ShowEditLayout extends Rows
                     ->title('Age Group')
                     ->canSee($this->query->get('exists')),
 
-
-
-
-
-//                Relation::make('show.tags')
-//                    ->fromModel(Tags::class, 'name','id')
-//                    ->multiple()
-//                    ->title('Choose Tags From List')->required(),
-
-
-                Select::make('show.tags')->title('Choose Tags')
-                    ->fromModel(Tags::class, 'slug', 'slug')->multiple()
-                    ->required(),
-
             ])->fullWidth(),
 
+            Group::make([
+                Select::make('show.status')
+                    ->options([
+                        0  => 'Draft',
+                        1  => 'Publish',
+                    ])->title('Set Status'),
 
+                Select::make('show.tags')
+                    ->fromModel(Tags::class, 'slug', 'slug')->multiple()
+                    ->required(),
+            ])->fullWidth(),
 
 
             Group::make([

@@ -2,8 +2,11 @@
 
 namespace App\Orchid\Layouts\Shows;
 
+use App\Models\Category\Tags;
 use Orchid\Screen\Field;
+use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
@@ -37,10 +40,20 @@ class TrailerEditLayout extends Rows
 
             Input::make('trailer.name')->title('Name')->required(),
             TextArea::make('trailer.desc')->title('Description')->required(),
-            Input::make('trailer.duration')
-                ->title('Duration')
-                ->placeholder('Set Movie Duration (hh:mm:ss)')
-                ->canSee($this->query->get('exists')),
+
+
+            Group::make([
+                Input::make('trailer.duration')
+                    ->title('Duration')
+                    ->placeholder('Set Movie Duration (hh:mm:ss)')
+                    ->canSee($this->query->get('exists'))->required(),
+
+                Select::make('trailer.status')
+                    ->options([
+                        0  => 'Draft',
+                        1  => 'Publish',
+                    ])->title('Set Status'),
+            ])->fullWidth(),
 
         ];
     }

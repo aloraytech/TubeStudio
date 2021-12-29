@@ -106,18 +106,17 @@ class MovieEditLayout extends Rows
                     ->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
-
-//            Relation::make('movie.tags')
-//                ->fromModel(Tags::class, 'slug','id')
-//                ->multiple()->autocomplete()
-//                ->title('Choose Tags')
-//                ->placeholder('Click here to get tags')
-//                ->canSee($this->query->get('exists')),
+            Group::make([
+            Select::make('movie.status')
+                ->options([
+                    0  => 'Draft',
+                    1  => 'Publish',
+                ])->title('Set Status'),
 
             Select::make('movie.tags')
                 ->fromModel(Tags::class, 'slug', 'slug')->multiple()
-                ->empty('No select'),
-
+                ->required(),
+            ])->fullWidth(),
 
             Quill::make('movie.desc')->toolbar(["text", "color", "header", "list", "format"])
                 ->title('Description')->canSee($this->query->get('exists')),

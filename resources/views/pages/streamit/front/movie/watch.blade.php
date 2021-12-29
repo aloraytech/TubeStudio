@@ -4,41 +4,30 @@
 
 
     <!-- Banner Start -->
-    @if(empty($movies->videos->path_url) && !empty($movies->videos->code))
-        <div class="embed-responsive embed-responsive-21by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+{{--    <div class="video-container iq-main-slider">--}}
+{{--        <video class="video d-block" controls loop>--}}
+{{--            <source src="video/sample-video.mp4" type="video/mp4">--}}
+{{--        </video>--}}
+{{--    </div>--}}
+    <div class="video-container iq-main-slider">
+        <div class="embed-responsive embed-responsive-{{$system->player}}">
+            <iframe class="embed-responsive-item" src="{{$movie->videos->code}}" allowfullscreen></iframe>
         </div>
-    @else
-        <div class="video-container iq-main-slider">
-            <video class="video d-block" controls loop>
-                <source src="video/sample-video.mp4" type="video/mp4">
-            </video>
-        </div>
-    @endif
+    </div>
     <!-- Banner End -->
     <!-- MainContent -->
-    <div class="main-content movi">
+    <div class="main-content">
         <section class="movie-detail container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="trending-info g-border">
-                        <h1 class="trending-text big-title text-uppercase mt-0">{{$movies->name}}</h1>
-                        <ul class="p-0 list-inline d-flex align-items-center movie-content">
-                            <li class="text-white">Action</li>
-                            <li class="text-white">Drama</li>
-                            <li class="text-white">Thriller</li>
-                        </ul>
-                        <div class="d-flex align-items-center text-white text-detail">
-                            <span class="badge badge-secondary p-3">{{$movies->age_group}}</span>
-                            <span class="ml-3">{{$movies->duration}}</span>
-                            <span class="trending-year">2020</span>
+                    <div class="trending-info season-info g-border">
+                        <h4 class="trending-text big-title text-uppercase mt-0">{{$movie->name}}</h4>
+                        <div class="d-flex align-items-center text-white text-detail episode-name mb-0">
+                            {{-- <span>{{$trailer->e_code}}</span> --}}
+                            <span class="trending-year">{{$movie->name}}</span>
                         </div>
-                        <div class="d-flex align-items-center series mb-4">
-                            <a href="javascript:void();"><img src="images/trending/trending-label.png" class="img-fluid"
-                                                              alt=""></a>
-                            <span class="text-gold ml-3">#2 in Series Today</span>
-                        </div>
-                        <p class="trending-dec w-100 mb-0">{{$movies->desc}}</p>
+                        <p class="trending-dec w-100 mb-0">{{str_replace('<p>','',str_replace('</p>','',$movie->desc))}}</p>
+
                         <ul class="list-inline p-0 mt-4 share-icons music-play-lists">
                             <li><span><i class="ri-add-line"></i></span></li>
                             <li><span><i class="ri-heart-fill"></i></span></li>
@@ -58,101 +47,103 @@
             </div>
         </section>
 
-        <section id="iq-favorites" class="s-margin">
+
+        <section id="iq-favorites">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 overflow-hidden">
-                        <div class="iq-main-header d-flex align-items-center justify-content-between">
-                            <h4 class="main-title">More Like This</h4>
-                            <a href="movie-category.html" class="text-primary">View all</a>
+                <div class="block-space">
+                    <div class="row">
+                        <div class="col-sm-12 overflow-hidden">
+                            <div class="iq-main-header d-flex align-items-center justify-content-between">
+                                <h4 class="main-title">Similar {{ucfirst($system->path->movie)}}s</h4>
+                                <a href="{{route('movie.page')}}" class="text-primary">View all</a>
+                            </div>
                         </div>
-                        <div class="favorites-contens">
-                            <ul class="list-inline favorites-slider row p-0 mb-0">
-                                @foreach($similars as $movie)
-                                <li class="slide-item">
-                                    <a href="{{url(env('MOVIE').'s/'.$movie->name)}}">
-                                        <div class="block-images position-relative">
-                                            <div class="img-box">
-                                                <img src="{{$movie->banner}}" class="img-fluid" alt="">
-                                            </div>
-                                            <div class="block-description">
-                                                <h6>{{$movie->name}}</h6>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">{{$movie->age_group}}</div>
-                                                    <span class="text-white">{{$movie->duration}}</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                       <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play
-                                          Now</span>
-                                                </div>
-                                            </div>
-                                            <div class="block-social-info">
-                                                <ul class="list-inline p-0 m-0 music-play-lists">
-                                                    <li><span><i class="ri-volume-mute-fill"></i></span></li>
-                                                    <li><span><i class="ri-heart-fill"></i></span></li>
-                                                    <li><span><i class="ri-add-line"></i></span></li>
-                                                </ul>
-                                            </div>
+                    </div>
+                    <div class="row">
+                        @foreach($similars as $key => $sameMovie)
+                        <div class="col-1-5 col-md-6 iq-mb-30">
+                            <div class="epi-box">
+                                <div class="epi-img position-relative">
+                                    <img src="{{$sameMovie->display_image}}" class="img-fluid img-zoom" alt="">
+                                    <div class="episode-number">{{$key+1}}</div>
+                                    <div class="episode-play-info">
+                                        <div class="episode-play">
+                                            <a href="{{route('movie.view',[$sameMovie->name])}}">
+                                                <i class="ri-play-fill"></i>
+                                            </a>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="epi-desc p-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <span class="text-white">{{\Illuminate\Support\Facades\Date::createFromDate($sameMovie->created_at)->format('d.m.Y')}}</span>
+                                        <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($sameMovie->duration)}}</span>
+                                    </div>
+                                    <a href="{{route('movie.view',[$sameMovie->name])}}">
+                                        <h6 class="epi-name text-white mb-0"> {{str_replace('<p>','',str_replace('</p>','',$sameMovie->desc))}}
+                                        </h6>
                                     </a>
-                                </li>
-                                @endforeach
-                            </ul>
+                                </div>
+                            </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </section>
-
-        <section id="iq-upcoming-movie">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 overflow-hidden">
-                        <div class="iq-main-header d-flex align-items-center justify-content-between">
-                            <h4 class="main-title">Upcoming Movies</h4>
-                            <a href="movie-category.html" class="text-primary">View all</a>
-                        </div>
-                        <div class="upcoming-contens">
-                            <ul class="favorites-slider list-inline  row p-0 mb-0">
-                                @foreach($upcoming as $movie)
-                                <li class="slide-item">
-                                    <a href="{{url(env('MOVIE').'s/'.$movie->name)}}">
-                                        <div class="block-images position-relative">
-                                            <div class="img-box">
-                                                <img src="{{$movie->banner}}" class="img-fluid" alt="">
-                                            </div>
-                                            <div class="block-description">
-                                                <h6>{{$movie->name}}</h6>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">{{$movie->age_group}}</div>
-                                                    <span class="text-white">{{$movie->duration}}</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                       <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                          Play Now
-                                       </span>
-                                                </div>
-                                            </div>
-                                            <div class="block-social-info">
-                                                <ul class="list-inline p-0 m-0 music-play-lists">
-                                                    <li><span><i class="ri-volume-mute-fill"></i></span></li>
-                                                    <li><span><i class="ri-heart-fill"></i></span></li>
-                                                    <li><span><i class="ri-add-line"></i></span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </div>
+
+
+
+
+
+
+
+    <section id="iq-favorites">
+        <div class="container-fluid">
+            <div class="block-space">
+                <div class="row">
+                    <div class="col-sm-12 overflow-hidden">
+                        <div class="iq-main-header d-flex align-items-center justify-content-between">
+                            <h4 class="main-title">Upcoming {{ucfirst($system->path->movie)}}s</h4>
+                            <a href="{{route('movie.page')}}" class="text-primary">View all</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach($upcoming as $key => $sameMovie)
+                    <div class="col-1-5 col-md-6 iq-mb-30">
+                        <div class="epi-box">
+                            <div class="epi-img position-relative">
+                                <img src="{{$sameMovie->display_image}}" class="img-fluid img-zoom" alt="">
+                                <div class="episode-number">{{$key+1}}</div>
+                                <div class="episode-play-info">
+                                    <div class="episode-play">
+                                        <a href="{{route('movie.view',[$sameMovie->name])}}">
+                                            <i class="ri-play-fill"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="epi-desc p-3">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="text-white">{{\Illuminate\Support\Facades\Date::createFromDate($sameMovie->created_at)->format('d.m.Y')}}</span>
+                                    <span class="text-primary">{{\App\Helpers\BladeCustomizer::duration($sameMovie->duration)}}</span>
+                                </div>
+                                <a href="{{route('movie.view',[$sameMovie->name])}}">
+                                    <h6 class="epi-name text-white mb-0"> {{str_replace('<p>','',str_replace('</p>','',$sameMovie->desc))}}
+                                    </h6>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 
 
 

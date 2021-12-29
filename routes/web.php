@@ -2,9 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Middleware\AppCommonsMiddleware;
+
+// Authentication
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\SocialAuthController;
+
+// Web Controllers
+//use App\Http\Controllers\web\BlogController;
+//use App\Http\Controllers\web\CategoryController;
+//use App\Http\Controllers\web\IndexController;
+//use App\Http\Controllers\web\MovieController;
+//use App\Http\Controllers\web\PagesController;
+//use App\Http\Controllers\web\ShowController;
+//use App\Http\Controllers\web\SearchController;
+
+
+
+
 // Client
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Front\Movies\MoviesController;
@@ -15,6 +29,7 @@ use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Front\SearchController;
 use App\Http\Controllers\Front\Pages\PageController;
 use App\Http\Controllers\Front\Blog\PostController;
+use App\Http\Controllers\Front\Shows\TrailerController;
 use App\Helpers\PathCustomizer;
 if(!isset($path)){
     $customizer = new PathCustomizer();
@@ -76,14 +91,17 @@ Route::get('/'.$path['category'].'/'.$path['blog'].'s/',[CategoryController::cla
 /**
  * Shows Routes
  */
-Route::get('/'.$path['show'].'s',[CategoryController::class,'showsOnly'])->name('show.page');
-Route::get('/'.$path['show'].'s/{shows:name}/{seasons:name?}',[ShowsController::class,'getSingle'])->name('show.view');
+
+Route::get('/'.$path['show'].'s',[ShowsController::class,'getAllContent'])->name('show.page');
+Route::get('/'.$path['show'].'/{shows:name}/{seasons:name?}',[ShowsController::class,'getSingle'])->name('show.single');
+Route::get('/'.$path['show'].'/{shows:name}/'.$path['season'].'/'.'{seasons:name?}',[ShowsController::class,'getSingle'])->name('show.view');
 //Route::get('/'.$path['show'].'s/{shows:name}/{seasons:name?}',[ShowsController::class,'getSingle'])->name('show.view');
 
 /**
  * Trailers Routes
  */
-Route::get('/'.$path['category'].'s/{trailer:name?}',[ShowsController::class,'watchTrailer'])->name('trailer.view');
+Route::get('/'.$path['trailer'].'s/'.'{trailer:id?}',[TrailerController::class,'getSingle'])->name('trailer.view');
+
 /**
  * Seasons Routes
  */
@@ -98,8 +116,8 @@ Route::get('/'.$path['show'].'s/{shows:name}/{seasons:name}/{episodes:name?}',[E
 /**
  * Movies Routes
  */
-Route::get('/'.$path['movie'].'s',[CategoryController::class,'moviesOnly'])->name('movie.page');
-Route::get('/'.$path['movie'].'s/{movies:name}',[MoviesController::class,'getSingle'])->name('movie.view');
+Route::get('/'.$path['movie'].'s',[MoviesController::class,'getAll'])->name('movie.page');
+Route::get('/'.$path['movie'].'/{movie:name}',[MoviesController::class,'getSingle'])->name('movie.view');
 // Blogs
 Route::get('/'.$path['blog'].'s',[CategoryController::class,'blogsOnly'])->name('blog.page');
 Route::get('/'.$path['blog'].'s/{posts:name}',[PostController::class,'getSingle'])->name('blog.view');

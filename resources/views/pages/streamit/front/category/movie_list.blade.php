@@ -10,7 +10,7 @@
         <div id="tvshows-slider">
             @foreach($sliders as $slide)
             <div>
-                <a href="{{url($system->path->movie.'s/'.$slide->name)}}">
+                <a href="{{route('movie.view',$slide->name)}}">
                     <div class="shows-img">
                         <img src="{{$slide->banner}}" class="w-100" alt="">
                         <div class="shows-content">

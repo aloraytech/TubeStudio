@@ -2,12 +2,14 @@
 
 namespace App\Orchid\Layouts\Shows;
 
+use App\Models\Category\Tags;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Quill;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
@@ -53,6 +55,16 @@ class EpisodeEditLayout extends Rows
                     ->enableTime()
                     ->format24hr()
                     ->required(),
+
+            ])->fullWidth(),
+
+            Group::make([
+                Select::make('episode.status')
+                    ->options([
+                        0  => 'Draft',
+                        1  => 'Publish',
+                    ])->title('Set Status'),
+
 
             ])->fullWidth(),
 

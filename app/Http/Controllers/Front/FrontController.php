@@ -77,6 +77,7 @@ class FrontController extends Controller
 
                 $content = json_decode(json_encode($content));
 
+             //   dd('Slider :',$sliders,'Upcoming :',$upcomings,'Trainding :', $trending);
 
                 // Generate Result And Display To Your Client
                 return view('pages.'.$this->themes.'.front.index')
@@ -167,9 +168,7 @@ class FrontController extends Controller
             ->latest('favourite')->limit($this->systems->limit)->get();
     }
 
-    /**
-     *
-     */
+
     private function getUpcomingContent()
     {
         if($this->systems->has_upcoming)
@@ -224,7 +223,6 @@ class FrontController extends Controller
             return null;
         }
     }
-
 
 
 
