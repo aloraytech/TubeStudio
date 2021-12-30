@@ -289,7 +289,7 @@
 
                                                     {{--LOGIN--}}
 
-                                                @if(!auth()->check())
+                                                @if(!auth()->guard('member')->check())
                                                     <a href="{{route('login')}}" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
@@ -304,8 +304,8 @@
 
 
                                                 {{--LOGOUT--}}
-                                                @if(auth()->check())
-                                                <a href="{{route('logout')}}" class="iq-sub-card setting-dropdown">
+                                                @if(auth()->guard('member')->check())
+                                                <a href="{{route('member.logout')}}" class="iq-sub-card setting-dropdown">
                                                     <div class="media align-items-center">
                                                         <div class="right-icon">
                                                             <i class="ri-logout-circle-line text-primary"></i>

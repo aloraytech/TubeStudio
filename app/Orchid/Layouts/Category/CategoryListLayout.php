@@ -27,6 +27,12 @@ class CategoryListLayout extends Table
     protected function columns(): array
     {
         return [
+
+            TD::make('banner', 'Display')->render(function ($category) {
+                $image = '<img src="'.$category->banner.'" height="100px" width="150px" class="rounded">';
+                return '<a href="'.route('platform.category.edit', $category).'">'.$image.'</a>';
+            })->sort(),
+
             TD::make('name', 'Name')
                 ->sort()
                 ->render(function (Category $category) {

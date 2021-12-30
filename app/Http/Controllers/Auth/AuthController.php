@@ -37,7 +37,7 @@ class AuthController extends Controller
             if($request->getMethod() === 'GET')
             {
 
-                return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error','pages'));
+                return view('pages.'.$this->themes.'.front.member.auth.login')->with(compact('system','error','pages'));
             }elseif ($request->method() === 'POST')
             {
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
                     //return response()->json(['success' => false, 'message' => 'Authentication failed.'], 401);
                     //Web
                     $error = 'Authentication failed! Wrong Credential.';
-                    return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error','pages'));
+                    return view('pages.'.$this->themes.'.front.member.auth.login')->with(compact('system','error','pages'));
                 }
             }else{
                 throw new Exception('Request Not Found!',404);
@@ -75,7 +75,7 @@ class AuthController extends Controller
             report($e);
             // Web
             $error = $e->getMessage();
-            return view('pages.'.$system->themes->name.'.front.member.auth.login')->with(compact('system','error','pages'));
+            return view('pages.'.$this->themes.'.front.member.auth.login')->with(compact('system','error','pages'));
         }
 
 
@@ -94,7 +94,7 @@ class AuthController extends Controller
 
             if($request->getMethod() === 'GET')
             {
-                return view('pages.'.$system->themes->name.'.front.member.auth.registration')->with(compact('system','pages','error'));
+                return view('pages.'.$this->themes.'.front.member.auth.registration')->with(compact('system','pages','error'));
             }elseif ($request->method() === 'POST')
             {
                 // Do Register process
@@ -128,17 +128,17 @@ class AuthController extends Controller
                             return redirect('login',302);
                         }else{
                             $error = 'An Account Already Exist With This Email';
-                            return view('pages.'.$system->themes->name.'.front.member.auth.registration')->with(compact('system','pages','error'));
+                            return view('pages.'.$this->themes.'.front.member.auth.registration')->with(compact('system','pages','error'));
                         }
 
 
                     } else {
                         $error = 'Registration Failed!';
-                        return view('pages.'.$system->themes->name.'.front.member.auth.registration')->with(compact('system','pages','error'));
+                        return view('pages.'.$this->themes.'.front.member.auth.registration')->with(compact('system','pages','error'));
                     }
                 }else{
                     $error = 'Please Read & Accept Our Terms & Conditions.';
-                    return view('pages.'.$system->themes->name.'.front.member.auth.registration')->with(compact('system','pages','error'));
+                    return view('pages.'.$this->themes.'.front.member.auth.registration')->with(compact('system','pages','error'));
                 }
 
             }else{
@@ -165,7 +165,9 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
 
-        Auth::guard('member')->logout();
+
+
+        $request->session()->flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect(route('login'));

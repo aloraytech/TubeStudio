@@ -111,11 +111,11 @@ class MovieEditLayout extends Rows
                 ->options([
                     0  => 'Draft',
                     1  => 'Publish',
-                ])->title('Set Status'),
+                ])->title('Set Status')->canSee($this->query->get('exists')),
 
             Select::make('movie.tags')
                 ->fromModel(Tags::class, 'slug', 'slug')->multiple()
-                ->required(),
+                ->required()->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
             Quill::make('movie.desc')->toolbar(["text", "color", "header", "list", "format"])

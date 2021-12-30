@@ -83,10 +83,20 @@ Route::get('/legals',[PageController::class,'view'])->name('pages.legals');
 /**
  * Categories Routes
  */
-Route::get('/'.$path['category'].'/{category:name?}',[CategoryController::class,'getCategory'])->name('category.view');
-Route::get('/'.$path['category'].'/'.$path['movie'].'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
-Route::get('/'.$path['category'].'/'.$path['show'].'s/',[CategoryController::class,'showsOnly'])->name('category.show');
-Route::get('/'.$path['category'].'/'.$path['blog'].'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');
+Route::get('/'.$path['category'].'/{category:name?}',[CategoryController::class,'getSingle'])->name('category.view');
+//Route::get('/'.$path['category'],[CategoryController::class,'getAll'])->name('category.page');
+
+
+// Redirects Specific
+Route::redirect('/view-'.$path['category'].'/'.$path['show'].'s/','/'.$path['show'].'s')->name('category.show');
+Route::redirect('/view-'.$path['category'].'/'.$path['movie'].'s/','/'.$path['movie'].'s')->name('category.movie');
+Route::redirect('/view-'.$path['category'].'/'.$path['blog'].'s/','/'.$path['blog'].'s')->name('category.blog');
+
+
+
+//Route::get('/'.$path['category'].'/only/'.$path['movie'].'s/',[CategoryController::class,'moviesOnly'])->name('category.movie');
+//Route::get('/'.$path['category'].'/'.$path['show'].'s/',[CategoryController::class,'showsOnly'])->name('category.show');
+//Route::get('/'.$path['category'].'/'.$path['blog'].'s/',[CategoryController::class,'blogsOnly'])->name('category.blog');  only Blog
 
 /**
  * Shows Routes
@@ -119,8 +129,8 @@ Route::get('/'.$path['show'].'s/{shows:name}/{seasons:name}/{episodes:name?}',[E
 Route::get('/'.$path['movie'].'s',[MoviesController::class,'getAll'])->name('movie.page');
 Route::get('/'.$path['movie'].'/{movie:name}',[MoviesController::class,'getSingle'])->name('movie.view');
 // Blogs
-Route::get('/'.$path['blog'].'s',[CategoryController::class,'blogsOnly'])->name('blog.page');
-Route::get('/'.$path['blog'].'s/{posts:name}',[PostController::class,'getSingle'])->name('blog.view');
+Route::get('/'.$path['blog'].'s',[PostController::class,'getAll'])->name('blog.page');
+Route::get('/'.$path['blog'].'/{posts:name}',[PostController::class,'getSingle'])->name('blog.view');
 
 
 /**
@@ -135,11 +145,17 @@ Route::match(['get','post'],'/search', [SearchController::class, 'searchFront'])
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/details', [AuthController::class, "details"])->name('detail.user');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/member/logout', [AuthController::class, 'logout'])->name('member.logout');
     Route::get('/member/dashboard',[MemberController::class,'dashboard'])->name('member.dashboard.index');
     Route::get('/member/dashboard/library',[MemberController::class,'library'])->name('member.dashboard.library');
     Route::get('/member/dashboard/watchlist',[MemberController::class,'watchlist'])->name('member.dashboard.watchlist');
 });
+
+
+
+
+
+
 
 
 // Api Backend

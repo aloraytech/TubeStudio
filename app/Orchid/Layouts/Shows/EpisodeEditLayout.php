@@ -74,8 +74,8 @@ class EpisodeEditLayout extends Rows
                     ->title('Episode Display')
                     ->placeholder('Add Image')
                     ->minCanvas(744)
-                    ->maxWidth(744)
-                    ->maxHeight(432)
+                    ->width(744)
+                    ->height(432)
                     ->targetRelativeUrl(),
 
 

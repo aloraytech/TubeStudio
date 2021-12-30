@@ -61,13 +61,13 @@ class CategoryEditLayout extends Rows
 
 
 
-            Cropper::make('category.banners.name')
+            Cropper::make('category.banner')
                 ->title('Category Banner')
                 ->placeholder('Add Banner')
-                ->minCanvas(500)
-                ->maxWidth(1000)
-                ->maxHeight(800)
-                ->targetId(),
+                ->minCanvas(800)
+                ->width(1920)
+                ->height(1080)
+                ->targetRelativeUrl(),
 
 
 

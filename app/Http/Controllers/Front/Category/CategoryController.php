@@ -23,41 +23,45 @@ class CategoryController extends Controller
 {
 
 
-    /**
-     * @return Application|Factory|View|RedirectResponse|Redirector
-     */
-      public function moviesOnly()
-    {
 
-        if($this->systems->movie_pack)
+
+
+        public function getSingle(Category $category,Request $request)
         {
-            // Load System Data
-            $system = $this->systems;
-            $pages = $this->pages;
-
-            $mm = Movies::with('categories','videos')->find(1);
-
-
-
-
-
-
-
-            $sliders = $this->getSliderContent('movie');  // Only Season Count Extra Require
-            $category = Category::withCount('movies')->where('type','=','movie')
-                ->where('status',true)->latest()->orderby('movies_count','desc')->limit(50)->get();
-
-
-            if(Auth::check())
+           // dd($category);
+            $system = $this->systems; $pages = $this->pages;
+            $content = null; $contentBag = null; $similar=null;
+            if($category->exists)
             {
-                $category = $category->load('movies');
+               $content = $category;
+               if($category->type === Category::SHOW)
+               {
+                $contentBag = Shows::where('categories_id',$category->id)->where('status',true)->paginate();
+               }elseif ($category->type === Category::MOVIE)
+               {
+                   $contentBag = Movies::where('categories_id',$category->id)->where('status',true)->paginate();
+               }elseif ($category->type === Category::BLOG)
+               {
+                   $contentBag = Posts::where('categories_id',$category->id)->where('status',true)->paginate();
+               }
+
+                $similar = Category::where('parent_id',$category->id)->where('status',true)->orWhere('type',$category->type)->paginate();
+
+               $allCategory = Category::where('type',$category->type)->where('status',true)->paginate(24);
+
             }else{
-                $category = $category->load('movies')->where('movies.age_group','!=','18+');
+
+                $allCategory = Category::where('status',true)->paginate(24);
             }
 
-            $favorite = '';
-            $upcoming = $category;
-            $upcoming->where('movies.release_on','>',now());
+            $sliders = $allCategory;
+
+
+
+
+
+
+            //dd($this->content,$this->allShows,$this->allMovies,$this->allBlogs);
 
 
 
@@ -65,253 +69,208 @@ class CategoryController extends Controller
 
 
 
-
-
-            $suggested = '';
-
-            $allCategoryMovies = $category;
-
-            $allCategoryMovies = $allCategoryMovies->forpage($allCategoryMovies->count()/$system->limit,5);
-
-
-            //Upcoming
-
-            // Recommended
-
-            return view('pages.'.$this->themes.'.front.category.movie_list')
+            return view('pages.'.$this->themes.'.front.category.list')
                 ->with(compact('system','pages'))
-                ->with(compact('sliders','category','upcoming','allCategoryMovies'));
-        }else{
-            return redirect(route('landing.index'));
+                ->with(compact('content','contentBag','allCategory','sliders','similar'))
+                ;
+
+
+
         }
-    }
-
-
-    /**
-     * @return Application|Factory|View|RedirectResponse|Redirector
-     */
-    public function showsOnly()
-    {
-
-        if($this->systems->show_pack)
-        {
-
-            // Load Default Data
-            $system = $this->systems;
-            $pages = $this->pages;
-            // Load Page Data
-            $sliders = $this->getSliderContent('show');
 
 
 
-//            $sliders = Shows::with(['seasons' => function ($query) {$query->oldest()->first();}])
-//                ->withCount('seasons')->where('status',true)->get();
+//    public function getAll()
+//    {
 //
 //
-//            dd($sliders);
-
-
-
-//            $sliders = with(['episodes' => function ($query) {$query->oldest()->first();}])
-//                ->where('shows_id',$shows->id)->oldest()->first();
-            // Load Category With Shows And Shows Count
-            $category = Category::withCount('shows')->where('type','=','show')
-                ->where('status',true)->latest()->orderby('shows_count','desc')->limit($this->systems->limit * 4)->get();
-            $category = $category->load('shows','shows.seasons');
-            if(!Auth::check())
-            {
-                $category = $category->where('shows.age_group','!=','18+');
-            }
-
-            // Load Page According Data
-            $favorite = '';
-            $upcoming = $category;
-            $upcoming->where('shows.release_on','>',now());
-            $upcoming = $upcoming->forpage($upcoming->count()/$system->limit,$system->limit);
-
-            // Suggestion Show
-            $suggested = '';
-            // Page Show Data
-            $allCategoryShows = $category;
-            $allCategoryShows = $allCategoryShows->forpage($allCategoryShows->count()/$system->limit,$system->limit);
-            // Send View
-            return view('pages.'.$this->themes.'.front.category.show_list')
-                ->with(compact('system','pages'))
-                ->with(compact('sliders','category','upcoming','allCategoryShows'));
-        }else{
-            return redirect(route('landing.index'));
-        }
-    }
-
-    /**
-     * @return Application|Factory|View|RedirectResponse|Redirector
-     */
-    public function blogsOnly()
-    {
-
-       if($this->systems->blog_pack)
-       {
-           // Load System Data
-           $system = $this->systems;
-           $pages = $this->pages;
-
-           $sliders = $this->getSliderContent('blog');  // Only Season Count Extra Require
-           $category = Category::withCount('posts')->where('type','=','post')->where('status',true)->latest()->orderby('posts_count','desc')->limit(50)->get();
-
-           if(Auth::check())
-           {
-               $category = $category->load('posts');
-           }else{
-               $category = $category->load('posts')->where('posts.age_group','!=','18+');
-           }
-
-           $favorite = '';
-           $upcoming = $category;
-           $upcoming->where('posts.release_on','>',now());
-
-           $suggested = '';
-
-           $allCategoryPosts = $category;
-
-           $allCategoryPosts = $allCategoryPosts->forpage($allCategoryPosts->count()/$system->limit,5);
-
-
-
-
-           //$shows = Shows::where('status',true)->with('categories','seasons')->latest('updated_at')->paginate($system->limit);
-
-
-           //Upcoming
-
-           // Recommended
-
-           return view('pages.'.$this->themes.'.front.category.blog_list')
-               ->with(compact('system','pages'))
-               ->with(compact('sliders','category','upcoming','allCategoryPosts'));
-       }else{
-           return redirect(route('landing.index'));
-       }
-    }
-
-
-    /**
-     * @param Category $category
-     * @param Request $request
-     */
-    public function getCategory(Category $category,Request $request)
-    {
-        $system = $this->systems; $pages = $this->pages;
-
-        if($category->type ==='show')
-        {
-            $category->load('shows');
-        }elseif ($category->type === 'movie')
-        {
-            $category->load('movies');
-        }elseif($category->type === 'blog'){
-            $category->load('posts');
-        }
-
-
-        dd($category);
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * @param string $type
-     * @return void|null
-     */
-    private function getSliderContent($type='')
-    {
-
-        if($this->systems->has_slider)
-        {
-
-            if( $type==='show')
-            {
-                if($this->systems->show_pack)
-                {
-
-                    $slider = Shows::with(['seasons' => function ($query) {$query->oldest()->first();}])
-                        ->withCount('seasons')->where('status',true)->where('release_on','<',now())
-                        ->latest('created_at')
-                        ->orderby('seasons_count')->limit($this->systems->limit*5)->get();
-
-
-                    if(!Auth::check())
-                    {
-                        $slider = $slider->where('age_group','!=','18+');
-                    }
-                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
-                    return $slider;
-                }
-            }
-
-            if($type === 'movie')
-            {
-                if($this->systems->movie_pack){
-
-                    $slider = Movies::where('release_on','<',now())->latest('created_at')->limit($this->systems->limit*5)->get();
-                    $slider = $slider->where('status',true);
-
-                    if(!Auth::check())
-                    {
-                        $slider = $slider->where('age_group','!=','18+');
-                    }
-
-                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
-                    return $slider;
-                }
-            }
-
-            if($type === 'blog')
-            {
-                if($this->systems->blog_pack)
-                {
-                    $slider = Posts::where('status',true)->latest('created_at')->limit($this->systems->limit*5)->get();
-                    if(!Auth::check())
-                    {
-                        $slider = $slider->where('age_group','!=','18+');
-                    }
-                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
-                    return $slider;
-                }
-            }
-        }else{
-            return null;
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+//        return view('pages.'.$this->themes.'.front.category.list')
+//            ->with(compact('system','pages'))
+//            ->with(compact('sliders','category','upcoming'));
+//
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    /**
+//     * @param Category $category
+//     * @param Request $request
+//     */
+//    public function getCategory(Category $category,Request $request)
+//    {
+//        $system = $this->systems; $pages = $this->pages;
+//
+//        if($category->type ==='show')
+//        {
+//            $category->load('shows');
+//        }elseif ($category->type === 'movie')
+//        {
+//            $category->load('movies');
+//        }elseif($category->type === 'blog'){
+//            $category->load('posts');
+//        }
+//
+//
+//        dd($category);
+//
+//
+//
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    /**
+//     * @return Application|Factory|View|RedirectResponse|Redirector
+//     */
+//    public function blogsOnly()
+//    {
+//
+//        if($this->systems->blog_pack)
+//        {
+//            // Load System Data
+//            $system = $this->systems;
+//            $pages = $this->pages;
+//
+//            $sliders = $this->getSliderContent('blog');  // Only Season Count Extra Require
+//            $category = Category::withCount('posts')->where('type','=','post')->where('status',true)->latest()->orderby('posts_count','desc')->limit(50)->get();
+//
+//            if(Auth::check())
+//            {
+//                $category = $category->load('posts');
+//            }else{
+//                $category = $category->load('posts')->where('posts.age_group','!=','18+');
+//            }
+//
+//            $favorite = '';
+//            $upcoming = $category;
+//            $upcoming->where('posts.release_on','>',now());
+//
+//            $suggested = '';
+//
+//            $allCategoryPosts = $category;
+//
+//            $allCategoryPosts = $allCategoryPosts->forpage($allCategoryPosts->count()/$system->limit,5);
+//
+//
+//
+//
+//            //$shows = Shows::where('status',true)->with('categories','seasons')->latest('updated_at')->paginate($system->limit);
+//
+//
+//            //Upcoming
+//
+//            // Recommended
+//
+//            return view('pages.'.$this->themes.'.front.category.blog_list')
+//                ->with(compact('system','pages'))
+//                ->with(compact('sliders','category','upcoming','allCategoryPosts'));
+//        }else{
+//            return redirect(route('landing.index'));
+//        }
+//    }
+//
+//
+//
+//
+//    /**
+//     * @param string $type
+//     * @return void|null
+//     */
+//    private function getSliderContent($type='')
+//    {
+//
+//        if($this->systems->has_slider)
+//        {
+//
+//            if( $type==='show')
+//            {
+//                if($this->systems->show_pack)
+//                {
+//
+//                    $slider = Shows::with(['seasons' => function ($query) {$query->oldest()->first();}])
+//                        ->withCount('seasons')->where('status',true)->where('release_on','<',now())
+//                        ->latest('created_at')
+//                        ->orderby('seasons_count')->limit($this->systems->limit*5)->get();
+//
+//
+//                    if(!Auth::check())
+//                    {
+//                        $slider = $slider->where('age_group','!=','18+');
+//                    }
+//                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
+//                    return $slider;
+//                }
+//            }
+//
+//            if($type === 'movie')
+//            {
+//                if($this->systems->movie_pack){
+//
+//                    $slider = Movies::where('release_on','<',now())->latest('created_at')->limit($this->systems->limit*5)->get();
+//                    $slider = $slider->where('status',true);
+//
+//                    if(!Auth::check())
+//                    {
+//                        $slider = $slider->where('age_group','!=','18+');
+//                    }
+//
+//                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
+//                    return $slider;
+//                }
+//            }
+//
+//            if($type === 'blog')
+//            {
+//                if($this->systems->blog_pack)
+//                {
+//                    $slider = Posts::where('status',true)->latest('created_at')->limit($this->systems->limit*5)->get();
+//                    if(!Auth::check())
+//                    {
+//                        $slider = $slider->where('age_group','!=','18+');
+//                    }
+//                    $slider->forpage($slider->count()/$this->systems->limit,$this->systems->limit);
+//                    return $slider;
+//                }
+//            }
+//        }else{
+//            return null;
+//        }
+//
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 

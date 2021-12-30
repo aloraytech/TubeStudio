@@ -31,6 +31,10 @@ class Category extends Model
     use HasFactory,
         AsSource,Attachable;
 
+    public const MOVIE = 'movie';
+    public const SHOW='show';
+    public const BLOG='blog';
+
     protected $fillable = [
         'name',
         'type',

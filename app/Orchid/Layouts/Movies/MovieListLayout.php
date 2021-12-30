@@ -31,7 +31,8 @@ class MovieListLayout extends Table
         return [
 
             TD::make('display_image', 'Display')->render(function ($movie) {
-                return '<img src="'.$movie->display_image.'" height="100px" width="150px" class="rounded">';
+                $image = '<img src="'.$movie->display_image.'" height="100px" width="150px" class="rounded">';
+                return '<a href="'.route('platform.movie.edit', $movie).'">'.$image.'</a>';
             })->sort(),
 
             TD::make('name', 'Name')

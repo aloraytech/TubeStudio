@@ -161,16 +161,16 @@ class ShowEditScreen extends Screen
                     Cropper::make('show.banner')
                         ->title('Show Banner')
                         ->placeholder('Add Image')
-                        ->Width(1600)
-                        ->Height(900)
+                        ->width(1600)
+                        ->height(900)
                         ->targetRelativeUrl(),
 
 
                     Cropper::make('show.display_image')
                         ->title('Show Display Image')
                         ->placeholder('Add Image')
-                        ->Width(744)
-                        ->Height(432)
+                        ->width(744)
+                        ->height(432)
                         ->targetRelativeUrl(),
 
                 ])->fullWidth(),
