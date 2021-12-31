@@ -32,7 +32,7 @@
             {{--Upcoming--}}
         @if($system->has_upcoming)
             @if($content->upcoming)
-{{--                @include('pages.streamit.front.components.index.upcoming')--}}
+                @include('pages.streamit.front.components.index.upcoming')
             @endif
         @endif
             {{--End Upcoming--}}

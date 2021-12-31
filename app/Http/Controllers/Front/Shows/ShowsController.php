@@ -21,11 +21,18 @@ class ShowsController extends Controller
         $pages = $this->pages;
         $system = $this->systems;
 
+        if(!empty($shows->id))
+        {
+            $shows->views = $shows->views+1;
+            $shows->save();
+        }
+
 
         if(empty($seasons->id)){
             $firstSeason = Seasons::with(['episodes' => function ($query) {$query->oldest()->first();}])
                 ->where('shows_id',$shows->id)->oldest()->first();
             $firstSeasonDetail = Seasons::with('episodes','trailers')->where('id',$firstSeason->id)->get();
+
         }else{
             $firstSeason = $seasons->load('episodes','trailers');
             $firstSeasonDetail = Seasons::with('episodes','trailers')->where('id',$firstSeason->id)->get();

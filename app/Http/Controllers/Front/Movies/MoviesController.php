@@ -16,7 +16,11 @@ class MoviesController extends Controller
 
     public function getSingle(Movies $movie,Request $request)
     {
-
+        if(!empty($movie->id))
+        {
+            $movie->views = $movie->views+1;
+            $movie->save();
+        }
 
 
         $movie->load('videos');
@@ -57,7 +61,7 @@ class MoviesController extends Controller
 
 
         $suggestions = $popular;
-        $suggestions = $suggestions->reverse();
+//        $suggestions = $suggestions->reverse();
 
 
 

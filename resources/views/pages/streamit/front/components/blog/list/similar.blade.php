@@ -10,12 +10,12 @@
                     <div class="iq-main-header d-flex align-items-center justify-content-between">
                         {{-- <h4 class="main-title">{{'Best '.ucfirst($catItem->name) .' '. ucfirst($system->path->show).'s'}}</h4> --}}
                     </div>
-
+                    @foreach ($allPosts as $item)
                     <div class="upcoming-contens">
                         <ul class="favorites-slider list-inline  row p-0 mb-0">
 
                             {{-- First Category Show by Modified Time --}}
-                            @foreach ($catItem as $item)
+
 
 
 
