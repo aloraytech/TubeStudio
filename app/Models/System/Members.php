@@ -18,6 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property $guarded
  * @property $attributes
  * @property $rememberTokenName
+ * @property $last_login
  */
 class Members extends Authenticatable
 {
@@ -31,7 +32,11 @@ class Members extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'mobile',
         'password',
+        'last_login',
+        'email_verified_at',
+        'status',
     ];
 
     /**

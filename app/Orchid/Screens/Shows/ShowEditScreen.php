@@ -124,12 +124,6 @@ class ShowEditScreen extends Screen
                 ->icon('layers'),
 
 
-            ModalToggle::make('Add Trailer')
-                ->modal('showTrailerCreateModal')
-                ->method('createShowTrailer')
-                ->icon('film')
-                //->asyncParameters('Hello world!')
-                ->canSee($this->exists),
 
 
         ];
@@ -161,18 +155,16 @@ class ShowEditScreen extends Screen
                     Cropper::make('show.banner')
                         ->title('Show Banner')
                         ->placeholder('Add Image')
-                        ->minCanvas(1000)
-                        ->maxWidth(1920)
-                        ->maxHeight(1080)
+                        ->width(1600)
+                        ->height(900)
                         ->targetRelativeUrl(),
 
 
                     Cropper::make('show.display_image')
                         ->title('Show Display Image')
                         ->placeholder('Add Image')
-                        ->minCanvas(744)
-                        ->maxWidth(744)
-                        ->maxHeight(432)
+                        ->width(744)
+                        ->height(432)
                         ->targetRelativeUrl(),
 
                 ])->fullWidth(),

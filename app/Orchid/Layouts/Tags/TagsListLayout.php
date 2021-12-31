@@ -31,13 +31,17 @@ class TagsListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', 'Name')->render(function ($tag) {
-                return $tag->name;
+            TD::make('slug', 'Slug')->render(function ($tag) {
+                return $tag->slug;
+            })->sort()->alignRight(),
+
+            TD::make('views', 'Views')->render(function ($tag) {
+                return $tag->views;
             })->sort(),
 
-            TD::make('updated_at', 'Modified')->render(function ($tag) {
-                return $tag->updated_at;
-            })->sort(),
+//            TD::make('updated_at', 'Modified')->render(function ($tag) {
+//                return $tag->updated_at;
+//            })->sort(),
 
 
             TD::make('Action')->width('15%')

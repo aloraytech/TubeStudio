@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Movies;
 
+use App\Helpers\Customizer\PathCustomizer;
 use App\Helpers\Grabber\VideoGrabber;
 use App\Models\Category\Category;
 use App\Models\Category\Tags;
@@ -24,6 +25,7 @@ use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Upload;
@@ -71,11 +73,14 @@ class MovieEditScreen extends Screen
                 $movies->banner = "https://via.placeholder.com/1930x1080.png?text=1920X1080";
             }
         }
+        $this->tags = $movies->tags;
 
         return [
             'movie' => $movies,
             'exists'=>$this->exists,
             'content'=>$movies,
+            'select'=>'movie',
+            'tags' => $movies->tags,
         ];
     }
 
@@ -132,6 +137,10 @@ class MovieEditScreen extends Screen
 
 
 
+
+
+
+
     /**
      * Views.
      *
@@ -146,40 +155,50 @@ class MovieEditScreen extends Screen
                     ->title('Video Url')
                     ->placeholder('Paste video link here')
                     ->help('Specify a valid video link for generate movie')->required(),
-                Select::make('movie.categories_id')->fromModel(Category::class, 'name','id')
+                Select::make('movie.categories_id')->fromQuery(Category::where('type', '=', 'movie'), 'name')
                     ->title('Select Category')->required(),
             ])->canSee(!$this->exists)->title('Place Video Url'),
 
             MovieEditLayout::class,
 
+
+
+
+
+
+
+
             Layout::rows([
+
+
+
                 Group::make([
                 Cropper::make('movie.banner')
                     ->title('Banner')
                     ->placeholder('Add Banner Image')
                     ->minCanvas(1000)
-                    ->maxWidth(1920)
-                    ->maxHeight(1080)
+                    ->width(1920)
+                    ->height(1080)
                     ->targetRelativeUrl(),
                 Cropper::make('movie.display_image')
                     ->title('Display Image')
                     ->placeholder('Add Display Image')
                     ->minCanvas(744)
-                    ->maxWidth(744)
-                    ->maxHeight(432)
+                    ->width(744)
+                    ->height(432)
                     ->targetRelativeUrl()
                 ])->fullWidth(),
             ])->canSee($this->exists),
 
 
             Layout::modal('asyncCategoryModal', [
-                CategoryEditLayout::class
-            ])->title('Manage Category'),
+                CategoryModalLayout::class
+            ])->title('Create '.Str::ucfirst(config('app.path.category'))),
 
 
             Layout::modal('asyncTagsModal', [
                 TagModalLayout::class
-            ])->title('Manage Tags'),
+            ])->title('Create '.Str::ucfirst(config('app.path.tag'))),
 
 
 
@@ -207,6 +226,7 @@ class MovieEditScreen extends Screen
     public function createOrUpdate(Movies $movie, Request $request)
     {
 
+
         $creation = $movie->exists;
         if (isset($request->url))
         {
@@ -231,6 +251,9 @@ class MovieEditScreen extends Screen
                     $movie->quality = '240p';
                     $movie->duration = '00:00:00';
                     $movie->fill($data)->save();
+                    // Tags
+
+
                     //$movie->save();
                     $contentTitle = $data['name'] ?? $movie->name;
 
@@ -311,8 +334,11 @@ class MovieEditScreen extends Screen
     {
         // Create
         $data = $request->get('category');
+        if(empty($data['banner'])){$data['banner'] = 'https://via.placeholder.com/1920x1080/FF0000/FFFFFF?Text='.Str::snake($data['name']);}
+        if(empty($data['desc'])){$data['desc'] = Str::snake('Containing '.$data['name'] .' '. config('app.path.category').' Content');}
         // Fix For Categories ID
-        //$category->categories_id = $data['categories_id'];
+        $category->parent_id = $data['parent_id'];
+        $category->type = 'movie';
         $category->fill($data)->save();
         //$category->fill($data)->save();
         $images = $request->input('category.banner', []);
@@ -336,7 +362,7 @@ class MovieEditScreen extends Screen
      */
     public function createTags(Movies $movies,Tags $tags, Request $request)
     {
-        $tags->fill($request->get('tag'))->save();
+//        $tags->fill($request->get('tag'))->save();
         Alert::success('You have successfully created an tag.');
         return redirect()->route('platform.movie.edit',$movies->id);
     }

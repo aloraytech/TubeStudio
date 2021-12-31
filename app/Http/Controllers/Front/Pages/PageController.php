@@ -16,7 +16,7 @@ class PageController extends Controller
         $pages = $this->pages;
         $url = str_replace('/','',$request->getPathInfo());
         $pageData = $pages->where('url','pages.'.str_replace('-','.',$url))->first();
-        return view('pages.'.$system->themes->name.'.front.pages.single')->with(compact('system','pages','pageData'));
+        return view('pages.'.$this->themes.'.front.pages.single')->with(compact('system','pages','pageData'));
 
 
 

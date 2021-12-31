@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Blog\Posts;
+use App\Models\Category\Tags;
 use Illuminate\Database\Seeder;
 
 class PostsSeeder extends Seeder
@@ -14,6 +15,6 @@ class PostsSeeder extends Seeder
      */
     public function run()
     {
-        Posts::factory()->count(5)->create();
+        Posts::factory()->count(100)->create();
     }
 }

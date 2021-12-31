@@ -35,7 +35,7 @@ class PostListLayout extends Table
             TD::make('name', 'Name')
                 ->sort()
                 ->render(function (Posts $post) {
-                    return Link::make($post->title)
+                    return Link::make($post->name)
                         ->route('platform.blog.edit', $post);
                 }),
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $display_image
  * @property $release_on
  * @property $videos
+ * @property $e_code
  */
 class Episodes extends Model
 {
@@ -24,7 +25,8 @@ class Episodes extends Model
         'desc',
         'duration',
         'release_on',
-        'status'
+        'status',
+        'e_code'
     ];
 
 
@@ -35,7 +37,7 @@ class Episodes extends Model
 
     public function seasons()
     {
-        return $this->belongsTo(Seasons::class);
+        return $this->belongsTo(Seasons::class,'id','seasons_id')->withDefault();
     }
     public function activities()
     {

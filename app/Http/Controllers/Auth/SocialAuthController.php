@@ -32,6 +32,7 @@ class SocialAuthController extends Controller
     private string $accessToken='';
     private const API_RESPONSE = 'api';
     private const WEB_RESPONSE ='web';
+    private const USE_ACCESS_TOKEN = false;
 
 
 
@@ -54,11 +55,10 @@ class SocialAuthController extends Controller
     /**
      * Obtain the user information from Provider.
      * @param string $provider
-     * @param Request $request
-     * @return Application|Redirector|RedirectResponse
+     * @return Application
      * @throws Exception
      */
-    public function handleProviderCallback(string $provider,Request $request)
+    public function handleProviderCallback(string $provider)
     {
         $system = $this->systems;
         $pages = $this->pages;
@@ -70,7 +70,8 @@ class SocialAuthController extends Controller
                 $this->providerDetail = Socialite::driver($provider)->stateless()->user();
                 if(!empty($this->providerDetail))
                 {
-                    return $this->resolve($request);
+
+                    return $this->resolve();
                 }else{
                     throw new Exception('Unable to login using' . ucfirst($this->provider) . '. Please try again.');
                 }
@@ -93,11 +94,13 @@ class SocialAuthController extends Controller
 
     }
 
-
-    private function resolve(Request $request)
+    /**
+     * @return Application|Factory|View|JsonResponseAlias
+     */
+    private function resolve()
     {
 
-        $this->memberResolver();
+        $this->checkNLogin();
 
         if (Auth::guard('member')->check())
         {
@@ -112,59 +115,60 @@ class SocialAuthController extends Controller
             $this->msg=ucfirst($this->provider) .' provider  error';
             return $this->send();
         }
-
-
-
-//        $token = $userCreated->createToken('token-name')->plainTextToken;
-
-        // For Api
-        //return response()->json($userCreated, 200, ['Access-Token' => $token]);
-        //For Web
-//        return redirect(url('/dashboard'),302);
     }
 
 
 
 
-    private function memberResolver()
+    private function checkNLogin()
     {
-
         // Check New Member Or Returning One
         $existMember = $this->memberExist();
-        // dd($existMember);
         // Check Member Existence
         if(!is_null($existMember))
         {
             if(!$existMember->count())
             {
-                // For New Member
-                // Create New Member Record
-                $member = Members::firstOrCreate([
-                    'name'=> $this->providerDetail->getName(),
-                    'email'=> $this->providerDetail->getEmail(),
-                    'email_verified_at' => now(),
-                    'password'=> null,
-                    'status' => true,
-                ]);
-                if(!$member->hasProvider($this->provider))
-                {
-                    $member->providers()->updateOrCreate([
-                        'provider_id'=> $this->providerDetail->getId(),
-                        'provider'=> $this->provider,
-                        'members_id'=> $member->id,
-                        'avatar' => $this->providerDetail->getAvatar()
-                    ]);
-                }
-                Auth::guard('member')->login($member);
+                // Create Record And Login
+                $this->doLogin();
             }else{
                 // Returning Member
                 Auth::guard('member')->login($existMember);
             }
         }else{
-            Auth::guard('member')->login($existMember);
+            // Create Record And Login
+            $this->doLogin();
         }
 
     }
+
+
+
+    private function doLogin()
+    {
+        // Create New Member Record
+        $member = Members::firstOrCreate([
+            'name'=> $this->providerDetail->getName(),
+            'email'=> $this->providerDetail->getEmail(),
+            'email_verified_at' => now(),
+            'password'=> null,
+            'status' => true,
+        ]);
+        // Create or Update Provider Record
+        if(!$member->hasProvider($this->provider))
+        {
+            $member->providers()->updateOrCreate([
+                'provider_id'=> $this->providerDetail->getId(),
+                'provider'=> $this->provider,
+                'members_id'=> $member->id,
+                'avatar' => $this->providerDetail->getAvatar()
+            ]);
+        }
+        // Finally, Logged the new member
+        Auth::guard('member')->login($member);
+
+    }
+
 
 
 
@@ -178,7 +182,7 @@ class SocialAuthController extends Controller
 
 
     /**
-     * @return null
+     * @return null|object
      */
     private function memberExist()
     {
@@ -188,16 +192,12 @@ class SocialAuthController extends Controller
         {
             // Check Social Record
             $providerMember = Providers::where('provider_id', $providerUser->getId())->first();
-            return $providerMember ? $providerMember->user : null;
+            return $providerMember ? $providerMember->members : null;
         }else{
             // Check Member Tables
             return Members::where('email', $providerUser->getEmail())
-                ->orWhereHas('providers', function ($q) use ($providerUser, $provider)
-                    {
-                        $q->where('provider_id', $providerUser->getId())
-                            ->where('provider', $provider);
-                    })->first();
-
+                    ->orWhereHas('providers', function ($q) use ($providerUser, $provider)
+                    {$q->where('provider_id', $providerUser->getId())->where('provider', $provider);})->first();
         }
     }
 
@@ -216,11 +216,11 @@ class SocialAuthController extends Controller
             $error = $this->msg;
             if($status)
             {
-                if(!empty($this->accessToken))
+                if(!empty($this->accessToken) && self::USE_ACCESS_TOKEN)
                 {
                     return redirect(url('/') . '/auth/provider-callback?token=' . $this->accessToken);
                 }else{
-                    return redirect(route('member.dashboard.index',$this->accessToken),302);
+                    return redirect(route('member.dashboard.index'),302);
                 }
 
             }else{

@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $banner
  * @property $display_image
  * @property $status
+ * @property $tags
  */
 class Shows extends Model
 {
@@ -53,6 +54,19 @@ class Shows extends Model
         return $this->hasMany(Seasons::class);
     }
 
+
+    public function oldestSeasons()
+    {
+        return $this->hasMany(Seasons::class)->oldest('created_at')->where('status',true);
+    }
+
+
+//    public function oldestSeason()
+//    {
+//        return $this->seasons()->oldest('seasons.created_at');
+//    }
+
+
     public function trailers()
     {
         return $this->hasMany(Trailers::class,'id','trailer');
@@ -65,7 +79,16 @@ class Shows extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tags::class,'id','tags');
+//        return $this->hasMany(Tags::class,'id')->find($tag_list);
+
+        $related = $this->hasMany(Tags::class);
+        $related->setQuery(
+            Tags::whereIn('id', $this->tags)->getQuery()
+        );
+
+        return $related;
+
+
     }
 
 

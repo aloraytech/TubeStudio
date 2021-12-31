@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SystemHandler;
 use App\Models\Blog\Pages;
-use App\Models\System\Systems;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -14,14 +15,19 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected Systems $systems;
-    protected Collection  $pages;
-    protected $themes;
+    protected object $systems;
+    protected object $pages;
+    protected string $themes;
 
     public function __construct()
     {
-        $this->systems = Systems::with('themes')->find(1);
-        $this->pages = Pages::where('status',true)->orderby('position','asc')->get();
+        $handler = new SystemHandler();
+        $this->systems = $handler->getSystem();
+        $this->themes = $this->systems->theme_name;
+        $this->pages = $handler->getAllPages();
+
+
+
 
 
     }

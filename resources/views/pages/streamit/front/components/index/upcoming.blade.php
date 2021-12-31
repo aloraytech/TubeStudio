@@ -8,7 +8,7 @@
                 </div>
                 <div class="upcoming-contens">
                     <ul class="favorites-slider list-inline row p-0 mb-0">
-                        @foreach($upcoming['content'] as $content)
+                        @foreach($upcomings as $content)
                             @if($content->release_on > now())
                                 <li class="slide-item">
                                     <a href="{{url(env('MOVIE').'s/'.$content->name)}}">

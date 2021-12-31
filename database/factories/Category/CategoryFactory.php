@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
 {
-    protected $model = Category::class;
+    protected $model =  Category::class;
     /**
      * Define the model's default state.
      *
@@ -16,10 +16,10 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word(),
-            'desc'=> $this->faker->text(50),
-            'type' => $this->faker->randomElement(['movie','show','blog'])
+            'name'=> $this->faker->word(),
+            'type'=> $this->faker->randomElement(['movie','show','blog']),
+            'banner' => $this->faker->image(),
+            'desc' => $this->faker->realText(),
         ];
     }
-
 }

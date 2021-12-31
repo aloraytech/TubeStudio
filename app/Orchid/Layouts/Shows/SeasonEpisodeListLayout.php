@@ -47,6 +47,11 @@ class SeasonEpisodeListLayout extends Table
                     return Link::make($episodes->name)
                         ->route('platform.episode.edit', $episodes);
                 }),
+
+            TD::make('e_code', 'Code')->render(function ($episodes) {
+                return $episodes->e_code;
+            })->sort(),
+
             TD::make('updated_at', 'Modified')->render(function ($episodes) {
                 return $episodes->updated_at;
             })->sort(),

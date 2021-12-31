@@ -32,6 +32,7 @@ class SeasonsFactory extends Factory
             'name'=> $this->faker->word(),
             'desc' => $this->faker->text(200),
             'display_image'=> $this->faker->imageUrl(744,432),
+            'status'=> $this->faker->boolean(),
         ];
     }
 }

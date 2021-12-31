@@ -2,7 +2,10 @@
 
 namespace Database\Factories\Category;
 
+use App\Models\Blog\Posts;
 use App\Models\Category\Tags;
+use App\Models\Movies\Movies;
+use App\Models\Shows\Shows;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TagsFactory extends Factory
@@ -16,8 +19,9 @@ class TagsFactory extends Factory
      */
     public function definition()
     {
+
         return [
-            'name' => $this->faker->word(),
+            'slug' => $this->faker->word(),
         ];
     }
 }

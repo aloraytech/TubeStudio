@@ -18,7 +18,7 @@
                                     Message : <i class="text-right text-warning">{{$error}}</i>
                                 @endif
 
-                                <form class="mt-4" action="{{ route('register.user') }}" method="post" > @CSRF
+                                <form class="mt-4" action="{{ route('register') }}" method="post" > @CSRF
                                     <div class="form-group">
                                         <input type="text"  name="name" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter Full Name" autocomplete="off" required>
                                     </div>
@@ -57,9 +57,9 @@
                                     </button>
                                     <div class="dropdown-menu bg-transparent">
                                         <!-- Dropdown menu links -->
-                                        <a href="{{ route('login.user') }}/github" class="btn btn-dark btn-sm btn-block"> Github</a>
-                                        <a href="{{ route('login.user') }}/google" class="btn btn-hover btn-sm btn-block">Google</a>
-                                        <a href="{{ route('login.user') }}/facebook" class="btn btn-primary btn-sm btn-block">Facebook</a>
+                                        <a href="{{ route('login') }}/github" class="btn btn-dark btn-sm btn-block"> Github</a>
+                                        <a href="{{ route('login') }}/google" class="btn btn-hover btn-sm btn-block">Google</a>
+                                        <a href="{{ route('login') }}/facebook" class="btn btn-primary btn-sm btn-block">Facebook</a>
                                     </div>
                                 </div>
 
@@ -73,7 +73,7 @@
                         </div>
                         <div class="mt-3">
                             <div class="d-flex justify-content-center links">
-                                Already have an account? <a href="{{ route('login.user') }}" class="text-primary ml-2">Sign In</a>
+                                Already have an account? <a href="{{ route('login') }}" class="text-primary ml-2">Sign In</a>
                             </div>
                         </div>
                     </div>

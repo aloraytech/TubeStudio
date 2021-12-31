@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Advert;
 
 use App\Models\Business\Adverts;
 use App\Models\Category\Tags;
+use Illuminate\Support\Facades\Date;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -40,10 +41,27 @@ class AdvertListLayout extends Table
                 }),
 
 
+            TD::make('position', 'Position')->render(function ($adverts) {
+                return $adverts->position;
+            })->sort(),
+
+            TD::make('provider', 'Provider')->render(function ($adverts) {
+                return $adverts->provider;
+            })->sort(),
+
+            TD::make('views', 'Views')->render(function ($adverts) {
+                return ($adverts->views)?$adverts->views:'Empty';
+            })->sort(),
+
+            TD::make('clicks', 'Clicks')->render(function ($adverts) {
+                return ($adverts->clicks)?$adverts->clicks:'Empty';
+            })->sort(),
+
+
 
 
             TD::make('updated_at', 'Modified')->render(function ($adverts) {
-                return $adverts->updated_at;
+                return Date::createFromDate($adverts->updated_at)->format('d/m/Y');
             })->sort(),
 
 

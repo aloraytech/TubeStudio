@@ -14,36 +14,22 @@ class Activities extends Model
 {
     use HasFactory;
 
-    public function seasons()
-    {
-        return $this->hasMany(Seasons::class);
-    }
+    protected $fillable = [
+        'in_time',
+        'out_time',
+        'subject',
+        'url_visit',
+        'url_from',
+        'guest',
+        'guest_contact',
+        'detail'
+    ];
 
-    public function shows()
-    {
-        return $this->hasMany(Shows::class);
-    }
 
-    public function episodes()
-    {
-        return $this->hasMany(Episodes::class);
-    }
 
     public function members()
     {
-        return $this->hasMany(Members::class);
+        return $this->belongsTo(Members::class);
     }
-
-
-    public function movies()
-    {
-        return $this->hasMany(Movies::class);
-    }
-
-    public function posts()
-    {
-        return $this->hasMany(Posts::class);
-    }
-
 
 }

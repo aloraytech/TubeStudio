@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category\Tags;
 use App\Models\Shows\Episodes;
 use App\Models\Shows\Seasons;
 use App\Models\Shows\Shows;
@@ -21,10 +22,10 @@ class ShowsSeeder extends Seeder
             ->count(20)
             ->has(Seasons::factory()
                 ->has(Episodes::factory()
-                    ->count(5),'episodes')
+                    ->count(10),'episodes')
                 ->has(Trailers::factory()
                     ->count(5),'trailers')
-                ->count(5),'seasons')
+                ->count(10),'seasons')
             ->create();
     }
 }

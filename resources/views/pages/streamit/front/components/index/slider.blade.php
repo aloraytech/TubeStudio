@@ -3,9 +3,9 @@
 
     <div id="home-slider" class="slider m-0 p-0">
         {{-- Slides--}}
-        @foreach($shows as $show)
-            @if($show->release_on < now())
-                <div class="slide slick-bg s-bg-{{$show->id}}" style="background-image: url('{{asset($show['banner']) }}');">
+        @foreach($sliders as $slide)
+
+                <div class="slide slick-bg s-bg-{{$slide->id}}" style="background-image: url('{{asset($slide->banner) }}');">
                     <div class="container-fluid position-relative h-100">
                         <div class="slider-inner h-100">
                             <div class="row align-items-center  h-100">
@@ -16,42 +16,48 @@
                                         </div>
                                     </a>
                                     <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                                        data-delay-in="0.6">{{$show['name']}}</h1>
+                                        data-delay-in="0.6">{{$slide->name}}</h1>
                                     <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                        <span class="badge badge-secondary p-2">{{$show['age_group']}}</span>
-                                        <span class="ml-3">{{$show->seasons->count()}} Seasons</span>
+                                        <span class="badge badge-secondary p-2">{{$slide->age_group}}</span>
+                                        @if($system->show_pack)
+                                        <span class="ml-3">{{$slide->seasons->count()}} Seasons</span>
+                                        @else
+                                            <span class="ml-3">{{$slide->tags->count()}} Tags</span>
+                                        @endif
                                     </div>
-                                    <p data-animation-in="fadeInUp" data-delay-in="1.2">{{$show['desc']}}
-                                    </p>
+                                    <p data-animation-in="fadeInUp" data-delay-in="1.2">{{\App\Helpers\BladeCustomizer::description($slide->desc)}}</p>
+
                                     <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
-                                        <a href="{{url(env('SHOW').'s/'.$show['name'])}}" class="btn btn-hover"><i class="fa fa-play mr-2"
+                                        <a href="{{url($system->path->show.'s/'.$slide->name)}}" class="btn btn-hover"><i class="fa fa-play mr-2"
                                                                                                                      aria-hidden="true"></i>Play Now</a>
-                                        <a href="{{url(env('SHOW').'s/'.$show['name'])}}" class="btn btn-link">More details</a>
+                                        <a href="{{url($system->path->show.'s/'.$slide->name)}}" class="btn btn-link">More details</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="trailor-video">
-                                @if(!empty($show->trailers->path_url))
-{{--                                <a href="{{asset(env('TRAILER').'s/'.$show->trailers->path_url)}}" class="video-open playbtn">--}}
-                                    @else
-{{--                                        <a href="{{asset(env('TRAILER').'s/'.$show->trailers->name)}}" class="video-open playbtn">--}}
-                                @endif
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                         x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
-                                         enable-background="new 0 0 213.7 213.7" xml:space="preserve">
-                              <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
-                                       stroke-linejoin="round" stroke-miterlimit="10"
-                                       points="73.5,62.5 148.5,105.8 73.5,149.1 " />
-                                        <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
-                           </svg>
-                                    <span class="w-trailor">Watch Trailer</span>
-                                </a>
-                            </div>
+                            @if($system->show_pack)
+{{--                                <div class="trailor-video">--}}
+{{--                                    @if(!empty($slide->trailers->videos->title))--}}
+{{--                                            <a href="{{asset(env('TRAILER').'s/'.$slide->trailers->videos->title)}}" class="video-open playbtn">--}}
+{{--                                        @else--}}
+{{--                                            <a href="{{asset(env('TRAILER').'s/'.$slider->trailers->name)}}" class="video-open playbtn">--}}
+{{--                                    @endif--}}
+{{--                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"--}}
+{{--                                             x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"--}}
+{{--                                             enable-background="new 0 0 213.7 213.7" xml:space="preserve">--}}
+{{--                                  <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"--}}
+{{--                                           stroke-linejoin="round" stroke-miterlimit="10"--}}
+{{--                                           points="73.5,62.5 148.5,105.8 73.5,149.1 " />--}}
+{{--                                            <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"--}}
+{{--                                                    stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />--}}
+{{--                               </svg>--}}
+{{--                                        <span class="w-trailor">Watch Trailer</span>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+                            @endif
                         </div>
                     </div>
                 </div>
-            @endif
+
         @endforeach
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

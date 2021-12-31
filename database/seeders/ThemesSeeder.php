@@ -15,9 +15,10 @@ class ThemesSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['name' => 'webtube','version'=>'v.0.1','author_url'=>'https://aloraytech.com','active'=>false,'status'=>true],
-            ['name' => 'streamit','version'=>'v.0.1','author_url'=>'','active'=>true,'status'=>true],
-
+            ['name' => 'webtube','type'=>'tube','version'=>'v.0.1','author_url'=>'https://aloraytech.com','active'=>true,'status'=>true],
+            ['name' => 'streamit','type'=>'tube','version'=>'v.0.1','author_url'=>'','active'=>true,'status'=>true],
+            ['name' => 'webblog','type'=>'blog','version'=>'v.0.1','author_url'=>'https://aloraytech.com','active'=>false,'status'=>false],
+            ['name' => 'webshop','type'=>'shop','version'=>'v.0.1','author_url'=>'https://aloraytech.com','active'=>false,'status'=>false],
         ];
 
         DB::table('themes')->insert($data);

@@ -16,6 +16,7 @@ class CreateThemesTable extends Migration
         Schema::create('themes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type')->nullable();
             $table->string('banner')->nullable();
             $table->string('thumb')->nullable();
             $table->text('desc')->nullable();

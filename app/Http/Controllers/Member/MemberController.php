@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Models\System\Sysfigs;
+
+use App\Models\System\Members;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,14 +12,42 @@ class MemberController extends Controller
 {
 
 
-
-
-    public function dashboard()
+    public function __construct()
     {
-        dd(Auth::guard('member')->user());
-        $system = Sysfigs::find(1);
-        return view('pages.'.$system->theme.'.back.dashboard')->with(compact('system'));
+
+        parent::__construct();
+
     }
+
+    public function dashboard(Request $request)
+    {
+
+         if(Auth::guard('member')->check())
+         {
+             $system = $this->systems;
+             $pages = $this->pages;
+             $user = Auth::guard('member')->user();
+
+             return view('pages.'.$this->themes.'.back.dashboard')->with(compact('system','pages','user'));
+         }else{
+             return redirect()->route('landing.index');
+         }
+
+
+    }
+
+
+    public function library()
+    {
+
+    }
+
+    public function watchlist()
+    {
+
+    }
+
+
 
 
 

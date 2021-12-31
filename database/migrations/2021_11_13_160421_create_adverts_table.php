@@ -16,7 +16,7 @@ class CreateAdvertsTable extends Migration
         Schema::create('adverts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('position');
+            $table->string('position')->default('footer');
             $table->string('provider')->default('undefined');
             $table->string('banner')->nullable();
             $table->text('code');

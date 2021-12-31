@@ -2,7 +2,7 @@
     <!-- Sidebar-->
     <div class="iq-sidebar">
         <div class="iq-sidebar-logo d-flex justify-content-between">
-            <a href="{{url('/')}}" class="header-logo">
+            <a href="{{route('member.dashboard.index')}}" class="header-logo">
                 <img src="{{$system->logo}}" class="img-fluid rounded-normal" alt="">
                 <div class="logo-title">
                     <span class="text-primary text-uppercase">{{env('APP_NAME')}}</span>
@@ -19,13 +19,13 @@
         <div id="sidebar-scrollbar">
             <nav class="iq-sidebar-menu">
                 <ul id="iq-sidebar-toggle" class="iq-menu">
-                    <li class="active active-menu"><a href="index.html" class="iq-waves-effect"><i class="las la-home iq-arrow-left"></i><span>Dashboard</span></a></li>
+                    <li class="active active-menu"><a href="{{route('member.dashboard.index')}}" class="iq-waves-effect"><i class="las la-home iq-arrow-left"></i><span>Dashboard</span></a></li>
 
-                    <li><a href="rating.html" class="iq-waves-effect"><i class="las la-star-half-alt"></i><span>Favourite </span></a></li>
+                    <li><a href="{{route('member.dashboard.library')}}" class="iq-waves-effect"><i class="las la-star-half-alt"></i><span>Library </span></a></li>
 
-                    <li><a href="comment.html" class="iq-waves-effect"><i class="las la-comments"></i><span>Watchlist</span></a></li>
+                    <li><a href="{{route('member.dashboard.watchlist')}}" class="iq-waves-effect"><i class="las la-comments"></i><span>Watchlist</span></a></li>
 
-                    <li><a href="user.html" class="iq-waves-effect"><i class="las la-user-friends"></i><span>Rate Us</span></a></li>
+{{--                    <li><a href="user.html" class="iq-waves-effect"><i class="las la-user-friends"></i><span>Rate Us</span></a></li>--}}
 
 {{--                    <li>--}}
 {{--                        <a href="#category" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="las la-list-ul"></i><span>Category</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>--}}

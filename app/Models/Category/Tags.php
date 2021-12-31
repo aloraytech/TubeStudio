@@ -2,6 +2,7 @@
 
 namespace App\Models\Category;
 
+use App\Models\Blog\Posts;
 use App\Models\Movies\Movies;
 use App\Models\Shows\Shows;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,15 +21,19 @@ class Tags extends Model
 
     public function movies()
     {
-        return $this->belongsTo(Movies::class,'tags','id');
+
+        return $this->belongsTo(Movies::class)->whereJsonContains('tags',$this->toArray($this->tags));
     }
 
     public function shows()
     {
-        return $this->belongsTo(Shows::class,'tags','id');
+        return $this->belongsToMany(Shows::class);
     }
 
-
+    public function posts()
+    {
+        return $this->belongsToMany(Posts::class);
+    }
 
 
 

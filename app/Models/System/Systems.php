@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Model;
     * @property $valid_upto
     * @property $client_email
     * @property $themes_id
+    * @property $path
  */
 class Systems extends Model
 {
@@ -76,6 +77,7 @@ class Systems extends Model
         'valid_secret',
         'valid_upto',
         'client_email',
+
     ];
 
 

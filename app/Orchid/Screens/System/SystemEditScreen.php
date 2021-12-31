@@ -17,6 +17,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Toast;
 
 /**
  * @property $system
@@ -101,11 +102,49 @@ class SystemEditScreen extends Screen
      */
     public function createOrUpdate(Systems $systems, Request $request)
     {
+        $msg='';
         $data = $request->get('system');
+        $data['installed'] = true;
         $systems->themes_id = $data['themes_id'];
+
+        if($data['shop_pack'])
+        {
+            $msg  .= 'Shop Pack -';
+            $data['shop_pack'] = false;
+        }
+        if($data['payment_pack'])
+        {
+            $msg .= 'Subscription Payment Pack -';
+            $data['payment_pack'] = false;
+        }
+
+        if($data['social_pack'])
+        {
+            $msg .='Social Pack -';
+            $data['social_pack'] = false;
+        }
+
+        if($data['private_pack'])
+        {
+            $msg .= 'Private Visibility Pack -';
+            $data['private_pack'] = false;
+        }
+
+
         $systems->fill($data)->save();
         Alert::success('System Successfully Updated');
-        return redirect()->route('platform.setting.list');
+        if(!empty($msg))
+        {
+            Toast::error($msg.'  Plugin Not Activated!')->delay(10000)->autoHide(true);
+        }
+        if($data['coming_soon'])
+        {
+            Toast::error('Please Set Coming Soon Upto Date')->delay(6000);
+            return redirect()->route('platform.setting.edit',true);
+        }else{
+            return redirect()->route('platform.setting.list');
+        }
+
     }
 
 

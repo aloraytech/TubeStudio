@@ -22,6 +22,7 @@ class TrailersFactory extends Factory
             'desc'=> $this->faker->text(),
             'duration'=> $this->faker->time('i:s'),
             'videos_id'=> Videos::factory(1)->create()->first(),
+            'status'=> $this->faker->boolean(),
         ];
     }
 }

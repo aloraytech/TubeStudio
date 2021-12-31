@@ -69,22 +69,22 @@ class SystemPacksLayout extends Rows
                 Switcher::make('system.social_pack')
                     ->sendTrueOrFalse()
                     ->title('Social Pack')
-                    ->help('Show on website')->disabled(),
+                    ->help('Show on website'),
 
                 Switcher::make('system.shop_pack')
                     ->sendTrueOrFalse()
                     ->title('Shopping Pack')
-                    ->help('Show on website')->disabled(),
+                    ->help('Show on website'),
 
                 Switcher::make('system.private_pack')
                     ->sendTrueOrFalse()
                     ->title('Private Content Pack')
-                    ->help('Show on website')->disabled(),
+                    ->help('Show on website'),
 
                 Switcher::make('system.payment_pack')
                     ->sendTrueOrFalse()
                     ->title('Subscription Pack')
-                    ->help('Show on website')->disabled(),
+                    ->help('Show on website'),
 
                 Switcher::make('system.activity_pack')
                     ->sendTrueOrFalse()

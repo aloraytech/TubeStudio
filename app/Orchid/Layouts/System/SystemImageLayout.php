@@ -38,20 +38,20 @@ class SystemImageLayout extends Rows
         return [
 
             Group::make([
-                Cropper::make('systems.favicon')->title('Favicon')->maxHeight(100)
-                    ->maxWidth(100),
-                Cropper::make('systems.logo')->title('Logo')->maxHeight(100)
-                    ->maxWidth(100),
+                Cropper::make('system.favicon')->title('Favicon')->height(100)
+                    ->width(100)->targetRelativeUrl(),
+                Cropper::make('systems.logo')->title('Logo')->height(100)
+                    ->width(100)->targetRelativeUrl(),
             ])->fullWidth()->alignStart(),
 
 
             Group::make([
-                Cropper::make('systems.signup_bg')->title('Register Background')->maxHeight(900)
-                    ->maxWidth(1020),
-                Cropper::make('systems.index_bg')->title('Landing Background')->maxHeight(900)
-                    ->maxWidth(1020),
-                Cropper::make('systems.login_bg')->title('Login Background')->maxHeight(900)
-                    ->maxWidth(1020),
+                Cropper::make('system.signup_bg')->title('Register Background')->height(900)
+                    ->width(1020)->targetRelativeUrl(),
+                Cropper::make('system.index_bg')->title('Landing Background')->height(900)
+                    ->width(1020)->targetRelativeUrl(),
+                Cropper::make('system.login_bg')->title('Login Background')->height(900)
+                    ->width(1020)->targetRelativeUrl(),
             ])->fullWidth()->alignCenter(),
 
 

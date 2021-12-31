@@ -60,6 +60,7 @@ class MovieEditLayout extends Rows
                     ->help('Specify a short descriptive title for the event')->canSee($this->query->get('exists')),
 
 
+
             ])->fullWidth(),
 
 
@@ -105,14 +106,17 @@ class MovieEditLayout extends Rows
                     ->canSee($this->query->get('exists')),
             ])->fullWidth(),
 
+            Group::make([
+            Select::make('movie.status')
+                ->options([
+                    0  => 'Draft',
+                    1  => 'Publish',
+                ])->title('Set Status')->canSee($this->query->get('exists')),
 
-            Relation::make('movie.tags')
-                ->fromModel(Tags::class, 'name')
-                ->multiple()
-                ->title('Choose Tags')
-                ->placeholder('Click here to get tags')
-                ->canSee($this->query->get('exists')),
-
+            Select::make('movie.tags')
+                ->fromModel(Tags::class, 'slug', 'slug')->multiple()
+                ->required()->canSee($this->query->get('exists')),
+            ])->fullWidth(),
 
             Quill::make('movie.desc')->toolbar(["text", "color", "header", "list", "format"])
                 ->title('Description')->canSee($this->query->get('exists')),

@@ -2,11 +2,21 @@
 
 namespace App\Orchid\Screens\System;
 
+
+use App\Helpers\PathCustomizer;
 use App\Models\System\Systems;
 use App\Orchid\Layouts\System\SystemListLayout;
+use App\Orchid\Layouts\System\SystemPathModalLayout;
+use App\Orchid\Layouts\Tags\TagModalLayout;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Sight;
+use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
 /**
@@ -51,8 +61,29 @@ class SystemListScreen extends Screen
                 ->icon('pencil')
                 ->route('platform.setting.edit',$this->system->id),
 
+            ModalToggle::make('Path Setup')
+                ->modal('appPathUpdateModal')
+                ->method('appPathUpdate')
+                ->icon('full-screen')
+                ,
+
+
         ];
     }
+
+
+    public function asyncGetPath(): array
+    {
+        $customizer = new PathCustomizer();
+        return [
+            'path' => $customizer->getPath(),
+        ];
+    }
+
+
+
+
+
 
     /**
      * Views.
@@ -63,6 +94,34 @@ class SystemListScreen extends Screen
     {
         return [
             SystemListLayout::class,
+
+            Layout::modal('appPathUpdateModal', [
+                SystemPathModalLayout::class
+            ])->title('App Path Config')->async('asyncGetPath'),
+
+
+
         ];
     }
+
+
+
+
+
+    public function appPathUpdate(PathCustomizer $customizer,Request $request)
+    {
+        $data = $request->get('path');
+
+        $customizer->setPath($data);
+
+        Alert::success('You have successfully Update Application Path Configuration. ');
+        return redirect()->route('platform.setting.list');
+
+    }
+
+
+
+
+
+
 }

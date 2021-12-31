@@ -92,7 +92,7 @@ class CategoryEditScreen extends Screen
     public function createOrUpdate(Category $category, Request $request)
     {
         $creation = $category->exists;
-        $data = $request->get('page');
+        $data = $request->get('category');
         $category->fill($data)->save();
         $contentTitle = $data['title'] ?? $category->title;
 

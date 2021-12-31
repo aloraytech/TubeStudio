@@ -4,6 +4,7 @@ namespace Database\Factories\Blog;
 
 use App\Models\Blog\Posts;
 use App\Models\Category\Category;
+use App\Models\Category\Tags;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostsFactory extends Factory
@@ -17,14 +18,17 @@ class PostsFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->word(),
+            'name' => $this->faker->word(),
             'desc' => $this->faker->text(200),
             'categories_id' => Category::factory(1)->state([
                 'type' => 'blog',
             ])->create()->first(),
             'banner' => $this->faker->imageUrl(),
             'display_image' => $this->faker->imageUrl(),
-            'tags' => $this->faker->words(10),
+            'views' => $this->faker->randomDigit(),
+            'age_group' => $this->faker->randomElement(['U','18+','Kids']),
+            'release_on' => $this->faker->dateTime(),
+            'tags'=> json_encode(Tags::factory()->create()->first()),
         ];
     }
 }

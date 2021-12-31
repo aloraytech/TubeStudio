@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Helpers\SystemHandler;
 use App\Models\System\Systems;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
@@ -13,11 +14,13 @@ use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
+    public string $testMod ='';
     /**
      * @param Dashboard $dashboard
      */
     public function boot(Dashboard $dashboard): void
     {
+
         parent::boot($dashboard);
 
         // ...
@@ -34,26 +37,8 @@ class PlatformProvider extends OrchidServiceProvider
     public function registerMainMenu(): array
     {
 
-        $system = Systems::first([
-            'logo',
-            'favicon',
-            'slogan',
-            'lang',
-            'installed',
-            "movie_pack",
-            "show_pack",
-            "trailer_pack",
-            "blog_pack",
-            "advert_pack",
-            "social_pack",
-            "shop_pack",
-            "private_pack",
-            "payment_pack",
-            'activity_pack',
-            "valid_secret",
-            'client_email',
-            'suite_by',
-        ]);
+        $handler = new SystemHandler();
+        $system = $handler->getSystem();
 
 
 
@@ -64,16 +49,16 @@ class PlatformProvider extends OrchidServiceProvider
 
 
         // SIDEBAR
-            Menu::make(ucfirst(config('app.path.movie')).'s')
+            Menu::make(ucfirst($system->path->movie).'s')
                 ->icon('youtube')
                 ->route('platform.movie.list')
                 ->canSee($this->getBool($system->movie_pack)),
 
-            Menu::make(ucfirst(config('app.path.show')).'s')
+            Menu::make(ucfirst($system->path->show).'s')
                 ->icon('film')
                 ->route('platform.show.list')->canSee($this->getBool($system->show_pack)),
 
-            Menu::make(ucfirst(config('app.path.blog')).'s')
+            Menu::make(ucfirst($system->path->blog).'s')
                 ->icon('book-open')
                 ->route('platform.blog.list')->canSee($this->getBool($system->blog_pack)),
                 //->title('Tv Shows Section'),

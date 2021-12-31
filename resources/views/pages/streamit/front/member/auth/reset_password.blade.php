@@ -3,10 +3,7 @@
 
 
 
-    <div id="loading">
-        <div id="loading-center">
-        </div>
-    </div>
+
 
     <!-- MainContent -->
     <section class="sign-in-page">
@@ -18,7 +15,7 @@
                             <div class="sign-in-from w-100 m-auto">
                                 <h3 class="mb-3 text-center">Reset Password</h3>
                                 <p class="text-body">Enter your email address and we'll send you an email with instructions to reset your password.</p>
-                                <form class="mt-4" action="index.html">
+                                <form class="mt-4" action="{{route('forget.password')}}" method="post"> @CSRF
                                     <div class="form-group">
                                         <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email" autocomplete="off" required>
                                     </div>
