@@ -16,7 +16,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('title')->default('Undefined PageName');
             $table->text('desc')->nullable();
             $table->integer('position')->default(0);

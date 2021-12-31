@@ -16,7 +16,7 @@ class CreateSeasonsTable extends Migration
     {
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name');
             $table->text('desc');
             $table->string('display_image')->nullable();

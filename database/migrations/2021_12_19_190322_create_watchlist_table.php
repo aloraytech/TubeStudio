@@ -17,6 +17,8 @@ class CreateWatchlistTable extends Migration
             $table->id();
             $table->foreignId('parent_id')->nullable()->constrained('watchlist')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name')->default('New List');
+            $table->unsignedBigInteger('content_id')->nullable();
+            $table->string('content_type')->nullable();
             $table->timestamps();
         });
     }

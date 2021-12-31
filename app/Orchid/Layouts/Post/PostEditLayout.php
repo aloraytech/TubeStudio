@@ -95,15 +95,15 @@ class PostEditLayout extends Rows
                     ->title('Banner')
                     ->placeholder('Add Banner Image')
                     ->minCanvas(1000)
-                    ->maxWidth(1920)
-                    ->maxHeight(1080)
+                    ->width(1920)
+                    ->height(1080)
                     ->targetRelativeUrl(),
                 Cropper::make('post.display_image')
                     ->title('Display Image')
                     ->placeholder('Add Display Image')
                     ->minCanvas(744)
-                    ->maxWidth(744)
-                    ->maxHeight(432)
+                    ->width(744)
+                    ->height(432)
                     ->targetRelativeUrl()
             ])->fullWidth(),
 

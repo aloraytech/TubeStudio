@@ -62,8 +62,40 @@ class BladeCustomizer
         return str_replace('<p>','',str_replace('</p>','',Str::limit($content,$limit,'...')));
     }
 
+    public static function tags($tags_list)
+    {
+
+        if(!empty($tags_list))
+        {
+            if(is_string($tags_list))
+            {
+                if(Str::match(',',$tags_list))
+                {
+                    $array = explode(',',$tags_list);
+                    return self::getTagsFromArray($array);
+                }elseif (Str::match(',',$tags_list))
+                {
+                    $array = explode(';',$tags_list);
+                    return self::getTagsFromArray($array);
+                }
+            }elseif (is_array($tags_list))
+            {
+                return self::getTagsFromArray($tags_list);
+            }
+        }else{
+            echo '';
+        }
+    }
 
 
+    private static function getTagsFromArray(array $tags)
+    {
+        $tag_line = '';
+        foreach ($tags as $key => $value) {
+            $tag_line .= ' <a href="#" class="text-white"> ' . ucfirst($value) . ' </a>&nbsp;';
+        }
+            echo $tag_line;
+    }
 
 
 

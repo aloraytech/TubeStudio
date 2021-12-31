@@ -7,7 +7,7 @@
             <div class="col-sm-12 overflow-hidden">
                 <div class="iq-main-header d-flex align-items-center justify-content-between">
                     <h4 class="main-title">Trending</h4>
-                    <a href="{{url(env('CATEGORY').'/'.env('SHOW').'s/')}}" class="text-primary">View all</a>
+                    <a href="{{url($system->path->category.'/'.$system->path->show.'s/')}}" class="text-primary">View all</a>
                 </div>
                 <div class="trending-contens">
 
@@ -106,9 +106,7 @@
 {{--                                                   Moura, Boyd Holbrook, Joanna</span>--}}
 {{--                                                    </div>--}}
                                                     <div class="text-primary title">{{ucfirst($system->path->tag)}}s:
-                                                        @foreach($show->tags as $tag)
-                                                            <span class="text-body">{{$tag}}</span>
-                                                        @endforeach
+                                                            <span class="text-body">{{\App\Helpers\BladeCustomizer::tags($show->tags)}}</span>
                                                     </div>
                                                     <div class="text-primary title">{{ucfirst($system->path->category)}}: <span class="text-body">{{$show->categories->name}}</span>
                                                     </div>

@@ -1,10 +1,4 @@
-<?php
-    $pub_dir ='';
-    if(file_exists(asset('public/assets/front/css/bootstrap.min.css')))
-    {
-        $pub_dir = 'public/';
-    }
-?>
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -20,13 +14,13 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset($system->favicon)}}" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('public/assets/front/css/bootstrap.min.css')}}" />
     <!-- Typography CSS -->
-    <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/typography.css')}}">
+    <link rel="stylesheet" href="{{asset('public/assets/front/css/typography.css')}}">
     <!-- Style -->
-    <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/style.css')}}" />
+    <link rel="stylesheet" href="{{asset('public/assets/front/css/style.css')}}" />
     <!-- Responsive -->
-    <link rel="stylesheet" href="{{asset($pub_dir.'assets/front/css/responsive.css')}}" />
+    <link rel="stylesheet" href="{{asset('public/assets/front/css/responsive.css')}}" />
     <!-- App-Header -->
     {{\App\Helpers\BladeCustomizer::header_maker($system->header)}}
 
@@ -50,24 +44,24 @@
 </div>
 <!-- back-to-top End -->
 <!-- jQuery, Popper JS -->
-<script src="{{asset($pub_dir.'assets/front/js/jquery-3.4.1.min.js')}}"></script>
-<script src="{{asset($pub_dir.'assets/custom.js')}}"></script>
-<script src="{{asset($pub_dir.'assets/front/js/popper.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/jquery-3.4.1.min.js')}}"></script>
+<script src="{{asset('public/assets/custom.js')}}"></script>
+<script src="{{asset('public/assets/front/js/popper.min.js')}}"></script>
 <!-- Bootstrap JS -->
-<script src="{{asset($pub_dir.'assets/front/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/bootstrap.min.js')}}"></script>
 <!-- Slick JS -->
-<script src="{{asset($pub_dir.'assets/front/js/slick.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/slick.min.js')}}"></script>
 <!-- owl carousel Js -->
-<script src="{{asset($pub_dir.'assets/front/js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/owl.carousel.min.js')}}"></script>
 <!-- select2 Js -->
-<script src="{{asset($pub_dir.'assets/front/js/select2.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/select2.min.js')}}"></script>
 <!-- Magnific Popup-->
-<script src="{{asset($pub_dir.'assets/front/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/jquery.magnific-popup.min.js')}}"></script>
 <!-- Slick Animation-->
-<script src="{{asset($pub_dir.'assets/front/js/slick-animation.min.js')}}"></script>
+<script src="{{asset('public/assets/front/js/slick-animation.min.js')}}"></script>
 <!-- Custom JS-->
-<script src="{{asset($pub_dir.'assets/front/js/custom.js')}}"></script>
-<script src="{{asset($pub_dir.'assets/front/js/userscript.js')}}"></script>
+<script src="{{asset('public/assets/front/js/custom.js')}}"></script>
+<script src="{{asset('public/assets/front/js/userscript.js')}}"></script>
 
 </body>
 </html>

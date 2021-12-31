@@ -16,7 +16,7 @@ class CreateShowsTable extends Migration
     {
         Schema::create('shows', function (Blueprint $table) {
             $table->id();
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name');
             $table->string('banner')->nullable();
             $table->text('desc')->nullable();

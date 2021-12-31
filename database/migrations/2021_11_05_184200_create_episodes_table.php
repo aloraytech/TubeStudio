@@ -16,6 +16,7 @@ class CreateEpisodesTable extends Migration
     {
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('e_code')->nullable();
             $table->string('name');
             $table->string('display_image')->nullable();

@@ -124,12 +124,6 @@ class ShowEditScreen extends Screen
                 ->icon('layers'),
 
 
-            ModalToggle::make('Add Trailer')
-                ->modal('showTrailerCreateModal')
-                ->method('createShowTrailer')
-                ->icon('film')
-                //->asyncParameters('Hello world!')
-                ->canSee($this->exists),
 
 
         ];
